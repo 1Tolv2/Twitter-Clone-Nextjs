@@ -1,10 +1,10 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
 router.get("/", function (req, res, next) {
   const data = [
-    { name: "Me", age: 5 },
-    { name: "That guy", age: 2 },
+    { name: "Me", age: 10 },
+    { name: "That guy", age: 10 },
   ];
   res.send(data);
 });
