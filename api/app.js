@@ -18,7 +18,14 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/", (req, res) => {
-  console.log(req.body);
+  const { author, message } = req.body;
+  const tweet = new Message({
+    author,
+    message,
+  });
+  tweet.save((err) => {
+    console.error(err);
+  });
   res.send("You have mooed successfully");
 });
 
