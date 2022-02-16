@@ -1,8 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Messageboard() {
+  const [messageList, setMessageList] = useState("")
   const [author, setAuthor] = useState("");
   const [message, setMessage] = useState("")
+
+  function callAPI() {
+    fetch("http://localhost:9000/", {
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => setMessageList(data));
+  }
+  useEffect(() => {
+    callAPI();
+  }, []);
 
   function handleOnSubmit(e) {
     e.preventDefault();
@@ -29,7 +41,6 @@ export default function Messageboard() {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
-        {/* <input type="text" name="author"/> */}
         <br />
         Message:
         <br />
@@ -42,6 +53,11 @@ export default function Messageboard() {
         <br />
         <button type="submit">Submit</button>
       </form>
+      <div>
+        {messageList && messageList.map((item) => {
+          // console.log(item)
+return <article>{item.author} - {item.message}</article>
+      })}</div>
     </div>
   );
 }
