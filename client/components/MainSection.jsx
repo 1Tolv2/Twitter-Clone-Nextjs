@@ -8,12 +8,11 @@ outline: 2px solid purple;
 `
 const StyledHeader = styled.div`
 outline: 2px solid green;
-h3{
+h3 {
 margin-top: 0;}
 `
 const OutlinedContainer = styled.div`
 outline: 2px solid green;
-
 `
 
 export default function MainSection({children}) {
@@ -21,7 +20,7 @@ export default function MainSection({children}) {
     <StyledContainer>
       <StyledHeader><h3>Mooer</h3></StyledHeader>
       <OutlinedContainer>Lay down the moos</OutlinedContainer>
-      {children}
+      <OutlinedContainer>{children}</OutlinedContainer>
     </StyledContainer>
   )
 }

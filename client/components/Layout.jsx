@@ -11,10 +11,7 @@ const StyledWrapper = styled.div`
   padding: 20px 0;
   width: 80%;
   margin: auto;
-  outline: 2px blue solid;
-  header {
-    outline: 2px red solid;
-  }
+  background-color: white;
 `;
 
 export default function Layout({ children }) {
