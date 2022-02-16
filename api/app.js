@@ -10,6 +10,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// my API routes
 app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
