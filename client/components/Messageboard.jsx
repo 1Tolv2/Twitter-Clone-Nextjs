@@ -18,8 +18,6 @@ export default function Messageboard() {
 
   function handleOnSubmit(e) {
     e.preventDefault();
-    console.log(author);
-    console.log(message)
 
     fetch("http://localhost:9000/", {
       method: "POST",
@@ -55,8 +53,7 @@ export default function Messageboard() {
       </form>
       <div>
         {messageList && messageList.map((item) => {
-          // console.log(item)
-return <article>{item.author} - {item.message}</article>
+return <article key={item._id}>{item.author} - {item.message}</article>
       })}</div>
     </div>
   );
