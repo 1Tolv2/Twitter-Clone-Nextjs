@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link"
 
 export default function Messageboard({data}) {
   const [author, setAuthor] = useState("");
@@ -42,7 +43,7 @@ export default function Messageboard({data}) {
       </form>
       <div>
         {data && data.map((item) => {
-return <article key={item._id}>{item.author} - {item.message}</article>
+return <article key={item._id}><Link href={`/${item.author}`} >{item.author}</Link> - {item.message}</article>
       })}</div>
     </div>
   );
