@@ -1,24 +1,27 @@
 import React from "react";
 import Head from "next/head";
-
 import styled from "styled-components";
 
 const StyledWrapper = styled.div`
-  padding: 20px 0;
-  width: 80%;
-  margin: auto;
-  background-color: white;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 `;
 
 const CenteredContainer = styled.div`
-width: 50%;
-min-width: 300px;
-margin: auto;
-background-color: lightblue;
-padding: 20px;
-`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  margin: auto;
+  background-color: white;
+  padding: 20px;
+`;
 
-export default function AlternativeLayout({ children }) {
+export default function LayoutCenterDiv({ children }) {
   return (
     <>
       <Head>
@@ -27,7 +30,7 @@ export default function AlternativeLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <StyledWrapper>
-      <CenteredContainer>{children}</CenteredContainer>
+        <CenteredContainer>{children}</CenteredContainer>
       </StyledWrapper>
     </>
   );
