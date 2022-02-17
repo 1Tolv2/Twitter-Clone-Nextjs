@@ -10,6 +10,7 @@ import SideSection from "../components/SideSection";
 const StyledWrapper = styled.div`
   padding: 20px 0;
   width: 80%;
+  height: 100%;
   margin: auto;
   background-color: white;
 `;

@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.main`
 max-width: 600px;
-height: 50vh;
+height: 100vh;
 outline: 2px solid purple;
 `
 const StyledHeader = styled.div`

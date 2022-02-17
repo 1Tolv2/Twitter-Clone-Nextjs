@@ -1,14 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledContainer = styled.div`
+const StyledContainer = styled.nav`
 display: flex;
 justify-self: end;
 outline: 2px purple solid;
 flex-flow: wrap row;
+height: 100%;
+justify-content: center;
 `
 const StyledLogo = styled.div`
-
 max-width: 170px;
 height: auto;
 img {width: 100%;
@@ -23,18 +24,22 @@ background-color: green;
 color: white;
 `
 
+const StyledList = styled.ul`
+list-style-type: none;
+padding: 0;
+`
+
 export default function NavigationBar() {
   return (
     <StyledContainer>
       <StyledLogo><img src="./Flying-cow.svg"/></StyledLogo>
-      <ul>
+      <StyledList>
       <li>Home</li>
-      <li>Explore</li>
-      <li>Notifications</li>
-      <li>Messages</li>
       <li>Profile</li>
+      <li>Log out</li>
       <li>More</li>
-      </ul>
-      <StyledButton>Moo</StyledButton></StyledContainer>
+      </StyledList>
+      <StyledButton>Moo</StyledButton>
+      </StyledContainer>
   )
 }
