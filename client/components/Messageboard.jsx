@@ -1,29 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-export default function Messageboard() {
-  const [messageList, setMessageList] = useState("")
+export default function Messageboard({data}) {
   const [author, setAuthor] = useState("");
   const [message, setMessage] = useState("")
-
-  function callAPI() {
-    fetch("http://localhost:9000/", {
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((res) => res.json())
-      .then((data) => setMessageList(data));
-  }
-  useEffect(() => {
-    callAPI();
-  }, []);
-
-  function handleOnSubmit(e) {
+ 
+  async function handleOnSubmit(e) {
     e.preventDefault();
 
-    fetch("http://localhost:9000/", {
+    const res = await fetch("http://localhost:9000/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({author, message})
-    }).then(res =>{console.log(res)})
+    })
+    console.log(res)
   }
 
   return (
@@ -52,7 +41,7 @@ export default function Messageboard() {
         <button type="submit">Submit</button>
       </form>
       <div>
-        {messageList && messageList.map((item) => {
+        {data && data.map((item) => {
 return <article key={item._id}>{item.author} - {item.message}</article>
       })}</div>
     </div>
