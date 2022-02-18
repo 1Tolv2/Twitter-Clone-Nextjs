@@ -17,16 +17,21 @@ app.get("/", async (req, res) => {
   res.send(data);
 });
 
-app.post("/", (req, res) => {
+app.post("/", (req, res, next) => {
   const { author, message } = req.body;
   const tweet = new Message({
     author,
     message,
   });
   tweet.save((err) => {
-    console.error(err);
+    if (err) {
+      console.error("ERROR:", err.errors.message.kind);
+      res.status(400).send("Unsuccessful");
+      next(err);
+    } else {
+      res.send("You have mooed successfully");
+    }
   });
-  res.send("You have mooed successfully");
 });
 
 // connects us to the database
