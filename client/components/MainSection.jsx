@@ -4,7 +4,13 @@ import Header from './Header'
 
 const StyledContainer = styled.main`
 max-width: 600px;
-height: 100vh;
+height: 105%;
+-ms-overflow-style: none; // for Internet Explorer, Edge
+  scrollbar-width: none; // for Firefox
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none; // for Chrome, Safari, and Opera
+  }
 hr {
   background-color: white;
   border-color: white;
@@ -15,7 +21,7 @@ hr {
 export default function MainSection({children}) {
   return (
     <StyledContainer>
-      <Header color="white">Welcome to Mooer</Header> {/* Add user name if logged in */}
+      <Header color="white">mooer</Header>
       <hr/>
       <div>{children}</div>
     </StyledContainer>
