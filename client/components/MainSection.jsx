@@ -5,23 +5,19 @@ import Header from './Header'
 const StyledContainer = styled.main`
 max-width: 600px;
 height: 100vh;
-outline: 2px solid purple;
-`
-const StyledHeader = styled.div`
-outline: 2px solid green;
-h3 {
-margin-top: 0;}
-`
-const OutlinedContainer = styled.div`
-outline: 2px solid green;
+hr {
+  background-color: white;
+  border-color: white;
+  border-style: solid;
+}
 `
 
 export default function MainSection({children}) {
   return (
     <StyledContainer>
-      <StyledHeader><Header>Welcome to Mooer</Header></StyledHeader>
-      <OutlinedContainer>Lay down the moos</OutlinedContainer>
-      <OutlinedContainer>{children}</OutlinedContainer>
+      <Header color="white">Welcome to Mooer</Header> {/* Add user name if logged in */}
+      <hr/>
+      <div>{children}</div>
     </StyledContainer>
   )
 }
