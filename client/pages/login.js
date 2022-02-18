@@ -29,6 +29,7 @@ export default function Login() {
           value={username}
           setValue={setUsername}
           placeholder="Username"
+          required
         />
         <InputField
           type="text"
@@ -36,12 +37,13 @@ export default function Login() {
           value={password}
           setValue={setPassword}
           placeholder="Password"
+          required
         />
         <Button type="submit">Log in</Button>
       </form>
       <p>
         New to the Mooer?{" "}
-        <Link href="/login">
+        <Link href="/create-user">
           <strong>Click here!</strong>
         </Link>
       </p>

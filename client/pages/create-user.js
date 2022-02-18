@@ -30,6 +30,7 @@ export default function CreateUser() {
           value={username}
           setValue={setUsername}
           placeholder="Username"
+          required
         />
         <InputField
           type="text"
@@ -37,6 +38,7 @@ export default function CreateUser() {
           value={password}
           setValue={setPassword}
           placeholder="Password"
+          required
         />
         <Button type="submit">Create User</Button>
       </form>
