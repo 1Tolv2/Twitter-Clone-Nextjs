@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Header from './Header'
 
 const StyledContainer = styled.main`
 max-width: 600px;
@@ -18,7 +19,7 @@ outline: 2px solid green;
 export default function MainSection({children}) {
   return (
     <StyledContainer>
-      <StyledHeader><h3>Mooer</h3></StyledHeader>
+      <StyledHeader><Header>Welcome to Mooer</Header></StyledHeader>
       <OutlinedContainer>Lay down the moos</OutlinedContainer>
       <OutlinedContainer>{children}</OutlinedContainer>
     </StyledContainer>

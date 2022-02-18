@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const StyledGrid = styled.div`
 position: relative;
   display: grid;
-  grid-template-columns: 20% auto auto;
+  grid-template-columns: 70% auto;
   outline: 2px solid red;
   gap: 10px;
 `;

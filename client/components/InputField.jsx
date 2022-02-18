@@ -2,16 +2,18 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledInputField = styled.input`
+display: block;
 width: 100%;
 border: none;
-border-bottom: 1px solid grey;
-height: 15px;
 margin: 5px 0;
-background-color: transparent;
+padding: 11px 10px 11px 13px;
+background-color: white;
+font-size: 1.1rem;
+border-radius: 5px;
 &[type=text]:focus {
-  border: none;
-  background-color: lightgrey;
-  &::placeholder { color: white;}
+  outline: none;
+  /* background-color: lightgrey; */
+  &::placeholder { color: grey;}
 }
 `;
 

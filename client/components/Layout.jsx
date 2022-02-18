@@ -4,12 +4,13 @@ import Head from "next/head";
 import styled from "styled-components";
 import Grid from "../components/Grid";
 import MainSection from "../components/MainSection";
-import NavigationBar from "../components/NavigationBar";
+// import NavigationBar from "../components/NavigationBar";
 import SideSection from "../components/SideSection";
 
 const StyledWrapper = styled.div`
   padding: 20px 0;
   width: 80%;
+  max-width: 900px;
   height: 100%;
   margin: auto;
   background-color: white;
@@ -25,7 +26,7 @@ export default function Layout({ children }) {
       </Head>
       <StyledWrapper>
         <Grid>
-          <NavigationBar />
+          {/* <NavigationBar /> */}
           <MainSection>{children}</MainSection>
           <SideSection />
         </Grid>

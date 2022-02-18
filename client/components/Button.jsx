@@ -7,7 +7,7 @@ margin-top: 20px;
 padding: 15px;
 border-radius: 30px;
 border-style: none;
-background-color: green;
+background-color: #00AFB9;
 color: white;
 cursor: pointer;
 `
