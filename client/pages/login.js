@@ -21,7 +21,7 @@ export default function Login() {
   }
   return (
     <LayoutCenterDiv>
-      <Header>Login</Header>
+      <Header color="black">Login</Header>
       <form onSubmit={handleOnSubmit}>
         <InputField
           type="text"

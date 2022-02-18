@@ -22,7 +22,7 @@ export default function CreateUser() {
   }
   return (
     <LayoutCenterDiv>
-      <Header>Create User</Header>
+      <Header color="black">Create User</Header>
       <form onSubmit={handleOnSubmit}>
         <InputField
           type="text"
