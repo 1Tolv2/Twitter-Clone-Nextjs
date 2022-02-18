@@ -1,39 +1,61 @@
 import React from "react";
 import Link from "next/link";
-import styled from "styled-components";
 import MessageMaker from "./MessageMaker";
+import styled from "styled-components";
 
-const StyledContainer = styled.div`
-
+const StyledWrapper = styled.div`
+  width: 100%;
+`;
+const StyledSection = styled.article`
+  margin: 15px 0;
+  display: grid;
+  gap: 15px;
+  grid-template-columns: 60px auto;
 `;
 
-const StyledTextArea = styled.textarea`
-  resize: none;
+const StyledImage = styled.div`
   width: 100%;
-  -ms-overflow-style: none; // for Internet Explorer, Edge
-  scrollbar-width: none; // for Firefox
-  overflow-y: scroll;
-  &::-webkit-scrollbar {
-    display: none; // for Chrome, Safari, and Opera
+  height: 60px;
+  padding: 5px;
+  background-color: white;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+const StyledContainer = styled.div`
+  background-color: white;
+  border-radius: 5px;
+  padding: 10px;
+  overflow-x: hidden;
+  h3 {
+    margin: 0;
   }
 `;
 
 export default function Messageboard({ data }) {
-
   return (
     <div>
-<MessageMaker/>
-      <div>
+      <MessageMaker />
+      <StyledWrapper>
         {data &&
           data.map((item) => {
             return (
-              <article key={item._id}>
-                <Link href={`/${item.author}`}>{item.author}</Link> -{" "}
-                {item.message}
-              </article>
+              <StyledSection key={item._id}>
+                <Link href={`/${item.author}`}>
+                  <StyledImage>
+                    <img src="profile-svgrepo-com.svg" height="50px" />
+                  </StyledImage>
+                </Link>
+                <StyledContainer>
+                  <h3>
+                    <Link href={`/${item.author}`}>{item.author}</Link>
+                  </h3>
+                  <hr />
+                  <p>{item.message}</p>
+                </StyledContainer>
+              </StyledSection>
             );
           })}
-      </div>
+      </StyledWrapper>
     </div>
   );
 }
