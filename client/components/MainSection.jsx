@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Header from './Header'
+import Link from 'next/link'
 
 const StyledContainer = styled.main`
 max-width: 600px;
@@ -21,7 +22,7 @@ hr {
 export default function MainSection({children}) {
   return (
     <StyledContainer>
-      <Header color="white">mooer</Header>
+      <Header color="white"><Link href="/">mooer</Link></Header>
       <hr/>
       <div>{children}</div>
     </StyledContainer>

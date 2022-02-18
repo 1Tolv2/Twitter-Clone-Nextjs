@@ -26,9 +26,10 @@ const StyledContainer = styled.div`
 const StyledTextArea = styled.textarea`
   resize: none;
   width: 100%;
-  height: 115px;
+  height: 40px;
   font-size: 1.4em;
   border: none;
+  transition: 0.4s;
   -ms-overflow-style: none; // for Internet Explorer, Edge
   scrollbar-width: none; // for Firefox
   overflow-y: scroll;
@@ -68,6 +69,7 @@ export default function MessageMaker() {
   const [messageLength, setMessageLength] = useState(0);
 
   const placeholderList = ["Lay down the moos", "Moo to your hearts desire"];
+  
   useEffect(() => {
     setPlaceholder(placeholderList[Math.floor(Math.random() * 2)]);
   }, []);
@@ -81,9 +83,13 @@ export default function MessageMaker() {
     });
     console.log(res);
     setMessage(""); //Empties the message field after submitting the message
+  setMessageLength(0)
   }
 
-  function handleOnClick() {}
+  function handleOnClick(e) {
+    console.log(e.target)
+    e.target.style.height = "115px"
+  }
 
   return (
     <StyledContainer>
@@ -104,7 +110,7 @@ export default function MessageMaker() {
         <span className={messageLength > 140 ? "redText" : null}>
           {messageLength}
         </span>
-        <StyledButtonContainer onClick={handleOnSubmit}>
+        <StyledButtonContainer>
           <img src="./send-paper.svg" />
           <StyledButton></StyledButton>
         </StyledButtonContainer>

@@ -6,6 +6,7 @@ const StyledGrid = styled.div`
   display: grid;
   grid-template-columns: 70% auto;
   gap: 10px;
+  height: 90vh;
 `;
 
 export default function Grid({children}) {

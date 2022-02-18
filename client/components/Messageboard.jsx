@@ -31,10 +31,10 @@ const StyledContainer = styled.div`
   }
 `;
 
-export default function Messageboard({ data }) {
+export default function Messageboard({ data, children }) {
   return (
     <div>
-      <MessageMaker />
+      {children}
       <StyledWrapper>
         {data &&
           data.map((item) => {

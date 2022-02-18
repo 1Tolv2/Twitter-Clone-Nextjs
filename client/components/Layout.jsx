@@ -7,16 +7,14 @@ import MainSection from "../components/MainSection";
 import SideSection from "../components/SideSection";
 
 const StyledWrapper = styled.div`
-  padding: 20px 0;
+  padding-top: 20px;
   width: 80%;
   max-width: 900px;
-  height: 100%;
   margin: auto;
 `;
 
 const StyledBody = styled.body`
   background-color: #0081A7;
-  height: 100%;
 `
 
 export default function Layout({ children }) {

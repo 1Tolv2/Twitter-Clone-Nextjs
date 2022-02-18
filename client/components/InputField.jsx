@@ -12,12 +12,11 @@ font-size: 1.1rem;
 border-radius: 5px;
 &[type=text]:focus {
   outline: none;
-  /* background-color: lightgrey; */
   &::placeholder { color: grey;}
 }
 `;
 
-export default function InputField({ type, id, value, setValue, placeholder }) {
+export default function InputField({ type, id, value, setValue, placeholder, required }) {
   return (
     <StyledInputField
       type={type}
@@ -25,6 +24,7 @@ export default function InputField({ type, id, value, setValue, placeholder }) {
       value={value}
       onChange={(e) => setValue(e.target.value)}
       placeholder={placeholder}
+      required={required}
     />
   );
 }
