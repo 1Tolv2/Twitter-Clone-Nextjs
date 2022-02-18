@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  // add schema code
+  author: { type: String, required: true },
 });
 
 const User = mongoose.model("User", userSchema);
