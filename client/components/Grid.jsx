@@ -2,10 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledGrid = styled.div`
-position: relative;
+  position: relative;
   display: grid;
   grid-template-columns: 70% auto;
-  outline: 2px solid red;
   gap: 10px;
 `;
 
