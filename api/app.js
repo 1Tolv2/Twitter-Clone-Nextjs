@@ -19,6 +19,7 @@ app.get("/", async (req, res) => {
 });
 
 app.post("/", (req, res, next) => {
+  console.log(req);
   const { author, message } = req.body;
   const tweet = new Message({
     author,
@@ -27,10 +28,12 @@ app.post("/", (req, res, next) => {
   tweet.save((err) => {
     if (err) {
       console.error("ERROR:", err.errors.message.kind);
-      res.status(400).send("Unsuccessful");
+      res
+        .status(400)
+        .send({ errorMessage: "Unsuccessful, author and message is required" });
       next(err);
     } else {
-      res.send("You have mooed successfully");
+      res.send({ message: "You have mooed successfully" });
     }
   });
 });
@@ -49,10 +52,10 @@ app.post("/users", async (req, res) => {
   user.save((err) => {
     if (err) {
       console.error("ERROR:", err.errors.message.kind);
-      res.status(400).send("Unsuccessful");
+      res.status(400).send({ errorMessage: "Unsuccessful" });
       next(err);
     } else {
-      res.send("Welcome to the family!");
+      res.send({ message: "Successful" });
     }
   });
 });
