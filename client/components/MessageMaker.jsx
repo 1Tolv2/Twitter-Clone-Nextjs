@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { API } from "./API";
-// import InputField from './InputField';
+import HashtagList from "./HashtagList";
 
 const StyledContainer = styled.div`
   position: sticky;
@@ -63,10 +63,10 @@ const StyledButton = styled.button`
 `;
 
 export default function MessageMaker() {
-  const [author, setAuthor] = useState("");
   const [message, setMessage] = useState("");
   const [placeholder, setPlaceholder] = useState("");
   const [messageLength, setMessageLength] = useState(0);
+  const [hashtagList, setHashtagList] = useState(null)
 
   const placeholderList = ["Lay down the moos", "Moo to your hearts desire"];
   
@@ -88,9 +88,15 @@ export default function MessageMaker() {
     setMessage(""); //Empties the message field after submitting the message
   setMessageLength(0)
   }
+let list = []
+  function handleMessageOnChange(e) {
+    setMessage(e.target.value);
+    setMessageLength(e.target.value.length);
+    list = message.match(/#{1}[A-Ö]+/gi)
+    setHashtagList(list)
+  }
 
   function handleOnClick(e) {
-    console.log(e.target)
     e.target.style.height = "115px"
   }
 
@@ -104,21 +110,21 @@ export default function MessageMaker() {
           name="message"
           value={message}
           required
-          onChange={(e) => {
-            setMessage(e.target.value);
-            setMessageLength(e.target.value.length);
-          }}
+          onChange={
+            handleMessageOnChange}
           placeholder={placeholder + "..."}
           maxlength="140"
         />
-        <span className={messageLength > 140 ? "redText" : null}>
-          {messageLength}
-        </span>
         <StyledButtonContainer onClick={handleOnSubmit}>
           <img src="./send-paper.svg" />
           <StyledButton></StyledButton>
         </StyledButtonContainer>
+        <span className={messageLength > 140 ? "redText" : null}>
+          {messageLength}
+        </span>
+        <HashtagList data={hashtagList}></HashtagList>
       </form>
+      
     </StyledContainer>
   );
 }
