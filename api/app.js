@@ -13,11 +13,13 @@ app.use(cors());
 app.use(bodyParser.json());
 // app.use("/", indexRouter);
 
+// finds the messageList and sorts by newest first
 app.get("/", async (req, res) => {
-  const data = await Message.find().exec();
+  const data = await Message.find().sort({ date: -1 }).exec();
   res.send(data);
 });
 
+// saves message posts and handles 400 error
 app.post("/", (req, res, next) => {
   console.log(req);
   const { author, message } = req.body;
