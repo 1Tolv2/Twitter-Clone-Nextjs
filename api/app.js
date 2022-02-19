@@ -1,68 +1,21 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+
 const { Message } = require("./models/message");
 const { User } = require("./models/user");
-const bodyParser = require("body-parser");
-// const indexRouter = require("./routes/index");
+
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
 
 const app = express();
 const PORT = 9000;
 
 app.use(cors());
 app.use(bodyParser.json());
-// app.use("/", indexRouter);
-
-// finds the messageList and sorts by newest first
-app.get("/", async (req, res) => {
-  const data = await Message.find().sort({ date: -1 }).exec();
-  res.send(data);
-});
-
-// saves message posts and handles 400 error
-app.post("/", (req, res, next) => {
-  const { author, message } = req.body;
-  const hashtags = [...new Set(message.match(/#{1}[A-Ö]+(?=\s|$)/gi))];
-  console.log(hashtags);
-  const tweet = new Message({
-    author,
-    message,
-    hashtags,
-  });
-  tweet.save((err) => {
-    if (err) {
-      console.error("ERROR:", err.errors.message.kind);
-      res
-        .status(400)
-        .send({ errorMessage: "Unsuccessful, author and message is required" });
-      next(err);
-    } else {
-      res.send({ message: "You have mooed successfully" });
-    }
-  });
-});
-
-app.get("/users", async (req, res) => {
-  const data = await User.find().exec();
-  res.send(data);
-});
-
-app.post("/users", async (req, res) => {
-  const { username, password } = req.body;
-  const user = new User({
-    username,
-    password,
-  });
-  user.save((err) => {
-    if (err) {
-      console.error("ERROR:", err.errors.message.kind);
-      res.status(400).send({ errorMessage: "Unsuccessful" });
-      next(err);
-    } else {
-      res.send({ message: "Successful" });
-    }
-  });
-});
+app.use("/", indexRouter);
+app.use("/users", usersRouter);
 
 // connects us to the database
 mongoose.connect("mongodb://localhost/twitterClone");
