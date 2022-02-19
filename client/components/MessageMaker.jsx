@@ -81,7 +81,10 @@ export default function MessageMaker() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ author: "Test", message }),
     });
-    console.log(res);
+    if (!res.ok) {
+      const data = await res.json()
+    console.log(data.errorMessage)
+    }
     setMessage(""); //Empties the message field after submitting the message
   setMessageLength(0)
   }
@@ -100,6 +103,7 @@ export default function MessageMaker() {
           type="text"
           name="message"
           value={message}
+          required
           onChange={(e) => {
             setMessage(e.target.value);
             setMessageLength(e.target.value.length);
@@ -110,7 +114,7 @@ export default function MessageMaker() {
         <span className={messageLength > 140 ? "redText" : null}>
           {messageLength}
         </span>
-        <StyledButtonContainer>
+        <StyledButtonContainer onClick={handleOnSubmit}>
           <img src="./send-paper.svg" />
           <StyledButton></StyledButton>
         </StyledButtonContainer>
