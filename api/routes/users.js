@@ -1,13 +1,14 @@
 const express = require("express");
 const { User } = require("../models/user");
+
 const router = express.Router();
 
-router.get("/users", async (req, res) => {
-  const data = await User.find().exec();
+router.get("/", async (req, res) => {
+  const data = await User.find().sort({ date: -1 }).exec();
   res.send(data);
 });
 
-router.post("/users", async (req, res) => {
+router.post("/", async (req, res) => {
   const { username, password } = req.body;
   const user = new User({
     username,
