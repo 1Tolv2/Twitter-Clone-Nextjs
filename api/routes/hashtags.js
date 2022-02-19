@@ -13,4 +13,14 @@ router.get("/", async (req, res) => {
   res.send(data);
 });
 
+router.get("/:id", async (req, res) => {
+  const count = await Message.find({ hashtags: req.params.id }).exec();
+  const data = {
+    tag_name: req.params.id,
+    count: count.length,
+    messages: count,
+  };
+  res.send(data);
+});
+
 module.exports = router;
