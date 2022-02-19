@@ -14,7 +14,7 @@ const StyledListItem = styled.li`
   color: #f07167;
 `;
 export default function HashtagList({ data }) {
-  console.log("ITEMList:", data);
+    
   return (
     <StyledList>
       {data &&

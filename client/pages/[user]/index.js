@@ -9,6 +9,8 @@ export default function User() {
   const [userMessageList, setUserMessageList] = useState(null);
 
   useEffect(() => {
+    // setUserMessageList(data);
+    // console.log(userMessageList);
     const fetchData = async () => {
       const res = await fetch(API, {
         headers: { "Content-Type": "application/json" },
@@ -29,7 +31,7 @@ export default function User() {
   }, [router.query]);
   return (
     <Layout>
-      <Messageboard data={userMessageList}>UserPage</Messageboard>
+      <Messageboard data={userMessageList}></Messageboard>
     </Layout>
   );
 }
