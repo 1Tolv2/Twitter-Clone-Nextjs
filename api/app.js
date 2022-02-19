@@ -21,11 +21,13 @@ app.get("/", async (req, res) => {
 
 // saves message posts and handles 400 error
 app.post("/", (req, res, next) => {
-  console.log(req);
   const { author, message } = req.body;
+  const hashtags = [...new Set(message.match(/#{1}[A-Ö]+(?=\s|$)/gi))];
+  console.log(hashtags);
   const tweet = new Message({
     author,
     message,
+    hashtags,
   });
   tweet.save((err) => {
     if (err) {
