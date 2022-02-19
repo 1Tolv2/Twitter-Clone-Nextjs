@@ -66,10 +66,10 @@ export default function MessageMaker() {
   const [message, setMessage] = useState("");
   const [placeholder, setPlaceholder] = useState("");
   const [messageLength, setMessageLength] = useState(0);
-  const [hashtagList, setHashtagList] = useState(null)
+  const [hashtagList, setHashtagList] = useState([]);
 
   const placeholderList = ["Lay down the moos", "Moo to your hearts desire"];
-  
+
   useEffect(() => {
     setPlaceholder(placeholderList[Math.floor(Math.random() * 2)]);
   }, []);
@@ -82,22 +82,23 @@ export default function MessageMaker() {
       body: JSON.stringify({ author: "Test", message }),
     });
     if (!res.ok) {
-      const data = await res.json()
-    console.log(data.errorMessage)
+      const data = await res.json();
+      console.log(data.errorMessage);
     }
     setMessage(""); //Empties the message field after submitting the message
-  setMessageLength(0)
+    setMessageLength(0);
   }
-let list = []
+  let list = [];
   function handleMessageOnChange(e) {
     setMessage(e.target.value);
     setMessageLength(e.target.value.length);
-    list = message.match(/#{1}[A-Ö]+/gi)
-    setHashtagList(list)
+      list = [...new Set(message.match(/#{1}[A-Ö]+(?:\s|$)/gi))];
+      list && setHashtagList(list);
+      console.log(hashtagList);
   }
 
   function handleOnClick(e) {
-    e.target.style.height = "115px"
+    e.target.style.height = "115px";
   }
 
   return (
@@ -110,8 +111,7 @@ let list = []
           name="message"
           value={message}
           required
-          onChange={
-            handleMessageOnChange}
+          onChange={handleMessageOnChange}
           placeholder={placeholder + "..."}
           maxlength="140"
         />
@@ -124,7 +124,6 @@ let list = []
         </span>
         <HashtagList data={hashtagList}></HashtagList>
       </form>
-      
     </StyledContainer>
   );
 }
