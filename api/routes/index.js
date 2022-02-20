@@ -10,11 +10,10 @@ router.get("/", async (req, res) => {
 
 // saves message posts and handles 400 error
 router.post("/", (req, res, next) => {
-  const { author, message } = req.body;
+  const { user_name, message } = req.body;
   const hashtags = [...new Set(message.match(/#{1}[A-Ö]+(?=\s|$)/gi))];
-  console.log(hashtags);
   const tweet = new Message({
-    author,
+    user_name,
     message,
     hashtags,
   });

@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const messageSchema = new mongoose.Schema({
-  author: { type: String, required: true },
+  user_name: { type: String, required: true },
   message: { type: String, required: true, maxLength: 140 },
   hashtags: { type: Array, required: false },
   date: { type: Date, default: Date.now },
