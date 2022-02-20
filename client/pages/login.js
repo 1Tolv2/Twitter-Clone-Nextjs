@@ -44,7 +44,9 @@ export default function Login() {
       <p>
         New to the Mooer?{" "}
         <Link href="/create-user">
-          <strong>Click here!</strong>
+          <a>
+            <strong>Click here!</strong>
+          </a>
         </Link>
       </p>
     </LayoutCenterDiv>

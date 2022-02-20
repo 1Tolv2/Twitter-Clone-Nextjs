@@ -45,7 +45,9 @@ export default function CreateUser() {
       <p>
         Already have an account? <br />
         <Link href="/login">
-          <strong>Click here!</strong>
+          <a>
+            <strong>Click here!</strong>
+          </a>
         </Link>
       </p>
     </LayoutCenterDiv>
