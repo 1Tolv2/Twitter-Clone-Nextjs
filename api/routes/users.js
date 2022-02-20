@@ -1,10 +1,12 @@
 const express = require("express");
 const { User } = require("../models/user");
+const { Message } = require("../models/message");
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const data = await User.find().sort({ date: -1 }).exec();
+  const data = await User.find().exec();
+  // add users messages
   res.send(data);
 });
 
