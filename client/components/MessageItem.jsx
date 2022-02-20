@@ -42,7 +42,7 @@ export default function MessageItem({data}) {
   console.log(date)
   return (
     <StyledSection key={data._id}>
-      <Link href={`/${data.username}`}>
+      <Link href={`/${data.user_name}`}>
         <a>
           <StyledImage>
             <img src="profile-svgrepo-com.svg" height="50px" />
@@ -52,7 +52,7 @@ export default function MessageItem({data}) {
       <StyledContainer>
         <MessageInfoField>
           <h3>
-            <Link href={`/${data.username}`}>{data.username}</Link>
+            <Link href={`/${data.user_name}`}><a>{data.user_name}</a></Link>
           </h3><span>{fullDate}</span>
         </MessageInfoField>
         <hr />
