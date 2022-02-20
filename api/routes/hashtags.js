@@ -3,9 +3,7 @@ const { Message } = require("../models/message");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const count = await Message.aggregate([
-    { $match: { hashtags: { $not: { $size: 0 } } } },
-  ])
+  const count = await Message.aggregate()
     .unwind("hashtags")
     .group({ _id: "$hashtags", count: { $sum: 1 } })
     .exec();
