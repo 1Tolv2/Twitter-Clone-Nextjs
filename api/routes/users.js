@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   const data = await User.find().exec();
   // add users messages
-  res.send(data);
+  res.json(data);
 });
 
 router.post("/", async (req, res) => {
@@ -19,10 +19,10 @@ router.post("/", async (req, res) => {
   user.save((err) => {
     if (err) {
       console.error("ERROR:", err.errors.message.kind);
-      res.status(400).send({ errorMessage: "Unsuccessful" });
+      res.status(400).json({ errorMessage: "Unsuccessful" });
       next(err);
     } else {
-      res.send({ message: "Successful" });
+      res.json({ message: "Successful" });
     }
   });
 });

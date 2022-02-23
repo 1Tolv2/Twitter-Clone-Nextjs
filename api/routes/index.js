@@ -5,7 +5,7 @@ const router = express.Router();
 // finds the messageList and sorts by newest first
 router.get("/", async (req, res) => {
   const data = await Message.find().sort({ date: -1 }).exec();
-  res.send(data);
+  res.json(data);
 });
 
 // saves message posts and handles 400 error
@@ -22,10 +22,10 @@ router.post("/", (req, res, next) => {
       console.error("ERROR:", err.errors.message.kind);
       res
         .status(400)
-        .send({ errorMessage: "Unsuccessful, author and message is required" });
+        .json({ errorMessage: "Unsuccessful, author and message is required" });
       next(err);
     } else {
-      res.send({ message: "You have mooed successfully" });
+      res.json({ message: "You have mooed successfully" });
     }
   });
 });

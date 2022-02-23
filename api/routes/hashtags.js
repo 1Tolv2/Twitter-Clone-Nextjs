@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
   const data = count.map((tag) => {
     return { tag_name: tag._id, count: tag.count };
   });
-  res.send(data);
+  res.json(data);
 });
 
 router.get("/:id", async (req, res) => {
@@ -20,7 +20,7 @@ router.get("/:id", async (req, res) => {
     count: count.length,
     messages: count,
   };
-  res.send(data);
+  res.json(data);
 });
 
 module.exports = router;
