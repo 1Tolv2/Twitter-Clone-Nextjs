@@ -1,6 +1,11 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
+
 const { Message } = require("../models/message");
+const { User } = require("../models/user");
 const router = express.Router();
+
+const JWT_SECRET = "iqokjsjfdhncal546dsggba934a2ab2wer";
 
 // finds the messageList and sorts by newest first
 router.get("/", async (req, res) => {
@@ -28,6 +33,21 @@ router.post("/", (req, res, next) => {
       res.json({ message: "You have mooed successfully" });
     }
   });
+});
+
+router.post("/api-token-auth", async (req, res) => {
+  const { username, password } = req.body;
+  const user = await User.login(username, password);
+  if (user) {
+    const userId = user._id.toString();
+    const token = jwt.sign({ userId, username: username }, JWT_SECRET, {
+      expiresIn: 120,
+      subject: userId,
+    });
+    res.json({ token });
+  } else {
+    res.sendStatus(401); // Unauthorized
+  }
 });
 
 module.exports = router;
