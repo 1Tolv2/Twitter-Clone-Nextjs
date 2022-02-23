@@ -4,7 +4,7 @@ const messageSchema = new mongoose.Schema({
   username: { type: String, required: true },
   message: { type: String, required: true, maxLength: 140 },
   hashtags: { type: Array, required: false },
-  createdAt: { type: Date, default: Date.now, required: true },
+  published: { type: Date, default: Date.now, required: true },
 });
 
 const Message = mongoose.model("Message", messageSchema);
