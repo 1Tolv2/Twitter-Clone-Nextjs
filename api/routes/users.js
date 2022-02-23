@@ -3,18 +3,31 @@ const { User } = require("../models/user");
 const { Message } = require("../models/message");
 
 const router = express.Router();
+const BASE_URL = "http://localhost:9000";
 
 router.get("/", async (req, res) => {
-  const data = await User.find().exec();
-  // add users messages
-  res.json(data);
+  const userList = await User.find().select({ username: 1 }).exec();
+  const messageList = await Message.find().sort({ published: 1 }).exec();
+
+  const data = userList.map(({ _id, username }) => {
+    let userMessageList = [];
+    messageList.map((item) => {
+      item.username === username && userMessageList.push(item._id);
+    });
+
+    const url = `${BASE_URL}/users/${username}`;
+    return { _id, username, userMessageList, url };
+  });
+  res.json({ data });
 });
 
-router.post("/", async (req, res) => {
-  const { username, password } = req.body;
-  const user = new User({ username, password });
-  await user.save();
-  res.json({ username });
-});
+// /:id PUT/PATCH
+/* { username: String,
+	  password: String
+	}
+
+  */
+
+router.get("/:id", (req, res) => {});
 
 module.exports = router;
