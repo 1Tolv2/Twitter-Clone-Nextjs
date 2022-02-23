@@ -12,19 +12,9 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { username, password } = req.body;
-  const user = new User({
-    username,
-    password,
-  });
-  user.save((err) => {
-    if (err) {
-      console.error("ERROR:", err.errors.message.kind);
-      res.status(400).json({ errorMessage: "Unsuccessful" });
-      next(err);
-    } else {
-      res.json({ message: "Successful" });
-    }
-  });
+  const user = new User({ username, password });
+  await user.save();
+  res.json({ username });
 });
 
 module.exports = router;
