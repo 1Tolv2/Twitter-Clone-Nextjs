@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const messageSchema = new mongoose.Schema({
-  user_name: { type: String, required: true },
+  username: { type: String, required: true },
   message: { type: String, required: true, maxLength: 140 },
   hashtags: { type: Array, required: false },
-  date: { type: Date, default: Date.now },
+  createdAt: { type: Date, default: Date.now, required: true },
 });
 
 const Message = mongoose.model("Message", messageSchema);
