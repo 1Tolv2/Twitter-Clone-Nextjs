@@ -5,6 +5,7 @@ const { Message } = require("../models/message");
 const router = express.Router();
 const BASE_URL = "http://localhost:9000";
 
+// GET userlist
 router.get("/", async (req, res) => {
   const userList = await User.find().select({ username: 1 }).exec();
   const messageList = await Message.find().sort({ published: 1 }).exec();
@@ -28,6 +29,19 @@ router.get("/", async (req, res) => {
 
   */
 
-router.get("/:id", (req, res) => {});
+// GET user by id
+router.get("/:id", async (req, res) => {
+  const user = await User.find({ username: req.params.id })
+    .select("username")
+    .exec();
+  console.log(user);
+  const messageList = await Message.find({ username: req.params.id })
+    .sort({ published: 1 })
+    .exec();
+
+  res.json({
+    data: [{ _id: user[0]._id, username: user[0].username, messageList }],
+  });
+});
 
 module.exports = router;
