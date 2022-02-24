@@ -27,10 +27,14 @@ router.get("/", async (req, res) => {
 router.post("/", (req, res, next) => {
   const { username, message } = req.body;
   const hashtags = [...new Set(message.match(/#{1}[A-Ö]+(?=\s|$)/gi))];
+  const lowerCaseHashtags = hashtags.map((tag) => {
+    return tag.toLowerCase();
+  });
+
   const tweet = new Message({
     username,
     message,
-    hashtags,
+    hashtags: lowerCaseHashtags,
   });
   tweet.save((err) => {
     if (err) {
@@ -45,9 +49,11 @@ router.post("/", (req, res, next) => {
   });
 });
 
-// GET message
+// GET message by id
 router.get("/:id", async (req, res) => {
-  const messageList = await Message.find().sort({ date: -1 }).exec();
+  const messageList = await Message.find({ _id: req.params.id })
+    .sort({ date: -1 })
+    .exec();
   const data = messageList.map(
     ({ _id, username, message, hashtags, published }) => {
       return {
