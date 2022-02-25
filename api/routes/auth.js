@@ -16,23 +16,34 @@ router.post("/users", async (req, res) => {
 });
 
 // POST logs in user
-router.post("/api-token", async (req, res) => {
+router.post("/api-token", async (req, res, next) => {
   const { username, password } = req.body;
-  const lowerCaseUsername = username.toLowerCase();
-  const user = await User.login(lowerCaseUsername, password);
-  if (user) {
-    const userId = user._id.toString();
-    const token = jwt.sign(
-      { userId, username: lowerCaseUsername },
-      JWT_SECRET,
-      {
-        expiresIn: 120,
-        subject: userId,
-      }
-    );
-    res.json({ token });
+
+  if (!(username && password)) {
+    res
+      .status(400)
+      .json({ error: "Incorrect data, username and password is required" })
+      .end();
   } else {
-    res.sendStatus(401); // Unauthorized
+    const user = await User.login(username.toLowerCase(), password);
+
+    if (user) {
+      const userId = user._id.toString();
+      const token = jwt.sign(
+        { userId, username: lowerCaseUsername },
+        JWT_SECRET,
+        {
+          expiresIn: 120,
+          subject: userId,
+        }
+      );
+      res.json({ token });
+    } else {
+      res
+        .status(401)
+        .json({ error: "Validation failed, username or password is incorrect" })
+        .end();
+    }
   }
 });
 

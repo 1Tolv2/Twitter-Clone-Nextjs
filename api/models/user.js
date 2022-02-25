@@ -17,9 +17,11 @@ userSchema.pre("save", async function (next) {
 
 userSchema.statics.login = async function (username, password) {
   const user = await this.findOne({ username });
-  if (user && (await bcrypt.compare(password, user.password))) {
+  if (user && password && (await bcrypt.compare(password, user.password))) {
     return user;
-  } else return null;
+  } else {
+    return null;
+  }
 };
 
 const User = mongoose.model("User", userSchema);

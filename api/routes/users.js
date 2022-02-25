@@ -5,6 +5,10 @@ const { Message } = require("../models/message");
 const router = express.Router();
 const BASE_URL = "http://localhost:9000";
 
+const requireLogin = (req, res, next) => {
+  req.user ? next() : res.status(401).json({ error: "Unauthorized" });
+};
+
 // GET userlist
 router.get("/", async (req, res) => {
   const userList = await User.find().select({ username: 1 }).exec();
@@ -16,18 +20,20 @@ router.get("/", async (req, res) => {
       item.username === username && userMessageList.push(item._id);
     });
 
-    const url = `${BASE_URL}/users/${username}`;
-    return { _id, username, userMessageList, url };
+    return {
+      _id,
+      username,
+      userMessageList,
+      url: `${BASE_URL}/users/${username}`,
+    };
   });
   res.json({ data });
 });
 
-// /:id PUT/PATCH
+// /:id/settings PUT/PATCH kräver verifiering
 /* { username: String,
 	  password: String
-	}
-
-  */
+	}*/
 
 // GET user by id
 router.get("/:id", async (req, res) => {
