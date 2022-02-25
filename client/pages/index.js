@@ -19,10 +19,10 @@ export default function Home({ data }) {
   );
 }
 export async function getStaticProps() {
-  const res = await fetch(API, {
+  const res = await fetch(API + "/messages", {
     headers: { "Content-Type": "application/json" },
   });
-  const data = await res.json();
+  const { data } = await res.json();
 
   return { props: { data } };
 }

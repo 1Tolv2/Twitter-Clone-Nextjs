@@ -9,15 +9,23 @@ import Header from "../components/Header";
 
 export default function Login() {
   const router = useRouter();
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  function handleOnSubmit(e) {
+
+  async function handleOnSubmit(e) {
     e.preventDefault();
     const payload = { username, password };
     console.log(API);
-    console.log(payload);
-    router.push("/");
+    const res = await fetch(`${API}/auth/api-token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (data.token) {
+      localStorage.setItem("Token", data.token);
+      router.push("/");
+    }
   }
   return (
     <LayoutCenterDiv>
@@ -32,7 +40,7 @@ export default function Login() {
           required
         />
         <InputField
-          type="text"
+          type="password"
           id="password"
           value={password}
           setValue={setPassword}

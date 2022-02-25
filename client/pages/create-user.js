@@ -13,11 +13,16 @@ export default function CreateUser() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleOnSubmit(e) {
+  async function handleOnSubmit(e) {
     e.preventDefault();
     const payload = { username, password };
-    console.log(API);
     console.log(payload);
+    const res = await fetch(`${API}/auth/users`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    console.log(res);
     router.push("/login");
   }
   return (
@@ -33,7 +38,7 @@ export default function CreateUser() {
           required
         />
         <InputField
-          type="text"
+          type="password"
           id="password"
           value={password}
           setValue={setPassword}
