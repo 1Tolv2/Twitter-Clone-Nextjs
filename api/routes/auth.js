@@ -9,34 +9,35 @@ const JWT_SECRET = "iqokjsjfdhncal546dsggba934a2ab2wer";
 // POST creates user
 router.post("/users", async (req, res) => {
   const { username, password } = req.body;
-  const lowerCaseUsername = username.toLowerCase();
-  const user = new User({ username: lowerCaseUsername, password });
-  await user.save();
-  res.json({ username: lowerCaseUsername, message: "User created" });
+  if (!(username && password)) {
+    res
+      .status(400)
+      .json({ error: "Incorrect data, username and password is required" });
+  } else if (await User.findOne({ username })) {
+    res.status(400).json({ error: "Invalid data, user already exists" });
+  } else {
+    const user = new User({ username, password });
+    await user.save();
+    res.json({ message: "User created" });
+  }
 });
 
 // POST logs in user
 router.post("/api-token", async (req, res, next) => {
   const { username, password } = req.body;
-
   if (!(username && password)) {
     res
       .status(400)
       .json({ error: "Incorrect data, username and password is required" })
       .end();
   } else {
-    const user = await User.login(username.toLowerCase(), password);
-
+    const user = await User.login(username, password);
     if (user) {
       const userId = user._id.toString();
-      const token = jwt.sign(
-        { userId, username: lowerCaseUsername },
-        JWT_SECRET,
-        {
-          expiresIn: 120,
-          subject: userId,
-        }
-      );
+      const token = jwt.sign({ userId, username }, JWT_SECRET, {
+        expiresIn: 120,
+        subject: userId,
+      });
       res.json({ token });
     } else {
       res
