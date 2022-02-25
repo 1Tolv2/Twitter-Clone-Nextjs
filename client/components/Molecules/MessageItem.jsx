@@ -37,12 +37,12 @@ justify-content: space-between;
 `
 
 export default function MessageItem({data}) {
-  const date = new Date(data.date)
+  const date = new Date(data.published)
   const fullDate = `${date.getFullYear()}.${(date.getMonth()+1) < 10 ? "0" + (date.getMonth()+1) : date.getMonth()}.${date.getDate()}`
   console.log(date)
   return (
     <StyledSection key={data._id}>
-      <Link href={`/${data.user_name}`}>
+      <Link href={`/${data.username}`}>
         <a>
           <StyledImage>
             <img src="profile-svgrepo-com.svg" height="50px" />
@@ -52,7 +52,7 @@ export default function MessageItem({data}) {
       <StyledContainer>
         <MessageInfoField>
           <h3>
-            <Link href={`/${data.user_name}`}><a>{data.user_name}</a></Link>
+            <Link href={`/${data.username}`}><a>{data.username}</a></Link>
           </h3><span>{fullDate}</span>
         </MessageInfoField>
         <hr />

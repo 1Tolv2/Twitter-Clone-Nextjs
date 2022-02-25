@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import Button from "./Button";
+import Button from "../Atoms/Button";
 import { useRouter } from "next/router";
 
 const StyledContainer = styled.div`
