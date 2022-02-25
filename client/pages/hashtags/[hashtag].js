@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Messageboard from "../../components/Messageboard";
-import Layout from "../../components/Layout";
+import Messageboard from "../../components/molecules/Messageboard";
+import Layout from "../../components/layouts/Layout";
 import { API } from "../../components/API";
-import MessageMaker from "../../components/MessageMaker";
+import MessageMaker from "../../components/molecules/MessageMaker";
 
 export default function Home() {
   const [messageList, setMessageList] = useState(null);

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { API } from "../../components/API";
-import Layout from "../../components/Layout";
-import Messageboard from "../../components/Messageboard";
+import Layout from "../../components/layouts/Layout";
+import Messageboard from "../../components/molecules/Messageboard";
 
 export default function User() {
   const router = useRouter();
@@ -37,7 +37,7 @@ export default function User() {
 }
 
 // export async function getStaticProps() {
-//   const res = await fetch(API, {
+//   const res = await fetch(`${API}/users`, {
 //     headers: { "Content-Type": "application/json" },
 //   });
 //   const data = await res.json();
@@ -50,11 +50,11 @@ export default function User() {
 //     headers: { "Content-Type": "application/json" },
 //   });
 //   const data = await res.json();
-
-//   const pathList = data.map((user) => {
+//   const paths = data.map((user) => {
 //     return {
-//       params: { id: user.id.toString() },
+//       params: { id: user.user_name },
 //     };
 //   });
-//   return { pathList, fallback: false };
+//   console.log(paths);
+//   return { paths, fallback: false };
 // }
