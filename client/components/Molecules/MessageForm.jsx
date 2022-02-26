@@ -58,10 +58,13 @@ export default function MessageForm({}) {
   async function handleOnSubmit(e) {
     e.preventDefault();
     console.log("Submit handled");
-    const res = await fetch(API, {
+    const token = localStorage.getItem("Token")
+    console.log(token)
+    const res = await fetch(`${API}/messages`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user_name: "Test", message }),
+      headers: { "Content-Type": "application/json",
+      Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ message }),
     });
     if (!res.ok) {
       const data = await res.json();
