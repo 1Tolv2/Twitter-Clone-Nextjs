@@ -26,11 +26,11 @@ app.use((req, res, next) => {
     try {
       req.user = jwt.verify(token, JWT_SECRET);
     } catch (error) {
-      error.message === "jwt expired"
-        ? res.json({ error: "Token expired" }, 401)
+      return error.message === "jwt expired"
+        ? res.status(401).json({ error: "Token expired" })
         : error.message === "invalid token"
-        ? res.json({ error: "Invalid token" }, 401)
-        : res.json({ error: "Uknown error" }, 400);
+        ? res.status(401).json({ error: "Invalid token" })
+        : res.status(400).json({ error: "Uknown error" });
     }
   }
   next();
@@ -46,6 +46,7 @@ const requireLogin = (req, res, next) => {
   req.user ? next() : res.status(401).json({ error: "Unauthorized" });
 };
 
+// remove later
 app.get("/secret", requireLogin, (req, res) => {
   res.json({ message: `Hello ${req.user.username}` });
 });

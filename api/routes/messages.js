@@ -29,9 +29,9 @@ router.get("/", async (req, res) => {
 
 // POST message
 router.post("/", requireLogin, (req, res, next) => {
-  const { username, message } = req.body;
+  const { message } = req.body;
+  const { username } = req.user;
   const hashtags = [...new Set(message.match(/#{1}[A-Ö]+(?=\s|$)/gi))];
-
   const messageModel = new Message({
     username,
     message,
