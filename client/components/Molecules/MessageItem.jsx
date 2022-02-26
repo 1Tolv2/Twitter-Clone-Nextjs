@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { H3, Paragraph } from "../Atoms/typography/Headings";
 
 const StyledSection = styled.article`
   margin: 15px 0;
@@ -51,12 +52,12 @@ export default function MessageItem({data}) {
       </Link>
       <StyledContainer>
         <MessageInfoField>
-          <h3>
+          <H3>
             <Link href={`/${data.username}`}><a>{data.username}</a></Link>
-          </h3><span>{fullDate}</span>
+          </H3><span>{fullDate}</span>
         </MessageInfoField>
         <hr />
-        <p>{data.message}</p>
+        <Paragraph>{data.message}</Paragraph>
       </StyledContainer>
     </StyledSection>
   );
