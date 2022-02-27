@@ -12,8 +12,8 @@ color: white;
 cursor: pointer;
 `
 
-export default function Button({children}) {
+export default function Button({children, handleOnClick}) {
   return (
-    <StyledButton>{children}</StyledButton>
+    <StyledButton onClick={handleOnClick}>{children}</StyledButton>
   )
 }

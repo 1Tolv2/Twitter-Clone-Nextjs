@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Link from "next/link";
 import Button from "../Atoms/Button";
 import { useRouter } from "next/router";
+import { API } from '../API'
 
 const StyledContainer = styled.div`
   display: flex;
@@ -30,10 +31,21 @@ const StyledList = styled.ul`
 `;
 
 export default function SideSection() {
+
   const router = useRouter();
-  function logOutUser() {
-    router.push("/");
+async function handleOnClick() {
+  const token = localStorage.getItem("Token")
+  console.log(token)
+  const res = await fetch(`${API}/auth/api-token`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}` },
+  })
+  if (res.ok){
+    localStorage.removeItem("Token")
+    router.push("/login")
   }
+}
   return (
     <StyledContainer>
       <h2>Hello User!</h2>
@@ -41,8 +53,8 @@ export default function SideSection() {
         <li>
           <Link href="/user/settings">Settings</Link>
         </li>
-        <Button onClick={logOutUser}>
-          <Link href="/login">Log out</Link>
+        <Button handleOnClick={handleOnClick}>
+          Log out
         </Button>
       </StyledList>
     </StyledContainer>
