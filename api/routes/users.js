@@ -30,6 +30,27 @@ router.get("/", async (req, res) => {
   res.json({ data });
 });
 
+router.get("/me", async (req, res) => {
+  if (req.user) {
+    const { _id, username, subscribedTo } = await User.findOne({
+      username: req.user.username,
+    }).select({ username: 1, subscribedTo: 1 });
+
+    const messageList = await Message.find({ username: req.user.username })
+      .select({ username: 0 })
+      .sort({ published: 1 })
+      .exec();
+    res.json({
+      data: {
+        _id,
+        username,
+        subscribedTo,
+        messageList,
+      },
+    });
+  }
+});
+
 // /:id/settings PUT/PATCH kräver verifiering
 /* { username: String,
 	  password: String
@@ -37,7 +58,7 @@ router.get("/", async (req, res) => {
 
 // GET user by id
 router.get("/:id", async (req, res) => {
-  const user = await User.find({ username: req.params.id })
+  const user = await User.findOne({ username: req.params.id })
     .select("username")
     .exec();
   console.log(user);
