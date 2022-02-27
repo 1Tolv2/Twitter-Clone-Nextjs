@@ -2,6 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 
 const { User } = require("../models/user");
+const { ExpToken } = require("../models/expiredToken");
 
 const router = express.Router();
 const JWT_SECRET = "iqokjsjfdhncal546dsggba934a2ab2wer";
@@ -35,7 +36,7 @@ router.post("/api-token", async (req, res, next) => {
     if (user) {
       const userId = user._id.toString();
       const token = jwt.sign({ userId, username }, JWT_SECRET, {
-        expiresIn: 120,
+        expiresIn: "2h",
         subject: userId,
       });
       res.json({ token });
@@ -45,6 +46,21 @@ router.post("/api-token", async (req, res, next) => {
         .json({ error: "Validation failed, username or password is incorrect" })
         .end();
     }
+  }
+});
+
+// GET logout user (expire token)
+router.get("/api-token", async (req, res) => {
+  const token = req.header("Authorization").split(" ")[1];
+  if (req.user) {
+    const expToken = new ExpToken({ token });
+    expToken.save((error) => {
+      if (error) {
+        res.json({ error: "Token expiration unsuccessful" }, 400);
+        next(error);
+      }
+    });
+    res.json({ message: "Token expired successfully" });
   }
 });
 

@@ -8,6 +8,7 @@ const usersRouter = require("./routes/users");
 const messagesRouter = require("./routes/messages");
 const hashtagsRouter = require("./routes/hashtags");
 const authRouter = require("./routes/auth");
+const { ExpToken } = require("./models/expiredToken");
 
 const app = express();
 const PORT = 9000;
@@ -18,19 +19,26 @@ app.use(cors());
 app.use(express.json());
 
 // kontrollerar vilken användare som är inloggad
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   const authHeader = req.header("Authorization");
+
   // kolla att authHeader är Bearer
   if (authHeader && authHeader.split(" ")[0] === "Bearer") {
     const token = authHeader.split(" ")[1]; // splitta så vi får ut tokenen
-    try {
-      req.user = jwt.verify(token, JWT_SECRET);
-    } catch (error) {
-      return error.message === "jwt expired"
-        ? res.status(401).json({ error: "Token expired" })
-        : error.message === "invalid token"
-        ? res.status(401).json({ error: "Invalid token" })
-        : res.status(400).json({ error: "Uknown error" });
+
+    const tokenLoggedOut = await ExpToken.findOne({ token });
+    if (tokenLoggedOut) {
+      res.status(401).json({ error: "Invalid token" });
+    } else {
+      try {
+        req.user = jwt.verify(token, JWT_SECRET);
+      } catch (error) {
+        return error.message === "jwt expired"
+          ? res.status(401).json({ error: "Token expired" })
+          : error.message === "invalid token"
+          ? res.status(401).json({ error: "Invalid token" })
+          : res.status(400).json({ error: "Token error" });
+      }
     }
   }
   next();
