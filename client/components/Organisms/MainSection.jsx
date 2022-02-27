@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Header from '../atoms/Header'
+import Header from '../Atoms/Header'
 import Link from 'next/link'
 
 const StyledContainer = styled.main`

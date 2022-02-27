@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import styled, {createGlobalStyle} from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import Grid from "../Atoms/Grid";
 import MainSection from "../Organisms/MainSection";
 // import NavigationBar from "../components/NavigationBar";

@@ -15,7 +15,6 @@ export default function Messageboard({ data, children }) {
           data.map((item) => {
             return (
             <MessageItem key={item._id} data={item}></MessageItem>
-            
             );
           })}
       </StyledWrapper>

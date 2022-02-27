@@ -1,17 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+// import {Heading1} from './typography/Headings'
+import styled from 'styled-components';
 
-const StyledHeader = styled.h1`
+const Heading1 = styled.h1`
 text-align: center;
 text-transform: lowercase;
-font-size: 2.2em;
+font-size: 2.7em;
+letter-spacing: -1.78px;
 margin-bottom: 15px;
 margin-top: 0;
-color: ${props => props.color};
-`
+color: ${props => props.color};`
 
 export default function Header({children, color}) {
   return (
-    <StyledHeader color={color}>{children}</StyledHeader>
+    <Heading1 color={color}>{children}</Heading1>
   )
 }

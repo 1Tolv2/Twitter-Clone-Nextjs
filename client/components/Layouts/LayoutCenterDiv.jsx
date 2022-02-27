@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import styled, {createGlobalStyle} from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 body {background-color: #fed9b7;}
