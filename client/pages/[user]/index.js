@@ -4,13 +4,21 @@ import { API } from "../../components/API";
 import Layout from "../../components/layouts/Layout";
 import Messageboard from "../../components/molecules/Messageboard";
 
-export default function User({ userData }) {
+export default function User() {
   const router = useRouter();
   const [userMessageList, setUserMessageList] = useState(null);
 
   useEffect(() => {
-    setUserMessageList(userData.data);
-  }, [userData]);
+    const user = router.query.user;
+    console.log(user);
+    if (user) {
+      fetch(`${API}/users/${router.query.user}`, {
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => res.json())
+        .then((data) => setUserMessageList(data.data[0].messageList));
+    }
+  }, [router.query.user]);
   return (
     <Layout>
       Hej
@@ -19,44 +27,41 @@ export default function User({ userData }) {
   );
 }
 
-export async function getStaticProps() {
-  const userRes = await fetch(`${API}/users`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const userData = await userRes.json();
-  // console.log("USERDATA:", userData.data);
-  const messageRes = await fetch(`${API}/messages`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const messageData = await messageRes.json();
-  // console.log("MESSAGEDATA:", messageData.data);
-  userData.data.map((user) => {
-    user.totalMessageList = [];
-    messageData.data.forEach((item) => {
-      // console.log("ITEM:", item);
-      // console.log("USER:", user);
-      return item.username === user.username
-        ? user.totalMessageList.push(item)
-        : null;
-    });
-  });
+// export async function getStaticProps({ params }) {
+//   console.log(params.user);
+//   const userRes = await fetch(`${API}/${params.user}`, {
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
+// const userData = await userRes.json();
+// const messageRes = await fetch(`${API}/messages`, {
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+// });
+// const messageData = await messageRes.json();
+// userData.data.map((user) => {
+//   user.totalMessageList = [];
+//   messageData.data.forEach((item) => {
+//     return item.username === user.username
+//       ? user.totalMessageList.push(item)
+//       : null;
+//   });
+// });
 
-  return { props: { userData } };
-}
-
-export async function getStaticPaths() {
-  const res = await fetch(`${API}/users`, {
-    headers: { "Content-Type": "application/json" },
-  });
-  const { data } = await res.json();
-  const paths = data.map((user) => {
-    return {
-      params: { user: user.username },
-    };
-  });
-  return { paths, fallback: false };
-}
+//   return { props: { userData } };
+// }
+/*Nedan fungerar men ej gSSProps */
+// export async function getStaticPaths() {
+//   const res = await fetch(`${API}/users`, {
+//     headers: { "Content-Type": "application/json" },
+//   });
+//   const { data } = await res.json();
+//   const paths = data.map((user) => {
+//     return {
+//       params: { user: user.username },
+//     };
+//   });
+//   return { paths, fallback: false };
+// }
