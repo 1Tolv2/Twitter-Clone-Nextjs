@@ -4,19 +4,15 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 require("dotenv").config();
 
-// const JWT_SECRET = require("./env.local");
-
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const messagesRouter = require("./routes/messages");
 const hashtagsRouter = require("./routes/hashtags");
 const authRouter = require("./routes/auth");
 const { ExpToken } = require("./models/expiredToken");
+const { PORT } = require("./settings");
 
 const app = express();
-const PORT = 9000;
-const BASE_URL = "http://localhost:9000";
-const JWT_SECRET = process.env.JWT_SECRET;
 
 app.use(cors());
 app.use(express.json());
@@ -28,17 +24,12 @@ app.use(async (req, res, next) => {
   // kolla att authHeader är Bearer
   if (authHeader && authHeader.split(" ")[0] === "Bearer") {
     const token = authHeader.split(" ")[1]; // splitta så vi får ut tokenen
-
     const tokenLoggedOut = await ExpToken.findOne({ token });
     if (tokenLoggedOut) {
-      console.log("A");
       res.status(401).json({ error: "Invalid token" });
     } else {
       try {
-        console.log("B");
-
-        req.user = jwt.verify(token, JWT_SECRET);
-        console.log("C", req.user);
+        req.user = jwt.verify(token, process.env.JWT_SECRET);
       } catch (error) {
         return error.message === "jwt expired"
           ? res.status(401).json({ error: "Token expired" })
@@ -48,6 +39,7 @@ app.use(async (req, res, next) => {
       }
     }
   }
+
   next();
 });
 

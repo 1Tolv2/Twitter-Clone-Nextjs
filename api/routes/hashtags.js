@@ -1,8 +1,7 @@
 const express = require("express");
 const { Message } = require("../models/message");
 const router = express.Router();
-
-const BASE_URL = "http://localhost:9000";
+const { BASE_URL } = require("../settings");
 
 // GET All hashtags and times used
 router.get("/", async (req, res) => {

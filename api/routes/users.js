@@ -1,9 +1,9 @@
 const express = require("express");
 const { User } = require("../models/user");
 const { Message } = require("../models/message");
+const { BASE_URL } = require("../settings");
 
 const router = express.Router();
-const BASE_URL = "http://localhost:9000";
 
 const requireLogin = (req, res, next) => {
   req.user ? next() : res.status(401).json({ error: "Unauthorized" });
