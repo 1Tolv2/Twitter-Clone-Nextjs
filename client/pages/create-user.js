@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { API } from "../components/API";
-import LayoutCenterDiv from "../components/Layouts/LayoutCenterDiv";
+import LayoutCenterDiv from "../components/layouts/LayoutCenterDiv";
 import InputField from "../components/atoms/InputField";
-import Button from "../components/Atoms/Button";
-import Header from "../components/Atoms/Header";
+import Button from "../components/atoms/Button";
+import Header from "../components/atoms/Header";
 
 export default function CreateUser() {
   const router = useRouter();

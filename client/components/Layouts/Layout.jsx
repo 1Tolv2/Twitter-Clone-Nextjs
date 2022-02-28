@@ -1,10 +1,10 @@
 import React from "react";
 import Head from "next/head";
 import styled, { createGlobalStyle } from "styled-components";
-import Grid from "../Atoms/Grid";
-import MainSection from "../Organisms/MainSection";
+import Grid from "../atoms/Grid";
+import MainSection from "../organisms/MainSection";
 // import NavigationBar from "../components/NavigationBar";
-import SideSection from "../Organisms/SideSection";
+import SideSection from "../organisms/SideSection";
 
 const GlobalStyle = createGlobalStyle`
 body {background-color: #0081A7;}

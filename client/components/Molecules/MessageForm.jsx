@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import { API } from '../API';
-import HashtagList from "../Atoms/HashtagList";
+import HashtagList from "../atoms/HashtagList";
 
 
 const StyledTextArea = styled.textarea`

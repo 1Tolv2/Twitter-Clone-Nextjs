@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { API } from "../../components/API";
-import Layout from "../../components/Layouts/Layout";
-import Messageboard from "../../components/Molecules/Messageboard";
+import Layout from "../../components/layouts/Layout";
+import Messageboard from "../../components/molecules/Messageboard";
 
 export default function User({ userData }) {
   const router = useRouter();

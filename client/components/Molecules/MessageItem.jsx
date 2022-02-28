@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { Heading3, Paragraph } from "../Atoms/typography/Headings";
+import { Heading3, Paragraph } from "../atoms/typography/Headings";
 
 const StyledSection = styled.article`
   margin: 15px 0;
