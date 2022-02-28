@@ -1,8 +1,9 @@
 const express = require("express");
+const { BASE_URL } = require("../settings");
 
 const { Message } = require("../models/message");
+const { User } = require("../models/user");
 const router = express.Router();
-const BASE_URL = "http://localhost:9000";
 
 const requireLogin = (req, res, next) => {
   req.user ? next() : res.status(401).json({ error: "Unauthorized" });
@@ -10,20 +11,44 @@ const requireLogin = (req, res, next) => {
 
 // GET messageList, sorts latest created first
 router.get("/", async (req, res) => {
-  const messageList = await Message.find().sort({ date: -1 }).exec();
-  const data = messageList.map(
-    ({ _id, username, message, hashtags, published }) => {
-      return {
-        _id,
-        username,
-        message,
-        hashtags,
-        published,
-        url: `${BASE_URL}/messages/${_id}`,
-        userURL: `${BASE_URL}/users/${username}`,
-      };
-    }
-  );
+  const messageList = await Message.find().sort({ published: -1 }).exec();
+  let data = [];
+  if (req.user) {
+    const { subscribedTo } = await User.findOne({
+      username: req.user.username,
+    })
+      .select({ subscribedTo: 1, _id: 0 })
+      .exec();
+    messageList.map(({ _id, username, message, hashtags, published }) => {
+      subscribedTo.map((user) => {
+        username === user
+          ? data.push({
+              _id,
+              username,
+              message,
+              hashtags,
+              published,
+              url: `${BASE_URL}/messages/${_id}`,
+              userURL: `${BASE_URL}/users/${username}`,
+            })
+          : null;
+      });
+    });
+  } else {
+    data = messageList.map(
+      ({ _id, username, message, hashtags, published }) => {
+        return {
+          _id,
+          username,
+          message,
+          hashtags,
+          published,
+          url: `${BASE_URL}/messages/${_id}`,
+          userURL: `${BASE_URL}/users/${username}`,
+        };
+      }
+    );
+  }
   res.json({ data });
 });
 
