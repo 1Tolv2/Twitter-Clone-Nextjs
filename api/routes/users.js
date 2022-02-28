@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
 
 router.get("/me", async (req, res) => {
   if (req.user) {
-    const { _id, username, subscribedTo } = await User.findOne({
+    const { _id, username, subscribedTo } = await User.find({
       username: req.user.username,
     }).select({ username: 1, subscribedTo: 1 });
 
@@ -68,5 +68,32 @@ router.get("/:id", async (req, res) => {
     data: [{ _id: user._id, username: user.username, messageList }],
   });
 });
+
+// Able to subscribe to but does not prevent non unique subscriptions
+router.patch("/:id/subscribe", async (req, res) => {
+  if (req.user) {
+    const loggedInUser = req.user.username;
+    const otherUser = req.params.id;
+    console.log(loggedInUser);
+    await User.updateOne(
+      { username: otherUser },
+      { $push: { subscribers: loggedInUser } }
+    );
+    await User.updateOne(
+      { username: loggedInUser },
+      { $push: { subscribedTo: otherUser } }
+    );
+    res.json({ message: "Logged in" });
+  } else {
+    res.json(
+      {
+        error:
+          "No user logged in, check that bearer token is provided correctly",
+      },
+      400
+    );
+  }
+});
+router.post("/:id/subscriptions", async (req, res) => {});
 
 module.exports = router;

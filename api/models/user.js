@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   subscribedTo: [{ type: String }],
+  subscribers: [{ type: String }],
 });
 
 // overwrites the password with a encrypted version
