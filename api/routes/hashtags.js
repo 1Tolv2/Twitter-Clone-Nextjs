@@ -22,10 +22,8 @@ router.get("/", async (req, res) => {
 
 // GET Hashtag by tag_name
 router.get("/:id", async (req, res) => {
-  const count = await Message.find({ hashtags: req.params.id })
-    .select("_id")
-    .exec();
-
+  const count = await Message.find({ hashtags: req.params.id }).exec();
+  console.log(count);
   const messages = [];
   count.map(({ _id }) => {
     messages.push(_id);
@@ -34,7 +32,7 @@ router.get("/:id", async (req, res) => {
   const data = {
     tag_name: req.params.id,
     count: count.length,
-    messages,
+    messages: count,
   };
   res.json({ data });
 });
