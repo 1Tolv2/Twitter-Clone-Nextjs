@@ -61,13 +61,11 @@ router.get("/:id", async (req, res) => {
   const user = await User.findOne({ username: req.params.id })
     .select("username")
     .exec();
-  console.log(user);
   const messageList = await Message.find({ username: req.params.id })
     .sort({ published: 1 })
     .exec();
-
   res.json({
-    data: [{ _id: user[0]._id, username: user[0].username, messageList }],
+    data: [{ _id: user._id, username: user.username, messageList }],
   });
 });
 
