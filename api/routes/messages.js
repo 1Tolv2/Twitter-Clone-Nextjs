@@ -13,26 +13,40 @@ const requireLogin = (req, res, next) => {
 router.get("/", async (req, res) => {
   const messageList = await Message.find().sort({ published: -1 }).exec();
   let data = [];
+
   if (req.user) {
     const { subscribedTo } = await User.findOne({
       username: req.user.username,
     })
       .select({ subscribedTo: 1, _id: 0 })
       .exec();
+
     messageList.map(({ _id, username, message, hashtags, published }) => {
-      subscribedTo.map((user) => {
-        username === user
-          ? data.push({
-              _id,
-              username,
-              message,
-              hashtags,
-              published,
-              url: `${BASE_URL}/messages/${_id}`,
-              userURL: `${BASE_URL}/users/${username}`,
-            })
-          : null;
-      });
+      if (username === req.user.username) {
+        data.push({
+          _id,
+          username,
+          message,
+          hashtags,
+          published,
+          url: `${BASE_URL}/messages/${_id}`,
+          userURL: `${BASE_URL}/users/${username}`,
+        });
+      } else {
+        subscribedTo.map((user) => {
+          username === user
+            ? data.push({
+                _id,
+                username,
+                message,
+                hashtags,
+                published,
+                url: `${BASE_URL}/messages/${_id}`,
+                userURL: `${BASE_URL}/users/${username}`,
+              })
+            : null;
+        });
+      }
     });
   } else {
     data = messageList.map(
