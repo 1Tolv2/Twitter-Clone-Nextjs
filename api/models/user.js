@@ -4,8 +4,7 @@ const bcrypt = require("bcryptjs");
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  profile_image: String,
-  subscribedTo: [{ user: { type: String } }],
+  subscribedTo: [{ type: String }],
 });
 
 // overwrites the password with a encrypted version
