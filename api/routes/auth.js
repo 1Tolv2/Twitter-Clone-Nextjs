@@ -5,7 +5,7 @@ const { User } = require("../models/user");
 const { ExpToken } = require("../models/expiredToken");
 
 const router = express.Router();
-const JWT_SECRET = "iqokjsjfdhncal546dsggba934a2ab2wer";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // POST creates user
 router.post("/users", async (req, res) => {

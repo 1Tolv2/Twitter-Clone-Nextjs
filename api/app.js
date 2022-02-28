@@ -2,6 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
+require("dotenv").config();
+
+// const JWT_SECRET = require("./env.local");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -13,7 +16,7 @@ const { ExpToken } = require("./models/expiredToken");
 const app = express();
 const PORT = 9000;
 const BASE_URL = "http://localhost:9000";
-const JWT_SECRET = "iqokjsjfdhncal546dsggba934a2ab2wer";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 app.use(cors());
 app.use(express.json());
@@ -28,10 +31,14 @@ app.use(async (req, res, next) => {
 
     const tokenLoggedOut = await ExpToken.findOne({ token });
     if (tokenLoggedOut) {
+      console.log("A");
       res.status(401).json({ error: "Invalid token" });
     } else {
       try {
+        console.log("B");
+
         req.user = jwt.verify(token, JWT_SECRET);
+        console.log("C", req.user);
       } catch (error) {
         return error.message === "jwt expired"
           ? res.status(401).json({ error: "Token expired" })
