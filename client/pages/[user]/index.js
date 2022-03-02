@@ -3,25 +3,29 @@ import { useRouter } from "next/router";
 import { API } from "../../components/API";
 import Layout from "../../components/layouts/Layout";
 import Messageboard from "../../components/molecules/Messageboard";
+import ProfileSection from "../../components/molecules/ProfileSection";
 
 export default function User() {
   const router = useRouter();
   const [userMessageList, setUserMessageList] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const user = router.query.user;
-    console.log(user);
     if (user) {
       fetch(`${API}/users/${router.query.user}`, {
         headers: { "Content-Type": "application/json" },
       })
         .then((res) => res.json())
-        .then((data) => setUserMessageList(data.data[0].messageList));
+        .then((data) => {
+          setUserMessageList(data.data[0].messageList);
+          setUserData(data.data[0]);
+        });
     }
   }, [router.query.user]);
   return (
     <Layout>
-      Hej
+      <ProfileSection data={userData} />
       <Messageboard data={userMessageList}></Messageboard>
     </Layout>
   );
