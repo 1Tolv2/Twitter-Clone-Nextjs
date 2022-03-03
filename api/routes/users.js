@@ -30,40 +30,52 @@ router.get("/", async (req, res) => {
   res.json({ data });
 });
 
-router.get("/me", async (req, res) => {
-  if (req.user) {
-    const { _id, username, subscribedTo } = await User.find({
+router.get("/me" requireLogin, async (req, res) => {
+    const user = await User.findOne({
       username: req.user.username,
-    }).select({ username: 1, subscribedTo: 1 });
-
+    });
     const messageList = await Message.find({ username: req.user.username })
       .select({ username: 0 })
       .sort({ published: 1 })
       .exec();
+
+    //add messages to user return data
     res.json({
-      data: {
-        _id,
-        username,
-        subscribedTo,
-        messageList,
-      },
+      data: { user },
     });
-  }
 });
 
-// /:id/settings PUT/PATCH kräver verifiering
-/* { username: String,
-	  password: String
-	}*/
+router.put("/me/settings", requireLogin, async (req, res) => {
+  // PATCH uppdatera användaruppgifter och om de ska visas
+  // byta profilbild
+  const user = req.body;
+  const image = req.file.path;
+  console.log("USER:", req);
+  console.log("IMAGE:", image);
+  await User.updateOne(
+    { username: req.user.username },
+    {
+      $set: {
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        image,
+      },
+    }
+  );
+  res.json({ message: "Successful upload" });
+});
 
 // GET user by id
 router.get("/:id", async (req, res) => {
   const user = await User.findOne({ username: req.params.id })
     .select("username")
     .exec();
+
   const messageList = await Message.find({ username: req.params.id })
     .sort({ published: 1 })
     .exec();
+
   res.json({
     data: [{ _id: user._id, username: user.username, messageList }],
   });
@@ -83,7 +95,7 @@ router.patch("/:id/subscribe", async (req, res) => {
       { username: loggedInUser },
       { $push: { subscribedTo: otherUser } }
     );
-    res.json({ message: "Logged in" });
+    res.json({ messageList: "Logged in" });
   } else {
     res.json(
       {
