@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import Button from "../atoms/Button";
 import { useRouter } from "next/router";
-import { API } from '../API'
+import { API } from "../API";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -31,32 +31,68 @@ const StyledList = styled.ul`
 `;
 
 export default function SideSection() {
-
+  const [signedInUser, setSignedInUser] = useState(null);
   const router = useRouter();
-async function handleOnClick() {
-  const token = localStorage.getItem("Token")
-  console.log(token)
-  const res = await fetch(`${API}/auth/api-token`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json",
-    "Authorization": `Bearer ${token}` },
-  })
-  if (res.ok){
-    localStorage.removeItem("Token")
-    router.push("/login")
+
+  useEffect(() => {
+    const token = localStorage.getItem("Token");
+    if (token) {
+      fetch(`${API}/users/me`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => setSignedInUser(data.data.user));
+    }
+  }, []);
+
+  function upperCaseName(name) {
+    const modifiedName = name.replace(name[0], name[0].toUpperCase());
+    return modifiedName;
   }
-}
+
+  async function handleOnClick() {
+    const token = localStorage.getItem("Token");
+    const res = await fetch(`${API}/auth/api-token`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (res.ok) {
+      localStorage.removeItem("Token");
+      router.push("/login");
+    }
+  }
   return (
     <StyledContainer>
-      <h2>Hello User!</h2>
-      <StyledList>
-        <li>
-          <Link href="/user/settings">Settings</Link>
-        </li>
-        <Button handleOnClick={handleOnClick}>
-          Log out
-        </Button>
-      </StyledList>
+      {signedInUser ? (
+        <>
+          <h2>Hello {upperCaseName(signedInUser.username)}!</h2>
+          <StyledList>
+            <li>
+              <Link href="/me">
+                <a>
+                  <img src={`${API}/${signedInUser.image}`} />
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link href="/me/settings">Settings</Link>
+            </li>
+            <Button handleOnClick={handleOnClick}>Log out</Button>
+          </StyledList>
+        </>
+      ) : (
+        <>
+        <h2>Hello!</h2>
+        <Link href="/login">Log in</Link>
+        </>
+      )}
     </StyledContainer>
   );
 }
