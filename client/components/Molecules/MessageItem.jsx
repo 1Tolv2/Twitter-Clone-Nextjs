@@ -26,21 +26,22 @@ const StyledContainer = styled.div`
     margin: 0 10px;
     width: fit-content;
   }
-  hr{
+  hr {
     height: 3px;
-    background-color: #00AFB9;
+    background-color: #00afb9;
   }
 `;
 
 const MessageInfoField = styled.div`
-display: flex;
-justify-content: space-between;
-`
+  display: flex;
+  justify-content: space-between;
+`;
 
-export default function MessageItem({data}) {
-  const date = new Date(data.published)
-  const fullDate = `${date.getFullYear()}.${(date.getMonth()+1) < 10 ? "0" + (date.getMonth()+1) : date.getMonth()}.${date.getDate()}`
-  console.log(date)
+export default function MessageItem({ data }) {
+  const date = new Date(data.published);
+  const fullDate = `${date.getFullYear()}.${
+    date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth()
+  }.${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
   return (
     <StyledSection key={data._id}>
       <Link href={`/${data.username}`}>
@@ -53,8 +54,11 @@ export default function MessageItem({data}) {
       <StyledContainer>
         <MessageInfoField>
           <Heading3>
-            <Link href={`/${data.username}`}><a>{data.username}</a></Link>
-          </Heading3><span>{fullDate}</span>
+            <Link href={`/${data.username}`}>
+              <a>{data.username}</a>
+            </Link>
+          </Heading3>
+          <span>{fullDate}</span>
         </MessageInfoField>
         <hr />
         <Paragraph>{data.message}</Paragraph>
