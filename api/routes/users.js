@@ -30,24 +30,28 @@ router.get("/", async (req, res) => {
   res.json({ data });
 });
 
-router.get("/me" requireLogin, async (req, res) => {
-    const user = await User.findOne({
-      username: req.user.username,
-    });
-    const messageList = await Message.find({ username: req.user.username })
-      .select({ username: 0 })
-      .sort({ published: 1 })
-      .exec();
+router.get("/me", requireLogin, async (req, res) => {
+  const user = await User.findOne({
+    username: req.user.username,
+  });
+  const messageList = await Message.find({ username: req.user.username })
+    .select({ username: 0 })
+    .sort({ published: 1 })
+    .exec();
 
-    //add messages to user return data
-    res.json({
-      data: { user },
-    });
+  //add messages to user return data
+  res.json({
+    data: { user },
+  });
 });
 
+router.get("/me/settings", requireLogin, async (req, res) => {
+  const data = await User.findOne({ username: req.user.username });
+  res.json({ data });
+});
+
+// PATCH update user settings, recieve profile image
 router.put("/me/settings", requireLogin, async (req, res) => {
-  // PATCH uppdatera användaruppgifter och om de ska visas
-  // byta profilbild
   const user = req.body;
   const image = req.file.path;
   console.log("USER:", req);
@@ -68,16 +72,33 @@ router.put("/me/settings", requireLogin, async (req, res) => {
 
 // GET user by id
 router.get("/:id", async (req, res) => {
-  const user = await User.findOne({ username: req.params.id })
-    .select("username")
-    .exec();
+  const {
+    _id,
+    username,
+    firstname,
+    lastname,
+    email,
+    image,
+    settings,
+    subscribedTo,
+    subscribers,
+  } = await User.findOne({ username: req.params.id }).exec();
 
   const messageList = await Message.find({ username: req.params.id })
     .sort({ published: 1 })
     .exec();
-
   res.json({
-    data: [{ _id: user._id, username: user.username, messageList }],
+    data: {
+      userId: _id,
+      username,
+      name: firstname + lastname,
+      email,
+      image,
+      settings,
+      subscribedTo,
+      subscribers,
+      messageList,
+    },
   });
 });
 
