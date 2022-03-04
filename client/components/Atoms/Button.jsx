@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledButton = styled.button`
-width: 100%;
+width: ${({width}) => width ? width : 100}%;
 margin-top: 20px;
 padding: 15px;
 border-radius: 30px;
@@ -12,8 +12,8 @@ color: white;
 cursor: pointer;
 `
 
-export default function Button({children, handleOnClick}) {
+export default function Button({children, handleOnClick, width}) {
   return (
-    <StyledButton onClick={handleOnClick}>{children}</StyledButton>
+    <StyledButton onClick={handleOnClick} width={width}>{children}</StyledButton>
   )
 }
