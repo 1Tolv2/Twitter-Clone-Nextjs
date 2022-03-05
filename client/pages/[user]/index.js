@@ -7,26 +7,24 @@ import ProfileSection from "../../components/molecules/ProfileSection";
 
 export default function User() {
   const router = useRouter();
-  const [userMessageList, setUserMessageList] = useState(null);
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const user = router.query.user;
     if (user) {
-      fetch(`${API}/users/${router.query.user}`, {
+      fetch(`${API}/users/${user}`, {
         headers: { "Content-Type": "application/json" },
       })
         .then((res) => res.json())
         .then((data) => {
-          setUserMessageList(data.data[0].messageList);
-          setUserData(data.data[0]);
+          setUserData(data.data);
         });
     }
   }, [router.query.user]);
   return (
     <Layout>
       <ProfileSection data={userData} />
-      <Messageboard data={userMessageList}></Messageboard>
+      <Messageboard data={userData?.messageList}></Messageboard>
     </Layout>
   );
 }
