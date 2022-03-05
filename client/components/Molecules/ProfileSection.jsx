@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components";
+import { useRouter } from "next/router";
 import { API } from "../API";
 import Button from "../atoms/Button";
 
@@ -34,8 +35,40 @@ const StyledHeader = styled.h2`
 `;
 
 export default function ProfileSection({ data }) {
-  function handleOnClick() {
-    
+  const [subscribed, setSubscribed] = useState(null)
+  const router = useRouter();
+
+useEffect(() => {
+  const token = localStorage.getItem("Token");
+  if (token) {
+    fetch(`${API}/users/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((fetchData) => {
+        setSubscribed(fetchData.data.user.subscribedTo.includes(data?.username))})
+  }
+}, [data]);
+
+  async function handleOnClick() {
+    const token = localStorage.getItem("Token")
+
+    if (token){
+    const user = router.query.user;
+    const res = await fetch(`${API}/users/${user}/subscribe`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+    })
+    const data = await res.json()
+    router.reload(window.location.pathname)
+    } else router.push("/login")
   }
   return (
     <StyledContainer>
@@ -54,7 +87,7 @@ export default function ProfileSection({ data }) {
                 <span>Following: {data.subscribedTo.length}</span>
               </li>
               <li>
-                <Button width="25" handleOnClick={handleOnClick}>Follow</Button>
+                <Button width="25" handleOnClick={handleOnClick}>{subscribed ? "Unfollow":"Follow"}</Button>
               </li>
             </ul>
           </div>
