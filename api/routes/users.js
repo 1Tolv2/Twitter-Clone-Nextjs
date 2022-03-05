@@ -41,21 +41,19 @@ router.get("/me", requireLogin, async (req, res) => {
 
   //add messages to user return data
   res.json({
-    data: { user },
+    data: { user, messageList },
   });
 });
 
-router.get("/me/settings", requireLogin, async (req, res) => {
-  const data = await User.findOne({ username: req.user.username });
-  res.json({ data });
-});
+// router.get("/me/settings", requireLogin, async (req, res) => {
+//   const data = await User.findOne({ username: req.user.username });
+//   res.json({ data });
+// });
 
 // PATCH update user settings, recieve profile image
 router.put("/me/settings", requireLogin, async (req, res) => {
   const user = req.body;
   const image = req.file.path;
-  console.log("USER:", req);
-  console.log("IMAGE:", image);
   await User.updateOne(
     { username: req.user.username },
     {
@@ -67,7 +65,7 @@ router.put("/me/settings", requireLogin, async (req, res) => {
       },
     }
   );
-  res.json({ message: "Successful upload" });
+  res.json({ message: "Successfully changed settings" });
 });
 
 // GET user by id
@@ -102,12 +100,23 @@ router.get("/:id", async (req, res) => {
   });
 });
 
-// Able to subscribe to but does not prevent non unique subscriptions
-router.patch("/:id/subscribe", async (req, res) => {
-  if (req.user) {
-    const loggedInUser = req.user.username;
-    const otherUser = req.params.id;
-    console.log(loggedInUser);
+// PATCH Switches between subscribing and unsubscribing
+router.patch("/:id/subscribe", requireLogin, async (req, res) => {
+  const loggedInUser = req.user.username;
+  const otherUser = req.params.id;
+  const subscribers = await User.find({ username: otherUser });
+
+  if (subscribers[0].subscribers.find((name) => name === loggedInUser)) {
+    await User.updateOne(
+      { username: otherUser },
+      { $pull: { subscribers: loggedInUser } }
+    );
+    await User.updateOne(
+      { username: loggedInUser },
+      { $pull: { subscribedTo: otherUser } }
+    );
+    res.json({ messageList: "Successfully unsubscribed" });
+  } else {
     await User.updateOne(
       { username: otherUser },
       { $push: { subscribers: loggedInUser } }
@@ -116,17 +125,8 @@ router.patch("/:id/subscribe", async (req, res) => {
       { username: loggedInUser },
       { $push: { subscribedTo: otherUser } }
     );
-    res.json({ messageList: "Logged in" });
-  } else {
-    res.json(
-      {
-        error:
-          "No user logged in, check that bearer token is provided correctly",
-      },
-      400
-    );
+    res.json({ messageList: "Successfully subscribed" });
   }
 });
-router.post("/:id/subscriptions", async (req, res) => {});
 
 module.exports = router;
