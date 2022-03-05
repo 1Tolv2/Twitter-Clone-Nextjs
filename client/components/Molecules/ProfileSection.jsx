@@ -18,11 +18,11 @@ const StyledContainer = styled.div`
     width: 100%;
     height: auto;
   }
-  ul{
+  ul {
     list-style: none;
     margin: 10px 0;
     padding: 0;
-    li{
+    li {
       span {
         margin: 0 5px;
       }
