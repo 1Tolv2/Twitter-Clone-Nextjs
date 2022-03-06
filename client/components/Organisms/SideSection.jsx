@@ -7,9 +7,9 @@ import { API } from "../API";
 
 const StyledContainer = styled.div`
   display: flex;
-  justify-content: center;
-  align-content: flex-start;
-  flex-flow: wrap row;
+  justify-content: space-between;
+  align-content: center;
+  flex-flow: wrap column;
   justify-self: start;
   width: 100%;
   background-color: #fdfcdc;
@@ -23,14 +23,9 @@ const StyledContainer = styled.div`
     height: fit-content;
     width: 100%;
   }
-  img{
-width: 100%;
+  img {
+    width: 80%;
   }
-`;
-
-const StyledList = styled.ul`
-  list-style-type: none;
-  padding: 0;
 `;
 
 export default function SideSection() {
@@ -75,25 +70,25 @@ export default function SideSection() {
     <StyledContainer>
       {signedInUser ? (
         <>
-          <h2>Hello {upperCaseName(signedInUser.username)}!</h2>
-          <StyledList>
-            <li>
-              <Link href="/me">
-                <a>
-                  <img src={`${API}/${signedInUser.image}`} />
-                </a>
-              </Link>
-            </li>
-            <li>
+          <div>
+            <h2>Hello {upperCaseName(signedInUser.username)}!</h2>
+            <Link href="/me">
+              <a>
+                <img src={`${API}/${signedInUser.image}`} />
+              </a>
+            </Link>
+          </div>
+          <div>
+            <div>
               <Link href="/me/settings">Settings</Link>
-            </li>
+            </div>
             <Button handleOnClick={handleOnClick}>Log out</Button>
-          </StyledList>
+          </div>
         </>
       ) : (
         <>
-        <h2>Hello!</h2>
-        <Link href="/login">Log in</Link>
+          <h2>Hello!</h2>
+          <Link href="/login">Log in</Link>
         </>
       )}
     </StyledContainer>
