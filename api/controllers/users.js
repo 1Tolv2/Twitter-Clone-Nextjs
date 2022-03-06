@@ -3,10 +3,10 @@ const { Message } = require("../models/message");
 const { User } = require("../models/user");
 
 const getAllUsersWithMessages = async (req, res) => {
-  const userList = await User.find().select({ username: 1 }).exec();
+  const userList = await User.find().exec();
   const messageList = await Message.find().sort({ published: 1 }).exec();
-
-  const data = userList.map(({ _id, username }) => {
+  console.log(userList);
+  const data = userList.map(({ _id, username, image }) => {
     let userMessageList = [];
     messageList.map((item) => {
       item.username === username && userMessageList.push(item._id);
@@ -15,6 +15,7 @@ const getAllUsersWithMessages = async (req, res) => {
     return {
       _id,
       username,
+      image,
       userMessageList,
       url: `${BASE_URL}/users/${username}`,
     };
