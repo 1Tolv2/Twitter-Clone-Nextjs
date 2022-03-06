@@ -8,7 +8,6 @@ export default function Home() {
   const [messageList, setMessageList] = useState(null);
 
   async function renderMessageList(headers) {
-    console.log(headers);
     const res = await fetch(`${API}/messages`, headers);
     const { data } = await res.json();
     setMessageList(data);

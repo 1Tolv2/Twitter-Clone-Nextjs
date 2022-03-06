@@ -20,6 +20,16 @@ const StyledContainer = styled.div`
     width: 100%;
     height: auto;
   }
+  ul {
+    list-style: none;
+    margin: 10px 0;
+    padding: 0;
+    li {
+      span {
+        margin: 0 5px;
+      }
+    }
+  }
 `;
 
 const InfoContainer = styled.div`
@@ -48,7 +58,9 @@ export default function index() {
         },
       })
         .then((res) => res.json())
-        .then(({ data }) => setUserData(data));
+        .then(({ data }) => {
+          setUserData(data);
+        });
     }
   }, []);
 
@@ -64,16 +76,18 @@ export default function index() {
             <div>
               <img src={`${API}/${userData.user.image}`} />
             </div>
-            <div>
-              {console.log(userData.user.subscribedTo)}
+            <ul>
+              {console.log(userData.user.settings)}
               <StyledHeader>{userData.user.username}</StyledHeader>
-              {userData.user.settings.name && <li>{userData.user.name}</li>}
+              {userData.user.settings.name && (
+                <li>{`${userData.user.firstname} ${userData.user.lastname}`}</li>
+              )}
               {userData.user.settings.email && <li>{userData.user.email}</li>}
               <InfoContainer>
                 <span>Followers: {userData.user.subscribers.length}</span>
                 <span>Following: {userData.user.subscribedTo.length}</span>
               </InfoContainer>
-            </div>
+            </ul>
             <div>
               <Button width="100" handleOnClick={handleOnClick}>
                 Settings
