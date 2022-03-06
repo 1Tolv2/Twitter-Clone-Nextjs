@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { API } from "../API";
 import { Heading3, Paragraph } from "../atoms/typography/Headings";
 
 const StyledSection = styled.article`
@@ -37,7 +38,8 @@ const MessageInfoField = styled.div`
   justify-content: space-between;
 `;
 
-export default function MessageItem({ data }) {
+export default function MessageItem({ data, userData }) {
+  console.log(userData)
   const date = new Date(data.published);
   const fullDate = `${date.getFullYear()}.${
     date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth()
@@ -47,7 +49,8 @@ export default function MessageItem({ data }) {
       <Link href={`/${data.username}`}>
         <a>
           <StyledImage>
-            <img src="profile-svgrepo-com.svg" height="50px" />
+            {userData && console.log(userData)}
+            <img src={`${API}/${userData.image}`} height="50px" />
           </StyledImage>
         </a>
       </Link>
