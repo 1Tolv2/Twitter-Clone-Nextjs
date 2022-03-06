@@ -23,6 +23,9 @@ const StyledContainer = styled.div`
     height: fit-content;
     width: 100%;
   }
+  img{
+width: 100%;
+  }
 `;
 
 const StyledList = styled.ul`
