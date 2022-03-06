@@ -53,7 +53,7 @@ router.get("/me", requireLogin, async (req, res) => {
 // PATCH update user settings, recieve profile image
 router.put("/me/settings", requireLogin, async (req, res) => {
   const user = req.body;
-  const image = req.file.path;
+  const image = req?.file?.path;
   await User.updateOne(
     { username: req.user.username },
     {
@@ -62,6 +62,10 @@ router.put("/me/settings", requireLogin, async (req, res) => {
         lastname: user.lastname,
         email: user.email,
         image,
+        settings: {
+          name: user.setting_name,
+          email: user.setting_email,
+        },
       },
     }
   );
@@ -89,7 +93,7 @@ router.get("/:id", async (req, res) => {
     data: {
       userId: _id,
       username,
-      name: firstname + lastname,
+      name: `${firstname} ${lastname}`,
       email,
       image,
       settings,
