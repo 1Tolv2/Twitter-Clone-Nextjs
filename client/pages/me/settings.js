@@ -47,12 +47,13 @@ const StyledHeader = styled.h2`
 
 export default function settings() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [email, setEmail] = useState("");
+  const [settingEmail, setSettingEmail] = useState("");
+  const [settingName, setSettingName] = useState("");
+  const [image, setImage] = useState("");
 
-  console.log(email);
-  console.log(name);
+  const [userData, setUserData] = useState(null);
   useEffect(() => {
     const token = localStorage.getItem("Token");
     if (token) {
@@ -64,14 +65,47 @@ export default function settings() {
         },
       })
         .then((res) => res.json())
-        .then(({ data }) => setUserData(data));
+        .then(({ data }) => {
+          console.log(data);
+          setUserData(data);
+          setName(`${data.user.firstname} ${data.user.lastname}`);
+          setEmail(data.user.email);
+          setSettingEmail(data.user.settings.email);
+          setSettingName(data.user.settings.name);
+        });
     }
   }, []);
 
-  function handleOnSubmit(e) {
+  async function handleOnSubmit(e) {
     e.preventDefault();
-    console.log(email);
-    console.log(name);
+    console.log(e.target[2]?.files[0]);
+    const splitName = name.split(" ");
+
+    const formData = new FormData();
+    formData.append("firstname", splitName[0]);
+    formData.append("lastname", splitName[1]);
+    formData.append("email", email);
+    formData.append("setting_name", settingName);
+    formData.append("setting_email", settingEmail);
+    formData.append("image", e.target[2]?.files[0]);
+
+    const token = localStorage.getItem("Token");
+    const res = await fetch(`${API}/users/me/settings`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+    const data = await res.json();
+    console.log(data);
+  }
+
+  function toggleEmailSettings() {
+    setSettingEmail(!settingEmail);
+  }
+  function toggleNameSettings() {
+    setSettingName(!settingName);
   }
 
   return (
@@ -85,7 +119,9 @@ export default function settings() {
             <div>
               <StyledHeader>{userData.user.username}</StyledHeader>
               <ul>
-                {userData.user.settings.name && <li>{userData.user.name}</li>}
+                {userData.user.settings.name && (
+                  <li>{`${userData.user.firstname} ${userData.user.lastname}`}</li>
+                )}
                 {userData.user.settings.email && <li>{userData.user.email}</li>}
                 <li>
                   <span>Followers: {userData.user.subscribers.length}</span>
@@ -95,18 +131,44 @@ export default function settings() {
             </div>
           </StyledContainer>
           <StyledContainer>
-            <form onSubmit={handleOnSubmit}>
+            <form onSubmit={handleOnSubmit} encType="multipart/form-data">
+              Name:
+              <input
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+              Email:
+              <input
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                value={image}
+                onChange={(e) => {
+                  setImage(e.target.value);
+                }}
+              />
               <input
                 type="checkbox"
-                value={email}
-                onChange={(e) => setEmail(e.target)}
+                checked={settingEmail}
+                onChange={toggleEmailSettings}
               />
               E-mail
               <br />
-              <input type="checkbox" onChange={(e) => setName(e.target)} />
+              <input
+                type="checkbox"
+                checked={settingName}
+                onChange={toggleNameSettings}
+              />
               Name
               <br />
-              <StyledButton>Save</StyledButton>
+              <StyledButton type="submit">Save</StyledButton>
             </form>
           </StyledContainer>
         </>
