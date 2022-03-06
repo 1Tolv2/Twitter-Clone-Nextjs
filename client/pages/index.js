@@ -6,11 +6,21 @@ import MessageMaker from "../components/molecules/MessageMaker";
 
 export default function Home() {
   const [messageList, setMessageList] = useState(null);
+  const [userList, setUserList] = useState(null);
 
-  async function renderMessageList(headers) {
+  async function getUserList() {
+    const res = await fetch(`${API}/users`, {
+      headers: { "Content-Type": "application/json" },
+    });
+    const { data } = await res.json();
+    console.log(data);
+    setUserList(data);
+  }
+  async function getMessageList(headers) {
     const res = await fetch(`${API}/messages`, headers);
     const { data } = await res.json();
     setMessageList(data);
+    getUserList();
   }
 
   useEffect(() => {
@@ -22,14 +32,14 @@ export default function Home() {
     };
     if (token) {
       headers.headers["Authorization"] = `Bearer ${token}`;
-      renderMessageList(headers);
+      getMessageList(headers);
     } else {
-      renderMessageList(headers);
+      getMessageList(headers);
     }
   }, []);
   return (
     <Layout>
-      <Messageboard data={messageList}>
+      <Messageboard data={messageList} userData={userList}>
         <MessageMaker />
       </Messageboard>
     </Layout>
