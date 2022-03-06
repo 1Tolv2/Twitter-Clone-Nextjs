@@ -5,7 +5,6 @@ import Link from 'next/link'
 
 const StyledContainer = styled.main`
 max-width: 600px;
-margin: auto;
 height: 105%;
 -ms-overflow-style: none; // for Internet Explorer, Edge
   scrollbar-width: none; // for Firefox
