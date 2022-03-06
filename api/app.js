@@ -75,3 +75,7 @@ mongoose.connect("mongodb://localhost/twitterClone");
 app.listen(PORT, () => {
   console.log(`Express running at ${PORT}`);
 });
+
+module.exports = {
+  requireLogin,
+};
