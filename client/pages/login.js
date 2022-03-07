@@ -17,18 +17,18 @@ export default function Login() {
   async function handleOnSubmit(e) {
     e.preventDefault();
     const payload = { username, password };
-    console.log(API);
     const res = await fetch(`${API}/auth/api-token`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    const data = await res.json();
-    if (data.token) {
+    console.log(res.ok);
+    if (!res.ok) {
+      setErrorMessage("Incorrect username or password, please try again.");
+    } else {
+      const data = await res.json();
       localStorage.setItem("Token", data.token);
       router.push("/");
-    } else {
-      setErrorMessage("Incorrect username or password, please try again.");
     }
   }
   return (
