@@ -71,6 +71,8 @@ export default function MessageForm({}) {
       setMessage(""); //Empties the message field after submitting the message
       setMessageLength(0);
       router.reload(window.location.pathname);
+    } else {
+      router.push("/login")
     }
   }
   let list = [];

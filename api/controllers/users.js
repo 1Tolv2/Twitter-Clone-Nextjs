@@ -5,7 +5,6 @@ const { User } = require("../models/user");
 const getAllUsersWithMessages = async (req, res) => {
   const userList = await User.find().exec();
   const messageList = await Message.find().sort({ published: 1 }).exec();
-  console.log(userList);
   const data = userList.map(({ _id, username, image }) => {
     let userMessageList = [];
     messageList.map((item) => {

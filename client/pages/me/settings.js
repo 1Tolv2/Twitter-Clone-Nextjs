@@ -66,7 +66,6 @@ export default function settings() {
       })
         .then((res) => res.json())
         .then(({ data }) => {
-          console.log(data);
           setUserData(data);
           setName(`${data.user.firstname} ${data.user.lastname}`);
           setEmail(data.user.email);

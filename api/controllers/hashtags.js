@@ -13,7 +13,6 @@ const getAllHashtags = async (req, res) => {
     .exec();
 
   const data = count.map((tag) => {
-    console.log("TAG:", tag._id);
     const messages = [];
 
     messageList.forEach((item) => {

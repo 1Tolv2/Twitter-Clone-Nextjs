@@ -3,11 +3,19 @@ import { useRouter } from "next/router";
 import Messageboard from "../../components/molecules/Messageboard";
 import Layout from "../../components/layouts/Layout";
 import { API } from "../../components/API";
-import MessageMaker from "../../components/molecules/MessageMaker";
 
 export default function Home({ data }) {
   const [messageList, setMessageList] = useState(null);
+  const [userList, setUserList] = useState(null);
   const router = useRouter();
+
+  async function getUserList() {
+    const res = await fetch(`${API}/users`, {
+      headers: { "Content-Type": "application/json" },
+    });
+    const { data } = await res.json();
+    setUserList(data);
+  }
 
   useEffect(() => {
     const { hashtag } = router.query;
@@ -16,13 +24,12 @@ export default function Home({ data }) {
         return item.tag_name == hashtag;
       });
       setMessageList(hashtagData.messages);
+      getUserList();
     }
   }, [data]);
   return (
     <Layout>
-      <Messageboard data={messageList}>
-        <MessageMaker />
-      </Messageboard>
+      <Messageboard data={messageList} userData={userList}></Messageboard>
     </Layout>
   );
 }

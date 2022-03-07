@@ -78,7 +78,6 @@ export default function index() {
               <img src={`${API}/${userData.user.image}`} />
             </div>
             <ul>
-              {console.log(userData.user.settings)}
               <StyledHeader>{userData.user.username}</StyledHeader>
               {userData.user.settings.name && (
                 <li>{`${userData.user.firstname} ${userData.user.lastname}`}</li>

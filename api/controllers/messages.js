@@ -97,7 +97,6 @@ const getUserMessages = async (req, res) => {
 };
 const deleteMessage = async (req, res) => {
   const message = await Message.deleteOne({ _id: req.params.id }).exec();
-  console.log(message.deletedCount);
   if (message.deletedCount === 0) {
     res.json({ success: "Message deleted" });
   } else {

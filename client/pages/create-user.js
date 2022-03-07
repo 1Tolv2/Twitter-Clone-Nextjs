@@ -18,7 +18,6 @@ export default function CreateUser() {
   async function handleOnSubmit(e) {
     e.preventDefault();
     const payload = { username, password };
-    console.log(payload);
     const res = await fetch(`${API}/auth/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
