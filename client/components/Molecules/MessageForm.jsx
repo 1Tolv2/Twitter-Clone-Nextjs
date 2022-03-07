@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react'
-import styled from 'styled-components'
-import { API } from '../API';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { useRouter } from "next/router";
+import { API } from "../API";
 import HashtagList from "../atoms/HashtagList";
-
 
 const StyledTextArea = styled.textarea`
   resize: none;
@@ -49,7 +49,8 @@ export default function MessageForm({}) {
   const [message, setMessage] = useState("");
   const [messageLength, setMessageLength] = useState(0);
   const [hashtagList, setHashtagList] = useState([]);
-  
+  const router = useRouter();
+
   const placeholderList = ["Lay down the moos", "Moo to your hearts desire"];
   useEffect(() => {
     setPlaceholder(placeholderList[Math.floor(Math.random() * 2)]);
@@ -57,53 +58,53 @@ export default function MessageForm({}) {
 
   async function handleOnSubmit(e) {
     e.preventDefault();
-    console.log("Submit handled");
-    const token = localStorage.getItem("Token")
+    const token = localStorage.getItem("Token");
     const res = await fetch(`${API}/messages`, {
       method: "POST",
-      headers: { "Content-Type": "application/json",
-      Authorization: `Bearer ${token}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ message }),
     });
-    if (!res.ok) {
-      const data = await res.json();
-      console.log(data.errorMessage);
+    if (res.ok) {
+      setMessage(""); //Empties the message field after submitting the message
+      setMessageLength(0);
+      router.reload(window.location.pathname);
     }
-    setMessage(""); //Empties the message field after submitting the message
-    setMessageLength(0);
   }
   let list = [];
   function handleMessageOnChange(e) {
     setMessage(e.target.value);
     setMessageLength(e.target.value.length);
-      list = [...new Set(e.target.value.match(/#{1}[A-Ö]+(?=\s|$)/gi))];
-        list && setHashtagList(list);
+    list = [...new Set(e.target.value.match(/#{1}[A-Ö]+(?=\s|$)/gi))];
+    list && setHashtagList(list);
   }
 
   function handleOnClick(e) {
     e.target.style.height = "115px";
   }
-  
+
   return (
     <form onSubmit={handleOnSubmit}>
-        <StyledTextArea
-          onClick={handleOnClick}
-          type="text"
-          name="message"
-          value={message}
-          required
-          onChange={handleMessageOnChange}
-          placeholder={placeholder + "..."}
-          maxlength="140"
-        />
-        <StyledButtonContainer onClick={handleOnSubmit}>
-          <img className="submitImg" src="./send-paper.svg" />
-          <StyledButton></StyledButton>
-        </StyledButtonContainer>
-        <span className={messageLength > 140 ? "redText" : null}>
-          {messageLength}
-        </span>
-        <HashtagList data={hashtagList}></HashtagList>
-      </form>
-  )
+      <StyledTextArea
+        onClick={handleOnClick}
+        type="text"
+        name="message"
+        value={message}
+        required
+        onChange={handleMessageOnChange}
+        placeholder={placeholder + "..."}
+        maxlength="140"
+      />
+      <StyledButtonContainer onClick={handleOnSubmit}>
+        <img className="submitImg" src="./send-paper.svg" />
+        <StyledButton></StyledButton>
+      </StyledButtonContainer>
+      <span className={messageLength > 140 ? "redText" : null}>
+        {messageLength}
+      </span>
+      <HashtagList data={hashtagList}></HashtagList>
+    </form>
+  );
 }
