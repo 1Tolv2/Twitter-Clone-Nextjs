@@ -25,6 +25,8 @@ const StyledContainer = styled.div`
   }
   img {
     width: 80%;
+  border-radius: 5px;
+
   }
 `;
 

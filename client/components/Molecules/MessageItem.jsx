@@ -16,7 +16,12 @@ const StyledImage = styled.div`
   padding: 5px;
   background-color: white;
   border-radius: 5px;
+  text-align: center;
   cursor: pointer;
+  img{
+  border-radius: 5px;
+
+  }
 `;
 const StyledContainer = styled.div`
   background-color: white;
@@ -39,7 +44,6 @@ const MessageInfoField = styled.div`
 `;
 
 export default function MessageItem({ data, userData }) {
-  console.log(userData)
   const date = new Date(data.published);
   const fullDate = `${date.getFullYear()}.${
     date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth()
@@ -49,7 +53,6 @@ export default function MessageItem({ data, userData }) {
       <Link href={`/${data.username}`}>
         <a>
           <StyledImage>
-            {userData && console.log(userData)}
             <img src={`${API}/${userData.image}`} height="50px" />
           </StyledImage>
         </a>

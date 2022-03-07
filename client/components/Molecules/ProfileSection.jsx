@@ -17,6 +17,8 @@ const StyledContainer = styled.div`
   img {
     width: 100%;
     height: auto;
+  border-radius: 5px;
+
   }
   ul {
     list-style: none;
@@ -66,7 +68,7 @@ useEffect(() => {
         Authorization: `Bearer ${token}`,
       }
     })
-    const data = await res.json()
+    await res.json()
     router.reload(window.location.pathname)
     } else router.push("/login")
   }
