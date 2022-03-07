@@ -59,7 +59,6 @@ export default function MessageForm({}) {
     e.preventDefault();
     console.log("Submit handled");
     const token = localStorage.getItem("Token")
-    console.log(token)
     const res = await fetch(`${API}/messages`, {
       method: "POST",
       headers: { "Content-Type": "application/json",

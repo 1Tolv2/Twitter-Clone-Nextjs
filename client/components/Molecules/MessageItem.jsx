@@ -53,7 +53,7 @@ export default function MessageItem({ data, userData }) {
       <Link href={`/${data.username}`}>
         <a>
           <StyledImage>
-            <img src={`${API}/${userData.image}`} height="50px" />
+            <img src={`${API}/${userData?.image}`} height="50px" />
           </StyledImage>
         </a>
       </Link>

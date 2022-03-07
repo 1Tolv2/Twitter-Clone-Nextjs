@@ -9,33 +9,40 @@ const requireLogin = (req, res, next) => {
 };
 const newUser = async (req, res) => {
   const { username, password } = req.body;
+  const modifiedUsername = username.toLowerCase();
+
   if (!(username && password)) {
     res
       .status(400)
       .json({ error: "Incorrect data, username and password is required" });
-  } else if (await User.findOne({ username })) {
+  } else if (await User.findOne({ username: modifiedUsername })) {
     res.status(400).json({ error: "Invalid data, user already exists" });
   } else {
-    const user = new User({ username, password });
+    const user = new User({ username: modifiedUsername, password });
     await user.save();
     res.json({ message: "User created" });
   }
 };
 const logInUser = async (req, res) => {
   const { username, password } = req.body;
+  const modifiedUsername = username.toLowerCase();
   if (!(username && password)) {
     res
       .status(400)
       .json({ error: "Incorrect data, username and password is required" })
       .end();
   } else {
-    const user = await User.login(username, password);
+    const user = await User.login(modifiedUsername, password);
     if (user) {
       const userId = user._id.toString();
-      const token = jwt.sign({ userId, username }, JWT_SECRET, {
-        expiresIn: "2h",
-        subject: userId,
-      });
+      const token = jwt.sign(
+        { userId, username: modifiedUsername },
+        JWT_SECRET,
+        {
+          expiresIn: "2h",
+          subject: userId,
+        }
+      );
       res.json({ token });
     } else {
       res
