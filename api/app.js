@@ -61,21 +61,8 @@ app.use("/messages", messagesRouter);
 app.use("/hashtags", hashtagsRouter);
 app.use("/auth", authRouter);
 
-const requireLogin = (req, res, next) => {
-  req.user ? next() : res.status(401).json({ error: "Unauthorized" });
-};
-
-// remove later
-app.get("/secret", requireLogin, (req, res) => {
-  res.json({ message: `Hello ${req.user.username}` });
-});
-
 mongoose.connect("mongodb://localhost/twitterClone");
 
 app.listen(PORT, () => {
   console.log(`Express running at ${PORT}`);
 });
-
-module.exports = {
-  requireLogin,
-};
