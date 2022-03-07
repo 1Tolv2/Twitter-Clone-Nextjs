@@ -96,16 +96,20 @@ export default function index() {
             </div>
           </StyledContainer>
           <Messageboard
-            data={[
-              {
-                hashtags: userData.messageList[0].hashtags,
-                message: userData.messageList[0].message,
-                published: userData.messageList[0].published,
-                _id: userData.messageList[0]._id,
-                username: userData.user.username,
-                image: userData.user.image,
-              },
-            ]}
+            data={
+              userData.messageList.length == 0
+                ? userData.messageList
+                : [
+                    {
+                      hashtags: userData.messageList[0]?.hashtags,
+                      message: userData.messageList[0]?.message,
+                      published: userData.messageList[0]?.published,
+                      _id: userData.messageList[0]?._id,
+                      username: userData.user.username,
+                      image: userData.user.image,
+                    },
+                  ]
+            }
             userData={[userData.user]}
           />
         </>

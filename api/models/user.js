@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
   subscribers: [{ type: String }],
 });
 
-// overwrites the password with a encrypted version
+// overwrites the password with an encrypted version
 userSchema.pre("save", async function (next) {
   const hash = await bcrypt.hash(this.password, 10); // encrypts the password
   this.password = hash; // overwrites the password
