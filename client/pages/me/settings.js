@@ -78,7 +78,6 @@ export default function settings() {
 
   async function handleOnSubmit(e) {
     e.preventDefault();
-    console.log(e.target[2]?.files[0]);
     const splitName = name.split(" ");
 
     const formData = new FormData();
@@ -90,15 +89,14 @@ export default function settings() {
     formData.append("image", e.target[2]?.files[0]);
 
     const token = localStorage.getItem("Token");
-    const res = await fetch(`${API}/users/me/settings`, {
+    await fetch(`${API}/users/me/settings`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
       },
       body: formData,
     });
-    const data = await res.json();
-    console.log(data);
+    router.push("/me");
   }
 
   function toggleEmailSettings() {
