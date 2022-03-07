@@ -19,6 +19,7 @@ const StyledContainer = styled.div`
   img {
     width: 100%;
     height: auto;
+    border-radius: 5px;
   }
   ul {
     list-style: none;
@@ -94,7 +95,19 @@ export default function index() {
               </Button>
             </div>
           </StyledContainer>
-          <Messageboard data={userData.messageList} />
+          <Messageboard
+            data={[
+              {
+                hashtags: userData.messageList[0].hashtags,
+                message: userData.messageList[0].message,
+                published: userData.messageList[0].published,
+                _id: userData.messageList[0]._id,
+                username: userData.user.username,
+                image: userData.user.image,
+              },
+            ]}
+            userData={[userData.user]}
+          />
         </>
       )}
     </LayoutUser>
