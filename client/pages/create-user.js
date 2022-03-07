@@ -6,12 +6,14 @@ import LayoutCenterDiv from "../components/layouts/LayoutCenterDiv";
 import InputField from "../components/atoms/InputField";
 import Button from "../components/atoms/Button";
 import Header from "../components/atoms/Header";
+import RedParagraph from "../components/atoms/RedParagraph";
 
 export default function CreateUser() {
   const router = useRouter();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   async function handleOnSubmit(e) {
     e.preventDefault();
@@ -22,7 +24,14 @@ export default function CreateUser() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    res.ok && router.push("/login");
+    if (res.ok) {
+      router.push("/login");
+    } else {
+      setErrorMessage(
+        "User already exists, please try again with a unique username"
+      );
+    }
+    res.ok ? router.push("/login") : console.log(res);
   }
   return (
     <LayoutCenterDiv>
@@ -44,6 +53,7 @@ export default function CreateUser() {
           placeholder="Password"
           required
         />
+        {errorMessage && <RedParagraph>{errorMessage}</RedParagraph>}
         <Button type="submit">Create User</Button>
       </form>
       <p>

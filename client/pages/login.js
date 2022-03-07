@@ -6,11 +6,13 @@ import LayoutCenterDiv from "../components/layouts/LayoutCenterDiv";
 import InputField from "../components/atoms/InputField";
 import Button from "../components/atoms/Button";
 import Header from "../components/atoms/Header";
+import RedParagraph from "../components/atoms/RedParagraph";
 
 export default function Login() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   async function handleOnSubmit(e) {
     e.preventDefault();
@@ -25,6 +27,8 @@ export default function Login() {
     if (data.token) {
       localStorage.setItem("Token", data.token);
       router.push("/");
+    } else {
+      setErrorMessage("Incorrect username or password, please try again.");
     }
   }
   return (
@@ -47,6 +51,7 @@ export default function Login() {
           placeholder="Password"
           required
         />
+        {errorMessage && <RedParagraph>{errorMessage}</RedParagraph>}
         <Button type="submit">Log in</Button>
       </form>
       <p>
