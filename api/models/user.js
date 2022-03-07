@@ -18,8 +18,10 @@ const userSchema = new mongoose.Schema({
 
 // overwrites the password with an encrypted version
 userSchema.pre("save", async function (next) {
-  const hash = await bcrypt.hash(this.password, 10); // encrypts the password
-  this.password = hash; // overwrites the password
+  if (this.modifiedPaths().includes("password")) {
+    const hash = await bcrypt.hash(this.password, 10); // encrypts the password
+    this.password = hash; // overwrites the password
+  }
   next(); // continue to next middleware
 });
 
