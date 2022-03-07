@@ -23,8 +23,15 @@ export default function User() {
   }, [router.query.user]);
   return (
     <Layout>
-      <ProfileSection data={userData} />
-      <Messageboard data={userData?.messageList}></Messageboard>
+      {userData && (
+        <>
+          <ProfileSection data={userData} />
+          <Messageboard
+            data={userData.messageList}
+            userData={[userData]}
+          ></Messageboard>
+        </>
+      )}
     </Layout>
   );
 }
