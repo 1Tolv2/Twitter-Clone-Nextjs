@@ -3,7 +3,6 @@ import Head from "next/head";
 import styled, { createGlobalStyle } from "styled-components";
 import Grid from "../atoms/Grid";
 import MainSection from "../organisms/MainSection";
-// import NavigationBar from "../components/NavigationBar";
 import SideSection from "../organisms/SideSection";
 
 const GlobalStyle = createGlobalStyle`

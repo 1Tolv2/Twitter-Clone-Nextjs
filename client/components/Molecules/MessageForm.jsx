@@ -79,7 +79,7 @@ export default function MessageForm({}) {
   function handleMessageOnChange(e) {
     setMessage(e.target.value);
     setMessageLength(e.target.value.length);
-    list = [...new Set(e.target.value.match(/#{1}[A-Ö]+(?=\s|$)/gi))];
+    list = [...new Set(e.target.value.match(/#{1}[A-Ö]+/gi))];
     list && setHashtagList(list);
   }
 

@@ -1,5 +1,4 @@
 import React from 'react';
-// import {Heading1} from './typography/Headings'
 import styled from 'styled-components';
 
 const Heading1 = styled.h1`
