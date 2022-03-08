@@ -25,10 +25,10 @@ export default function User() {
     <Layout>
       {userData && (
         <>
-          <ProfileSection data={userData} />
+          <ProfileSection data={userData[0]} />
           <Messageboard
-            data={userData.messageList}
-            userData={[userData]}
+            data={userData[0].messages}
+            userData={userData}
           ></Messageboard>
         </>
       )}

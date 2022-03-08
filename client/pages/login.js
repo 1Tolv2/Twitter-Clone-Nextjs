@@ -22,7 +22,6 @@ export default function Login() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
-    console.log(res.ok);
     if (!res.ok) {
       setErrorMessage("Incorrect username or password, please try again.");
     } else {
@@ -55,7 +54,7 @@ export default function Login() {
         <Button type="submit">Log in</Button>
       </form>
       <p>
-        New to the Mooer?{" "}
+        New to the Twooter?{" "}
         <Link href="/create-user">
           <a>
             <strong>Click here!</strong>
