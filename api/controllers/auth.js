@@ -26,6 +26,7 @@ const newUser = async (req, res) => {
 const logInUser = async (req, res) => {
   const { username, password } = req.body;
   const modifiedUsername = username.toLowerCase();
+
   if (!(username && password)) {
     res
       .status(400)
@@ -33,6 +34,7 @@ const logInUser = async (req, res) => {
       .end();
   } else {
     const user = await User.login(modifiedUsername, password);
+
     if (user) {
       const userId = user._id.toString();
       const token = jwt.sign(
@@ -47,8 +49,9 @@ const logInUser = async (req, res) => {
     } else {
       res
         .status(401)
-        .json({ error: "Validation failed, username or password is incorrect" })
-        .end();
+        .json({
+          error: "Validation failed, username or password is incorrect",
+        });
     }
   }
 };
