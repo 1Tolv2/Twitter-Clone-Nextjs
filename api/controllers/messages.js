@@ -8,11 +8,12 @@ const getAllMessages = async (req, res) => {
   let data = [];
 
   if (req.user) {
-    const { subscribedTo } = await User.findOne({
-      username: req.user.username,
-    })
-      .select({ subscribedTo: 1, _id: 0 })
-      .exec();
+    const { subscribedTo } = await User.findOne(
+      {
+        username: req.user.username,
+      },
+      { subscribedTo: 1, _id: 0 }
+    ).exec();
 
     messageList.map(({ _id, username, message, hashtags, published }) => {
       if (username === req.user.username) {
