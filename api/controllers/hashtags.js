@@ -7,10 +7,11 @@ const getAllHashtags = async (req, res) => {
     $match: { hashtags: { $not: { $size: 0 } } },
   }).exec();
 
-  const count = await Message.aggregate()
-    .unwind("hashtags")
-    .group({ _id: "$hashtags", count: { $sum: 1 } })
-    .exec();
+  const count = await Message.aggregate([
+    { $match: {} },
+    { $unwind: "$hashtags" },
+    { $group: { _id: "$hashtags", count: { $count: {} } } },
+  ]).exec();
 
   const data = count.map((tag) => {
     const messages = [];

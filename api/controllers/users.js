@@ -3,54 +3,39 @@ const { Message } = require("../models/message");
 const { User } = require("../models/user");
 
 const getAllUsersWithMessages = async (req, res) => {
-  const userList = await User.find().exec();
-  const messageList = await Message.find().sort({ published: 1 }).exec();
-  const data = userList.map(({ _id, username, image }) => {
-    let userMessageList = [];
-    messageList.map((item) => {
-      item.username === username && userMessageList.push(item._id);
-    });
+  const data = await User.aggregate([
+    { $match: {} },
+    {
+      $lookup: {
+        from: "messages",
+        localField: "username",
+        foreignField: "username",
+        as: "messages",
+      },
+    },
+    { $project: { password: 0 } },
+  ]);
 
-    return {
-      _id,
-      username,
-      image,
-      userMessageList,
-      url: `${BASE_URL}/users/${username}`,
-    };
+  data.map((item) => {
+    item.url = `${BASE_URL}/users/${item.username}`;
   });
   res.json({ data });
 };
 const getUserWithMessages = async (req, res) => {
-  const {
-    _id,
-    username,
-    firstname,
-    lastname,
-    email,
-    image,
-    settings,
-    subscribedTo,
-    subscribers,
-  } = await User.findOne({ username: req.params.id }).exec();
-
-  const messageList = await Message.find({ username: req.params.id })
-    .sort({ published: 1 })
-    .exec();
-
-  res.json({
-    data: {
-      userId: _id,
-      username,
-      name: `${firstname} ${lastname}`,
-      email,
-      image,
-      settings,
-      subscribedTo,
-      subscribers,
-      messageList,
+  const data = await User.aggregate([
+    { $match: { username: req.params.id } },
+    {
+      $lookup: {
+        from: "messages",
+        localField: "username",
+        foreignField: "username",
+        as: "messages",
+      },
     },
-  });
+    { $project: { password: 0 } },
+  ]);
+
+  res.json({ data });
 };
 // Need improvment
 const toggleSubscription = async (req, res) => {
