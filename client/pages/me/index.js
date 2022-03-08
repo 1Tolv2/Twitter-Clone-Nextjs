@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { API } from "../../components/API";
+import { API, getCurrentUserData } from "../../components/API";
 import LayoutUser from "../../components/layouts/LayoutUser";
 import Messageboard from "../../components/molecules/Messageboard";
 import Button from "../../components/atoms/Button";
@@ -46,22 +46,12 @@ const StyledHeader = styled.h2`
 
 export default function index() {
   const router = useRouter();
-
   const [userData, setUserData] = useState(null);
+
   useEffect(() => {
     const token = localStorage.getItem("Token");
     if (token) {
-      fetch(`${API}/users/me`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((res) => res.json())
-        .then(({ data }) => {
-          setUserData(data);
-        });
+      getCurrentUserData(token, setUserData);
     }
   }, []);
 
