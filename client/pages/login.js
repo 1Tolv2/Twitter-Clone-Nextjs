@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { API } from "../components/API";
+import { postLoginData } from "../components/API";
 import LayoutCenterDiv from "../components/layouts/LayoutCenterDiv";
-import InputField from "../components/atoms/InputField";
-import Button from "../components/atoms/Button";
 import Header from "../components/atoms/Header";
-import RedParagraph from "../components/atoms/RedParagraph";
+import TwoFieldForm from "../components/molecules/TwoFieldForm";
 
 export default function Login() {
   const router = useRouter();
@@ -16,16 +14,8 @@ export default function Login() {
 
   async function handleOnSubmit(e) {
     e.preventDefault();
-    const payload = { username, password };
-    const res = await fetch(`${API}/auth/api-token`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    if (!res.ok) {
-      setErrorMessage("Incorrect username or password, please try again.");
-    } else {
-      const data = await res.json();
+    const data = await postLoginData({ username, password }, setErrorMessage);
+    if (data.token) {
       localStorage.setItem("Token", data.token);
       router.push("/");
     }
@@ -33,26 +23,12 @@ export default function Login() {
   return (
     <LayoutCenterDiv>
       <Header color="black">Login</Header>
-      <form onSubmit={handleOnSubmit}>
-        <InputField
-          type="text"
-          id="username"
-          value={username}
-          setValue={setUsername}
-          placeholder="Username"
-          required
-        />
-        <InputField
-          type="password"
-          id="password"
-          value={password}
-          setValue={setPassword}
-          placeholder="Password"
-          required
-        />
-        {errorMessage && <RedParagraph>{errorMessage}</RedParagraph>}
-        <Button type="submit">Log in</Button>
-      </form>
+      <TwoFieldForm
+        handleOnSubmit={handleOnSubmit}
+        states={{ username, setUsername, password, setPassword }}
+        errorMessage={errorMessage}
+        buttonText="Log in"
+      />
       <p>
         New to the Twooter?{" "}
         <Link href="/create-user">
