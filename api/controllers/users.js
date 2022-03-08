@@ -14,7 +14,7 @@ const getAllUsersWithMessages = async (req, res) => {
       },
     },
     { $project: { password: 0 } },
-  ]);
+  ]).exec();
 
   data.map((item) => {
     item.url = `${BASE_URL}/users/${item.username}`;
@@ -33,7 +33,7 @@ const getUserWithMessages = async (req, res) => {
       },
     },
     { $project: { password: 0 } },
-  ]);
+  ]).exec();
 
   res.json({ data });
 };
