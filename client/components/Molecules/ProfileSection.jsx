@@ -37,6 +37,7 @@ const StyledHeader = styled.h2`
 `;
 
 export default function ProfileSection({ data }) {
+  console.log(data)
   const [subscribed, setSubscribed] = useState(null)
   const router = useRouter();
 
@@ -82,7 +83,7 @@ useEffect(() => {
           <div>
             <StyledHeader>{data.username}</StyledHeader>
             <ul>
-              {data.settings.name && <li>{data.name}</li>}
+              {data.settings.name && <li>{`${data.firstname} ${data.lastname}`}</li>}
               {data.settings.email && <li>{data.email}</li>}
               <li>
                 <span>Followers: {data.subscribers.length}</span>
