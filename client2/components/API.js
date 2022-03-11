@@ -1,7 +1,6 @@
 export const API = "http://localhost:9000";
 
 async function getUser(payload, setErrorMessage) {
-  console.log("GET:", payload);
   const res = await fetch(`${API}/auth/api-token`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -15,21 +14,48 @@ async function getUser(payload, setErrorMessage) {
 }
 
 async function postNewUser(data, setErrorMessage) {
-  console.log("POST:", data);
   const payload = { username: data.newUsername, password: data.newPassword };
-  console.log("PAYLOAD:", payload);
-
   const res = await fetch(`${API}/auth/users`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
   if (!res.ok) {
-    return setErrorMessage(
-      "User already exists, please try again with a unique username"
-    );
+    const data = await res.json();
+    data.error == "Invalid data, user already exists"
+      ? setErrorMessage(
+          "User already exists, please try again with a unique username"
+        )
+      : setErrorMessage("Incorrect data, please try again");
   }
   return res;
 }
 
-export { getUser, postNewUser };
+async function getUserData(setValue) {
+  const token = localStorage.getItem("Token");
+  if (token) {
+    const res = await fetch(`${API}/users/me`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setValue(await res.json());
+  }
+}
+
+async function getUserList(setValue) {
+  const res = await fetch(`${API}/users`, {
+    "Content-Type": "application/json",
+  });
+  const { data } = await res.json();
+  setValue(data);
+}
+
+async function getMessageList(headers, setValue) {
+  const res = await fetch(`${API}/messages`, headers);
+  const { data } = await res.json();
+  setValue(data);
+}
+
+export { getUser, postNewUser, getMessageList, getUserList, getUserData };
