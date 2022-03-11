@@ -27,4 +27,16 @@ async function postLoginData(payload, setErrorMessage) {
   }
 }
 
-export { postNewUserData, postLoginData };
+async function getCurrentUserData(token, setUserData) {
+  const res = await fetch(`${API}/users/me`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const data = await res.json();
+  return setUserData(data.data);
+}
+
+export { postNewUserData, postLoginData, getCurrentUserData };
