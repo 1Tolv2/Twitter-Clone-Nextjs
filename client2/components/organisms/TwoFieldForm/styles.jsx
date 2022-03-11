@@ -17,7 +17,7 @@ const Wrapper = styled.div`
     background-color: #326cd3;
   }
   p {
-      color: red;
+    color: red;
   }
 `;
 const PrimaryContainer = styled.div`
@@ -39,6 +39,8 @@ const Button = styled.button`
   border: solid 3px #00d9ff;
   margin-top: 30px;
   transition: 0.2s;
+  /* box-shadow: 0px 3px 8px darkgrey; */
+
   &:hover {
     color: #326cd3;
     background-color: white;
@@ -48,27 +50,29 @@ const Button = styled.button`
 
 const IconButton = styled.div`
   position: absolute;
-  top: 40px;
-  right: 30px;
-  width: 50px;
-  height: 50px;
+  top: 30px;
+  right: -20px;
+  width: 60px;
+  height: 60px;
   background-color: #326cd3;
-  border: solid 3px #326cd3;
   border-radius: 50px;
   cursor: pointer;
   &.open {
     background-color: #4bf3ff;
+    box-shadow: 0px 0px 15px #3a4061;
+
   }
   z-index: 3;
 `;
 
 const Icon = styled.div`
   position: absolute;
-  top: 21px;
-  left: 12px;
+  top: 28px;
+  left: 15px;
   background-color: white;
-  width: 20px;
-  height: 2.5px;
+  width: 30px;
+  height: 4px;
+  border-radius: 5px;
   transform: rotate(90deg);
   pointer-events: none;
   transition: 0.4s ease-in-out;
@@ -78,18 +82,19 @@ const Icon = styled.div`
     top: 0;
     left: 0;
     background-color: white;
-    width: 20px;
-    height: 2.5px;
+    width: 30px;
+    height: 4px;
+    border-radius: 5px;
     transform: rotate(90deg);
     pointer-events: none;
     transition: 0.4s ease-in-out;
   }
   &.open::before {
-    transform: rotate(-275deg);
+    transform: rotate(-90deg);
     background-color: #326cd3;
   }
   &.open {
-    transform: rotate(-315deg);
+    transform: rotate(-45deg);
     background-color: #326cd3;
   }
 `;
@@ -107,29 +112,30 @@ const HiddenContainer = styled.div`
     color: white;
   }
   input {
-      color: white;
+    color: white;
     background-color: #326cd3;
     &::placeholder {
-        color: white;
+      color: white;
     }
-    &[type="text"]:focus, &[type="password"]:focus {
+    &[type="text"]:focus,
+    &[type="password"]:focus {
       outline: solid 2px white;
       &::placeholder {
         color: white;
       }
     }
-    
   }
   button {
-    color: white;
-    background-color: #326cd3;
+    color: #326cd3;
+    background-color: white;
     border-color: white;
     padding: 2px;
+    box-shadow: 0px 0px 15px #3a4061;
     &:hover {
-      color: #5600d8;
-      border-color: #5600d8;
-      background-color: #326cd3;
-        cursor: pointer;
+    border-color: white;
+
+      opacity: 0.6;
+      cursor: pointer;
     }
   }
   &.open {

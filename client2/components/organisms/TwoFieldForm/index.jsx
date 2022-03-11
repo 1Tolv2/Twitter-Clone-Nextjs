@@ -47,7 +47,7 @@ useEffect(() => {
           value={username}
           setValue={setUsername}
           placeholder="Enter username..."
-          required
+          required={true}
         />
         <InputField
           type="password"
@@ -55,7 +55,7 @@ useEffect(() => {
           value={password}
           setValue={setPassword}
           placeholder="Enter password..."
-          required
+          required={true}
         />
         <s.Button onClick={handleOnGet}>sign in</s.Button>
       </form>
@@ -72,7 +72,7 @@ useEffect(() => {
             value={newUsername}
             setValue={setNewUsername}
             placeholder="Enter username..."
-            required
+            required={true}
           />
           <InputField
             type="password"
@@ -80,7 +80,7 @@ useEffect(() => {
             value={newPassword}
             setValue={setNewPassword}
             placeholder="Enter password..."
-            required
+            required={true}
           />
           <s.Button onClick={handleOnPost}>Create user</s.Button>
         </form>
