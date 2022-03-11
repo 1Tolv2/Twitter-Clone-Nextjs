@@ -1,9 +1,10 @@
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 
-const GlobalStyle = createGlobalStyle`
-body {background-color: #fed9b7;
-background-image: linear-gradient(135deg,#00ffcc, #5600d8);}
-`
+
+const BackgroundColor = styled.div`
+height: 100vh; 
+width: 100vw;
+background-image: linear-gradient(135deg,#00ffcc, #5600d8);`
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -25,4 +26,4 @@ const CenteredContainer = styled.div`
   border-radius: 5px;
 `;
 
-export {GlobalStyle, StyledWrapper, CenteredContainer}
+export {BackgroundColor, StyledWrapper, CenteredContainer}
