@@ -9,7 +9,7 @@ const requireLogin = (req, res, next) => {
 };
 const newUser = async (req, res) => {
   const { username, password } = req.body;
-  const modifiedUsername = username.toLowerCase();
+  const modifiedUsername = username?.toLowerCase();
 
   if (!(username && password)) {
     res
@@ -47,11 +47,9 @@ const logInUser = async (req, res) => {
       );
       res.json({ token });
     } else {
-      res
-        .status(401)
-        .json({
-          error: "Validation failed, username or password is incorrect",
-        });
+      res.status(401).json({
+        error: "Validation failed, username or password is incorrect",
+      });
     }
   }
 };
