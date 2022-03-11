@@ -17,9 +17,11 @@ export default function MessageItem({ data }) {
 
   useEffect(() => {
     // if person logged in is in likes list, have heart red
+    const token = localStorage.getItem("Token");
+    if (token){
     item.likes.find((user) => user === userData.data.user._id)
       ? setLiked(true)
-      : setLiked(false);
+      : setLiked(false);}
     setTotalLikes(item.likes.length);
     setTotalComments(item.comments.length);
   }, [data]);
@@ -27,7 +29,6 @@ export default function MessageItem({ data }) {
   function handleOnLike(e) {
     const messageId = e.target.parentNode.parentNode.id;
     const token = localStorage.getItem("Token");
-    console.log(messageId);
     if (token) {
       fetch(`${API}/messages/${messageId}/like`, {
         headers: {
@@ -36,7 +37,6 @@ export default function MessageItem({ data }) {
         },
       }).then((res) => res.json())
       .then((data) => {
-        console.log(data)
         setTotalLikes(data.updatedMessage.likes.length)
         setLiked(data.updatedMessage.likes.find((user) => user === userData.data.user._id ? "true": "false"))
         })
@@ -72,8 +72,8 @@ export default function MessageItem({ data }) {
               <img
                 src={
                   liked
-                    ? "/heart-svgrepo-com.svg"
-                    : "/chat-bubble-svgrepo-com.svg"
+                    ? "/heart-filled-svgrepo-com.svg"
+                    : "/heart-svgrepo-com.svg"
                 }
                 alt="heart icon"
               />
