@@ -3,16 +3,30 @@ const { BASE_URL } = require("../settings");
 
 // Needs to be reworked
 const getAllHashtags = async (req, res) => {
+  const limit = req.query.limit;
+  console.log(typeof limit);
   const messageList = await Message.find({
     $match: { hashtags: { $not: { $size: 0 } } },
   }).exec();
 
-  const count = await Message.aggregate([
-    { $match: {} },
-    { $unwind: "$hashtags" },
-    { $group: { _id: "$hashtags", count: { $count: {} } } },
-    { $sort: { count: -1 } },
-  ]).exec();
+  let count = [];
+  if (req.query.limit) {
+    const limit = req.query.limit;
+    count = await Message.aggregate([
+      { $match: {} },
+      { $unwind: "$hashtags" },
+      { $group: { _id: "$hashtags", count: { $count: {} } } },
+      { $sort: { count: -1 } },
+      { $limit: parseInt(limit) },
+    ]).exec();
+  } else {
+    count = await Message.aggregate([
+      { $match: {} },
+      { $unwind: "$hashtags" },
+      { $group: { _id: "$hashtags", count: { $count: {} } } },
+      { $sort: { count: -1 } },
+    ]).exec();
+  }
 
   const data = count.map((tag) => {
     const messages = [];
