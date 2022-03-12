@@ -1,6 +1,7 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 
 const Container = styled.div`
+position: relative;
   display: none;
 
   @media (min-width: 1025px) {
@@ -29,7 +30,6 @@ const ContainerStyle = styled.div`
 const ProfileContainer = styled(ContainerStyle)`
   background-image: linear-gradient(190deg, #00ffcc, #5600d8);
   padding: 15px 10px;
-
   img {
     display: block;
     width: 130px;
@@ -44,7 +44,21 @@ const ProfileContainer = styled(ContainerStyle)`
     margin-bottom: 0;
     text-align: center;
   }
+  ${props => props.button && css`
+  &:hover {
+    opacity: 0.7;
+  }
+  `}
 `;
+
+const EditButton = styled.div`
+position: absolute;
+top: 10px;
+right: 10px;
+img {
+  pointer-events: none;
+}
+`
 
 const FollowContainer = styled(ContainerStyle)`
   padding: 3px;
@@ -84,4 +98,4 @@ const HashtagContainer = styled(ContainerStyle)`
   }
 `;
 
-export { Container, ProfileContainer, FollowContainer, HashtagContainer };
+export { Container, ProfileContainer, FollowContainer, HashtagContainer, EditButton };

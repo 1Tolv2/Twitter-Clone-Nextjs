@@ -3,8 +3,9 @@ import * as s from "./styles";
 import Link from "next/link";
 import { API } from "../../API";
 import { UserContext } from "../../../pages";
+import EditModal from "../EditModal";
 
-export default function SideSection() {
+export default function SideSection({modal}) {
   const [user, setUser] = useState(null);
   const { userData } = useContext(UserContext);
   const [trendingList, setTrendingList] = useState(null);
@@ -33,19 +34,30 @@ export default function SideSection() {
           const index = Math.floor(Math.random() * data.length);
           list.push(data[index]);
           data.splice(index, 1);
-          
         }
         setDiscoverList(list);
       });
   }, []);
+  function toggleEditModal() {
+    modal.setEditModal(!modal.editModal)
+  }
 
   return (
     <s.Container>
-      {user && (
+      {user ? (<>
+        <s.EditButton onClick={toggleEditModal}><img src="/gear-svgrepo-com.svg"/></s.EditButton>
         <s.ProfileContainer>
           <img src={`${API}/${user.image}`} alt="profile image" />
           <h2>Hello {user.username}!</h2>
-        </s.ProfileContainer>
+        </s.ProfileContainer></>
+      ) : (
+        <Link href="/login">
+          <a>
+            <s.ProfileContainer button>
+              <h2>Sign up</h2>
+            </s.ProfileContainer>
+          </a>
+        </Link>
       )}
       <s.FollowContainer>
         <h3>TRENDING</h3>
@@ -54,7 +66,6 @@ export default function SideSection() {
             {trendingList &&
               trendingList.map((tag, index) => (
                 <li key={index}>
-                  {console.log(tag.tag_name.replace("#", "%23"))}
                   <Link href={`/hashtags/${tag.tag_name.replace("#", "%23")}`}>
                     <a>{tag.tag_name}</a>
                   </Link>
@@ -73,7 +84,6 @@ export default function SideSection() {
                 <Link href={`/${user.username}`}>
                   <a>{user.username}</a>
                 </Link>
-                {console.log(user)}
                 {user.settings.name ? (
                   <i>{` - ${user.firstname} ${user.lastname}`}</i>
                 ) : null}
