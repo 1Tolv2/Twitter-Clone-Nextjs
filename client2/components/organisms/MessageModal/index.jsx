@@ -12,7 +12,6 @@ export default function MessageModal() {
   const [hashtagList, setHashtagList] = useState([]);
 
   function toggleIcon() {
-    console.log(modal);
     setModal(!modal);
     modal ? setIconState("close") : setIconState("open");
     // setErrorMessage(null)
@@ -36,12 +35,16 @@ export default function MessageModal() {
     const payload = {message}
     postMessage(token, payload)
   }
+  function toggleEditModal() {
+    props.setEditModal(!state.editModal)
+  }
   return (
     <>
       <AnimatedAddButton phone
         data={{ toggleIcon, iconState }}
         position={{ top: "80vh", left: "10vw" }}
       ></AnimatedAddButton>
+      {!modal && <s.MessageButton onClick={toggleIcon}><img src="/edit-svgrepo-com.svg"/>Message</s.MessageButton>}
       {modal && (
         <s.Container>
           <s.MessageContainer>

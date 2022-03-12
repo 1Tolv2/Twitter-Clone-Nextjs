@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -17,7 +17,7 @@ const BlackOutContainer = styled.div`
   height: 100vh;
   background-color: black;
   opacity: 0.4;
-  z-index: 2;
+  z-index: 4;
 `;
 const MessageContainer = styled.div`
   position: relative;
@@ -30,7 +30,7 @@ const MessageContainer = styled.div`
   min-height: 65px;
   padding: 10px 15px;
   background-color: white;
-  z-index: 3;
+  z-index: 5;
   box-shadow: 0 0 15px #5f5f5f;
   form {
     display: flex;
@@ -66,4 +66,32 @@ const MessageContainer = styled.div`
     }
   }
 `;
-export { Container, MessageContainer, BlackOutContainer };
+
+const MessageButton = styled.button`
+display: none;
+position: fixed;
+bottom: 60px;
+right: 20%;
+width: 160px;
+height: 50px;
+border-radius: 50px;
+font-size: 1.4em;
+font-weight: 600;
+color: white;
+background-image: linear-gradient(135deg, #ff2994, #29c2ff);
+border: none;
+box-shadow: 0px 0px 10px grey;
+z-index:1;
+cursor: pointer;
+img {
+  height: 25px;
+  width: auto;
+  pointer-events: none;
+}
+@media (min-width: 1025px) {
+display: flex;
+justify-content: space-evenly;
+align-items: center;
+  }
+`
+export { Container, MessageContainer, BlackOutContainer, MessageButton };
