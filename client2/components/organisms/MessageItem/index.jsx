@@ -7,13 +7,17 @@ import { API } from "../../API";
 
 export default function MessageItem({ data }) {
   const { userData, setUserData } = useContext(UserContext);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(null);
   const [totalLikes, setTotalLikes] = useState(null);
   const [totalComments, setTotalComments] = useState(null);
 
+  const date = new Date(data.item.published);
+  const fullDate = `${date.getFullYear()}.${
+    date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth()
+  }.${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
+
   const { item, modifiedMessage, user } = data;
   const router = useRouter();
-  console.log(data);
 
   useEffect(() => {
     // if person logged in is in likes list, have heart red
@@ -22,25 +26,26 @@ export default function MessageItem({ data }) {
     item.likes.find((user) => user === userData.data.user._id)
       ? setLiked(true)
       : setLiked(false);}
+
     setTotalLikes(item.likes.length);
     setTotalComments(item.comments.length);
   }, [data]);
 
-  function handleOnLike(e) {
-    const messageId = e.target.parentNode.parentNode.id;
+ async function handleOnLike(e) {
+    const messageId = e.target.id;
     const token = localStorage.getItem("Token");
     if (token) {
-      fetch(`${API}/messages/${messageId}/like`, {
+      const res = await fetch(`${API}/messages/${messageId}/like`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      }).then((res) => res.json())
-      .then((data) => {
+      })
+      if (res.ok){
+      const data = await res.json()
         setTotalLikes(data.updatedMessage.likes.length)
-        setLiked(data.updatedMessage.likes.find((user) => user === userData.data.user._id ? "true": "false"))
-        })
-
+        setLiked(!liked)
+}
     } else {
       router.push("/login");
     }
@@ -65,10 +70,11 @@ export default function MessageItem({ data }) {
           </div>
         </s.ProfileContainer>
         <s.MessageContainer>{modifiedMessage}</s.MessageContainer>
+        <hr />
         <s.InteractionContainer>
-          <hr />
-          <ul id={data.item._id}>
-            <li onClick={handleOnLike}>
+          
+          <ul >
+            <li onClick={handleOnLike} id={data.item._id}>
               <img
                 src={
                   liked
@@ -84,8 +90,10 @@ export default function MessageItem({ data }) {
               <span>{totalComments}</span>
             </li>
           </ul>
+          <span>{fullDate}</span>
         </s.InteractionContainer>
       </s.ListItem>
+      
     </>
   );
 }

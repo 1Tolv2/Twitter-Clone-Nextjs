@@ -42,19 +42,27 @@ const MessageContainer = styled.div`
 `;
 
 const InteractionContainer = styled.div`
+display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px 0 0 0;
+
 ul {
     display: flex;
     flex-direction: row;
     list-style: none;
-    margin: 5px 0 0 0;
     padding: 0;
     li {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         margin: 0 20px 0 10px;
         cursor: pointer;
+        span {
+          pointer-events: none;
+        }
         img {
             margin-right: 5px;
+            pointer-events: none;
         }
         
     }
