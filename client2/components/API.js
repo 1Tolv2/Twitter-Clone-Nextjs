@@ -1,4 +1,5 @@
 export const API = "http://localhost:9000";
+const CT = { "Content-Type": "application/json" };
 
 async function getUser(payload, setErrorMessage) {
   const res = await fetch(`${API}/auth/api-token`, {
@@ -58,4 +59,23 @@ async function getMessageList(headers, setValue) {
   setValue(data);
 }
 
-export { getUser, postNewUser, getMessageList, getUserList, getUserData };
+async function postMessage(token, payload) {
+  const res = await fetch(`${API}/messages`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+  console.log(await res.json());
+}
+
+export {
+  getUser,
+  postNewUser,
+  getMessageList,
+  getUserList,
+  getUserData,
+  postMessage,
+};
