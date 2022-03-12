@@ -28,8 +28,9 @@ export default function MessageBoard({userList}) {
             const splitMessage = item.message.split(" ")
             const modifiedMessage = splitMessage.map((word) => /^#/.test(word) ? <Link href={`/hashtags/${word.replace("#", "%23")}`}>{`${word} `}</Link> : `${word} `
             )
-            console.log(modifiedMessage)
-           return (<MessageItem key={index} data={{item, modifiedMessage, user: userList.find((user) => user.username === item.username)}}></MessageItem>)
+           return (<div key={item._id}>
+             <MessageItem data={{item, modifiedMessage, user: userList.find((user) => user.username === item.username)}}></MessageItem>
+           </div>)
         })}
         </s.List>}
     </s.Container>

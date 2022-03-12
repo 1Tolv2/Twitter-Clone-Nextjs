@@ -4,6 +4,13 @@ const Container = styled.div`
 width: 100%;
 max-width: 540px;
 margin: 0 auto;
+height: 83vh;
+overflow-y: scroll;
+@media (min-width: 1025px) {
+    overflow: visible;
+    height: fit-content;
+
+  }
 `
 
 const List = styled.ul`

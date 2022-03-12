@@ -2,6 +2,11 @@ import styled, { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 body {background-color: #eeeeee;}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 `
 
 const Wrapper = styled.div`

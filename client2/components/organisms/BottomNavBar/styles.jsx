@@ -9,6 +9,9 @@ const Container = styled.div`
   color: white;
   background-color: black;
   background-image: linear-gradient(135deg,#00ffcc, #5600d8);
+  @media (min-width: 1025px) {
+    display: none;
+  }
   ul {
     list-style: none;
     height: 100%; 

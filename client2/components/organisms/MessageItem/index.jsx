@@ -54,18 +54,17 @@ export default function MessageItem({ data }) {
     console.log("comment");
   }
   return (
-    <>
       <s.ListItem key={data.item._id}>
         <s.ProfileContainer>
           <Link href={`/${user.username}`}>
-            <s.Image src={`${API}/${user.image}`} alt="profileImage" />
+            <a><s.Image src={`${API}/${user.image}`} alt="profileImage" /></a>
           </Link>
           <div>
             <h4>
-              {user.settings.name && `${user.firstname} ${user.lastname}`}
+              {user.settings.name ? `${user.firstname} ${user.lastname}` : user.username}
             </h4>
             <Link href={`/${user.username}`}>
-              <i>@{user.username}</i>
+              <a><i>@{user.username}</i></a>
             </Link>
           </div>
         </s.ProfileContainer>
@@ -73,7 +72,7 @@ export default function MessageItem({ data }) {
         <hr />
         <s.InteractionContainer>
           
-          <ul >
+          <ul>
             <li onClick={handleOnLike} id={data.item._id}>
               <img
                 src={
@@ -90,10 +89,8 @@ export default function MessageItem({ data }) {
               <span>{totalComments}</span>
             </li>
           </ul>
-          <span>{fullDate}</span>
+          <span><i>{fullDate}</i></span>
         </s.InteractionContainer>
       </s.ListItem>
-      
-    </>
   );
 }
