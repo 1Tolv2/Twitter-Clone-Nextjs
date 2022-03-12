@@ -152,9 +152,8 @@ db.users.aggregate(
   ]
 ) */
 const getUserMessages = async (req, res) => {
-  const messageList = await Message.find({ _id: req.params.id })
-    .sort({ date: -1 })
-    .exec();
+  const messageList = await Message.find({ _id: req.params.id });
+  console.log(messageList).sort({ date: -1 }).exec();
   const data = messageList.map(
     ({
       _id,
@@ -166,6 +165,7 @@ const getUserMessages = async (req, res) => {
       comments,
       published,
     }) => {
+      console.log(likes);
       return {
         _id,
         username,
@@ -192,26 +192,26 @@ const deleteMessage = async (req, res) => {
 
 const likeMessage = async (req, res) => {
   const user = req.user;
-  const message = await Message.findOne({ _id: new ObjectId(req.params.id) });
-  console.log("A");
-  if (!message.likes.find((id) => id === user.userId)) {
-    await Message.updateOne(
-      { _id: new ObjectId(req.params.id) },
-      { $push: { likes: user.userId } }
-    ).exec();
-  } else {
-    console.log("B");
-
-    await Message.updateOne(
-      { _id: new ObjectId(req.params.id) },
-      { $pull: { likes: user.userId } }
-    ).exec();
+  const _id = req.params.id;
+  console.log(_id);
+  if (!req.params) {
+    res.json({ error: "Unsuccessful" }, 400);
   }
-  console.log("C");
 
-  const updatedMessage = await Message.findOne({
-    _id: new ObjectId(req.params.id),
+  const message = await Message.findById({ _id });
+  console.log(message);
+
+  if (!message?.likes.find((id) => id === user.userId)) {
+    await Message.updateOne({ _id }, { $push: { likes: user.userId } }).exec();
+  } else {
+    await Message.updateOne({ _id }, { $pull: { likes: user.userId } }).exec();
+  }
+
+  const updatedMessage = await Message.findById({
+    _id,
   });
+  console.log("UPDATED", updatedMessage);
+
   res.json({ updatedMessage });
 };
 const commentMessage = async (req, res) => {};
