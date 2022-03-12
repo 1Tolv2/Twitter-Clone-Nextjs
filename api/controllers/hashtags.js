@@ -11,6 +11,7 @@ const getAllHashtags = async (req, res) => {
     { $match: {} },
     { $unwind: "$hashtags" },
     { $group: { _id: "$hashtags", count: { $count: {} } } },
+    { $sort: { count: -1 } },
   ]).exec();
 
   const data = count.map((tag) => {
