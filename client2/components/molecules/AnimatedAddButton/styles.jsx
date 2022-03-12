@@ -9,9 +9,9 @@ const IconButton = styled.div`
   background-color: #326cd3;
   border-radius: 50px;
   cursor: pointer;
+  box-shadow: 0px 0px 10px #5d648a;
   &.open {
     background-color: #4bf3ff;
-    box-shadow: 0px 0px 15px #3a4061;
   }
   z-index: 3;
 `;
