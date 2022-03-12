@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const Container = styled.div`
 width: 100%;
 max-width: 540px;
-margin: auto;
+margin: 0 auto;
 `
 
 const List = styled.ul`

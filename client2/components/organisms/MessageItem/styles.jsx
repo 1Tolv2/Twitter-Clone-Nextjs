@@ -14,6 +14,11 @@ font-size: 1.1em;
     height: 1px;
     background-color: lightgrey;
 }
+
+@media (min-width: 475px) {
+border-radius: 5px;
+  }
+
 `;
 const ProfileContainer = styled.div`
   display: flex;
