@@ -4,6 +4,8 @@ import { getUserList, getUserData } from "../components/API";
 import BottomNavigationBar from "../components/organisms/BottomNavBar/index";
 import Header from "../components/organisms/Header.jsx";
 import MessageBoard from "../components/organisms/MessageBoard";
+import MessageModal from "../components/organisms/MessageModal";
+import SideSection from "../components/organisms/SideSection";
 
 const UserContext = createContext();
 
@@ -19,9 +21,11 @@ export default function Home() {
       <Header></Header>
       <UserContext.Provider value={{ userData, setUserData }}>
         <MainLayout>
+          <MessageModal></MessageModal>
           {userList && <MessageBoard userList={userList} />}
-          <BottomNavigationBar />
+          <SideSection></SideSection>
         </MainLayout>
+        <BottomNavigationBar />
       </UserContext.Provider>
     </>
   );
