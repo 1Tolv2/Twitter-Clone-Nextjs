@@ -1,6 +1,6 @@
 import React from 'react'
-import * as s from './styles'
 import Head from "next/head";
+import * as s from './styles'
 
 export default function MainLayout({children}) {
   return (

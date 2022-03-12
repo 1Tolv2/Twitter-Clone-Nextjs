@@ -1,13 +1,10 @@
 import styled, { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-body {background-color: #f5f5f5;}
+body {background-color: #eeeeee;}
 `
 
 const Wrapper = styled.div`
-  padding-top: 20px;
-  width: 80%;
-  max-width: 900px;
   margin: auto;
 `;
 
