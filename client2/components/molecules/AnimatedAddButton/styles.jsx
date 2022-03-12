@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 
 const IconButton = styled.div`
   position: fixed;
@@ -13,7 +13,13 @@ const IconButton = styled.div`
   &.open {
     background-color: #4bf3ff;
   }
-  z-index: 3;
+  z-index: 5;
+
+  @media (min-width: 1025px) {
+    ${props => props.phone && css`
+    display: none;`}
+    ${props => console.log(props)}
+  }
 `;
 
 const Icon = styled.div`
@@ -42,11 +48,11 @@ const Icon = styled.div`
   }
   &.open::before {
     transform: rotate(-90deg);
-    background-color: #326cd3;
+    background-color: white;
   }
   &.open {
     transform: rotate(-45deg);
-    background-color: #326cd3;
+    background-color: white;
   }
 `;
 

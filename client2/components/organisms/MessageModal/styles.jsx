@@ -4,7 +4,7 @@ const Container = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   z-index: 1;
 `;
@@ -13,7 +13,7 @@ const BlackOutContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background-color: black;
   opacity: 0.4;
@@ -51,6 +51,11 @@ const MessageContainer = styled.div`
       &:focus {
         outline: none;
       }
+    }
+    span {
+        &.redText {
+            color: red;
+        }
     }
     button {
         border: none;

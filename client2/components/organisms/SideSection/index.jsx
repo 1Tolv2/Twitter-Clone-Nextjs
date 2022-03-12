@@ -11,7 +11,7 @@ export default function SideSection() {
   const [discoverList, setDiscoverList] = useState([]);
 
   useEffect(() => {
-    userData && setUser(userData.data.user);
+    userData && setUser(userData.data?.user);
   }, [userData]);
 
   useEffect(() => {
@@ -31,10 +31,9 @@ export default function SideSection() {
         let list = [];
         for (let i = 0; i < 5; i++) {
           const index = Math.floor(Math.random() * data.length);
-          const item = data[index];
+          list.push(data[index]);
           data.splice(index, 1);
-          console.log(data);
-          list.push(item);
+          
         }
         setDiscoverList(list);
       });
@@ -43,32 +42,30 @@ export default function SideSection() {
   return (
     <s.Container>
       {user && (
-        <>
-          <s.ProfileContainer>
-            <img src={`${API}/${user.image}`} alt="profile image" />
-            <h2>Hello {user.username}!</h2>
-          </s.ProfileContainer>
-          <s.FollowContainer><h3>TRENDING</h3>
-            <div>
-              <ul>
-                {trendingList &&
-                  trendingList.map((tag, index) => (
-                    <li key={index}>
-                      {console.log(tag.tag_name.replace("#", "%23"))}
-                      <Link
-                        href={`/hashtags/${tag.tag_name.replace("#", "%23")}`}
-                      >
-                        <a>{tag.tag_name}</a>
-                      </Link>
-                      <i> - {tag.count}</i>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          </s.FollowContainer>
-        </>
+        <s.ProfileContainer>
+          <img src={`${API}/${user.image}`} alt="profile image" />
+          <h2>Hello {user.username}!</h2>
+        </s.ProfileContainer>
       )}
-      <s.HashtagContainer><h3>DISCOVER</h3>
+      <s.FollowContainer>
+        <h3>TRENDING</h3>
+        <div>
+          <ul>
+            {trendingList &&
+              trendingList.map((tag, index) => (
+                <li key={index}>
+                  {console.log(tag.tag_name.replace("#", "%23"))}
+                  <Link href={`/hashtags/${tag.tag_name.replace("#", "%23")}`}>
+                    <a>{tag.tag_name}</a>
+                  </Link>
+                  <i> - {tag.count}</i>
+                </li>
+              ))}
+          </ul>
+        </div>
+      </s.FollowContainer>
+      <s.HashtagContainer>
+        <h3>DISCOVER</h3>
         <div>
           <ul>
             {discoverList.map((user, index) => (

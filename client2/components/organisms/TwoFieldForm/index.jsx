@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import AnimatedAddButton from '../../molecules/AnimatedAddButton/index'
 import {postNewUser, getUser} from "../../API";
 import InputField from "../../atoms/InputField/index";
 import * as s from "./styles";
@@ -38,6 +39,7 @@ useEffect(() => {
   return (
     <s.Wrapper className={iconState}>
       <s.IconButton onClick={toggleIcon} className={iconState}><s.Icon className={iconState}></s.Icon></s.IconButton>
+{/* <AnimatedAddButton data={{toggleIcon, iconState}}></AnimatedAddButton> */}
     <s.PrimaryContainer className={iconState}>
       <h2>LOGIN</h2>
       <form>

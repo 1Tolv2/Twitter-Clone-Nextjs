@@ -3,6 +3,7 @@ import Link from 'next/link'
 import * as s from './styles'
 import MessageItem from '../MessageItem/index'
 import { getMessageList } from "../../../components/API";
+import MessageModal from "../MessageModal";
 
 
 export default function MessageBoard({userList}) {
@@ -21,16 +22,18 @@ export default function MessageBoard({userList}) {
         getMessageList(headers, setMessages);
       }
     }, []);
+
+    function handleOnClick() {
+      console.log("halloj")
+    }
   return (
     <s.Container>
       {messages && 
-        <s.List>{messages.map((item, index) => {
+        <s.List>{messages.map((item) => {
             const splitMessage = item.message.split(" ")
-            const modifiedMessage = splitMessage.map((word) => /^#/.test(word) ? <Link href={`/hashtags/${word.replace("#", "%23")}`}>{`${word} `}</Link> : `${word} `
-            )
-           return (<div key={item._id}>
-             <MessageItem data={{item, modifiedMessage, user: userList.find((user) => user.username === item.username)}}></MessageItem>
-           </div>)
+            const modifiedMessage = splitMessage.map((word) => /^#/.test(word) ? <Link href={`/hashtags/${word.replace("#", "%23")}`}>{`${word} `}</Link> : `${word} `)
+           return (
+             <MessageItem key={item._id} data={{item, modifiedMessage, user: userList.find((user) => user.username === item.username)}}/>)
         })}
         </s.List>}
     </s.Container>

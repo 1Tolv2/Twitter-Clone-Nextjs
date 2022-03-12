@@ -11,7 +11,6 @@ ul {
 
 const Wrapper = styled.div`
   margin: auto;
-
   @media (min-width: 1025px) {
     display: grid;
     grid-template-columns: 540px 300px;

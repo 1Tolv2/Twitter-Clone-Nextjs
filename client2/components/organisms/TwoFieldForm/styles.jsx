@@ -40,7 +40,6 @@ const Button = styled.button`
   margin-top: 30px;
   transition: 0.2s;
   /* box-shadow: 0px 3px 8px darkgrey; */
-
   &:hover {
     color: #326cd3;
     background-color: white;
