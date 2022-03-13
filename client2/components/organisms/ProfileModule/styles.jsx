@@ -43,16 +43,38 @@ min-height: 100px;
 width: 100%;
 margin-top: 15px;
 padding: 15px 10px;
-h2 {
+h2, p {
     margin: 0;
-}
-div {
-    text-align: right;
 }
 @media (min-width: 1025px) {
     text-align: left;
 }
 `
+
+const FollowContainer = styled.div`
+display: flex;
+justify-content: space-between;
+align-items:  center;
+span {
+    margin-right: 10px;
+}
+`
+const Button = styled.div`
+    text-align: center;
+
+  width: 130px;
+  font-size: 1em;
+  font-weight: 600;
+  color: white;
+  background-color: #5600d8;
+  border: none;
+  padding: 7px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  &:hover {
+opacity: 0.7;
+  }
+`
     
 
-export {Container, ImageContainer, InfoContainer}
+export {Container, ImageContainer, InfoContainer, FollowContainer, Button}
