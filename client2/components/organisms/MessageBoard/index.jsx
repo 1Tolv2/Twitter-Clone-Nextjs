@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Link from 'next/link'
 import * as s from './styles'
 import MessageItem from '../MessageItem/index'
-import { getMessageList } from "../../../components/API";
-import MessageModal from "../MessageModal";
+import { getMessageList, getUserMessages } from "../../../components/API";
 
 
-export default function MessageBoard({userList}) {
+export default function MessageBoard({userList, children}) {
+  const router = useRouter()
     const [messages, setMessages] = useState(null);
+
     useEffect(() => {
       const token = localStorage.getItem("Token");
       let headers = {
@@ -15,10 +17,14 @@ export default function MessageBoard({userList}) {
           "Content-Type": "application/json",
         },
       };
-      if (token) {
+      console.log("Board:", router.query.user)
+      if (token && router.query.user == undefined) {
         headers.headers["Authorization"] = `Bearer ${token}`;
         getMessageList(headers, setMessages);
-      } else {
+      } else if (router.query.user != undefined) {
+        getUserMessages(router.query.user, setMessages)
+      } 
+      else {
         getMessageList(headers, setMessages);
       }
     }, []);
@@ -28,6 +34,7 @@ export default function MessageBoard({userList}) {
     }
   return (
     <s.Container>
+      {children}
       {messages && 
         <s.List>{messages.map((item) => {
             const splitMessage = item.message.split(" ")
