@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const ListItem = styled.li`
-font-size: 1.1em;
+  font-size: 1.1em;
   width: 100%;
   background-color: white;
   margin-bottom: 10px;
@@ -13,12 +13,11 @@ font-size: 1.1em;
     border: none;
     height: 1px;
     background-color: lightgrey;
-}
-
-@media (min-width: 475px) {
-border-radius: 5px;
   }
 
+  @media (min-width: 475px) {
+    border-radius: 5px;
+  }
 `;
 const ProfileContainer = styled.div`
   display: flex;
@@ -30,7 +29,7 @@ const ProfileContainer = styled.div`
     margin: 0;
   }
   i {
-      color: grey;
+    color: grey;
   }
 `;
 
@@ -47,29 +46,28 @@ const MessageContainer = styled.div`
 `;
 
 const InteractionContainer = styled.div`
-display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 10px 0 0 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 10px 0 0 0;
 
-ul {
+  ul {
     display: flex;
     flex-direction: row;
     list-style: none;
     padding: 0;
     li {
-        display: flex;
-        align-items: flex-start;
-        margin: 0 20px 0 10px;
-        cursor: pointer;
-        span {
-          pointer-events: none;
-        }
-        img {
-            margin-right: 5px;
-            pointer-events: none;
-        }
-        
+      display: flex;
+      align-items: flex-start;
+      margin: 0 20px 0 10px;
+      cursor: pointer;
+      span {
+        pointer-events: none;
+      }
+      img {
+        margin-right: 5px;
+        pointer-events: none;
+      }
     }
   }
 `;

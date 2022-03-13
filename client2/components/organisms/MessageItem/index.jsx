@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import * as s from "./styles";
-import { UserContext } from "../../../pages/index";
+import { UserContext } from "../../layouts/mainLayout";
 import { API } from "../../API";
 
 export default function MessageItem({ data }) {
@@ -12,9 +12,13 @@ export default function MessageItem({ data }) {
   const [totalComments, setTotalComments] = useState(null);
 
   const date = new Date(data.item.published);
-  const fullDate = `${date.getFullYear()}.${
-    date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth()
-  }.${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
+  const fullDate = `${date.getHours()}.${date.getMinutes()} - ${date.getFullYear()}.${
+    date.getMonth() + 1 < 10 
+    ? "0" + (date.getMonth() + 1) 
+    : date.getMonth()
+  }.${date.getDate() < 10 
+    ? "0" + date.getDate() 
+    : date.getDate()}`;
 
   const { item, modifiedMessage, user } = data;
   const router = useRouter();

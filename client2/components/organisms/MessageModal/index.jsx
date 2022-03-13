@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import AnimatedAddButton from "../../molecules/AnimatedAddButton";
 import {postMessage} from '../../API'
 import * as s from "./styles";
@@ -10,6 +11,8 @@ export default function MessageModal() {
   const [message, setMessage] = useState("");
   const [messageLength, setMessageLength] = useState(0);
   const [hashtagList, setHashtagList] = useState([]);
+  const router = useRouter()
+
 
   function toggleIcon() {
     setModal(!modal);
@@ -34,9 +37,7 @@ export default function MessageModal() {
     const token = localStorage.getItem("Token")
     const payload = {message}
     postMessage(token, payload)
-  }
-  function toggleEditModal() {
-    props.setEditModal(!state.editModal)
+    router.reload(window.location.pathname)
   }
   return (
     <>
@@ -56,7 +57,7 @@ export default function MessageModal() {
                 required
                 onChange={handleMessageOnChange}
                 placeholder="Write here..."
-                // maxlength="140"
+                maxlength="140"
               ></textarea>
               <span className={messageLength > 140 ? "redText" : null}>
                 {messageLength}

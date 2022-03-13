@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import * as s from "./styles";
 import Link from "next/link";
 import { API } from "../../API";
-import { UserContext } from "../../../pages";
+import { UserContext } from "../../layouts/mainLayout";
 import EditModal from "../EditModal";
 
 export default function SideSection({modal}) {
@@ -54,7 +54,7 @@ export default function SideSection({modal}) {
         <Link href="/login">
           <a>
             <s.ProfileContainer button>
-              <h2>Sign up</h2>
+              <h2>Sign in</h2>
             </s.ProfileContainer>
           </a>
         </Link>

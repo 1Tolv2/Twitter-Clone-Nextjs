@@ -39,6 +39,7 @@ const MessageContainer = styled.div`
     align-items: center;
     img {
       height: 40px;
+      
     }
     textarea {
       font-size: 1.6em;
@@ -60,8 +61,10 @@ const MessageContainer = styled.div`
     button {
         border: none;
         background-color: transparent;
+        cursor: pointer;
         img {
             margin-top: 3px;
+            pointer-events: none;
         }
     }
   }

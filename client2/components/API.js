@@ -32,6 +32,12 @@ async function postNewUser(data, setErrorMessage) {
   return res;
 }
 
+async function getUserMessages(user, setData) {
+  const res = await fetch(`${API}/messages/${user}`, { headers: CT });
+  const data = await res.json();
+  setData(data);
+}
+
 async function getUserData(setValue) {
   const token = localStorage.getItem("Token");
   if (token) {
@@ -78,4 +84,5 @@ export {
   getUserList,
   getUserData,
   postMessage,
+  getUserMessages,
 };
