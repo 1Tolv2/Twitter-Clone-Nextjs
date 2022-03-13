@@ -27,40 +27,6 @@ const ContainerStyle = styled.div`
   }
 `;
 
-const ProfileContainer = styled(ContainerStyle)`
-  background-image: linear-gradient(190deg, #00ffcc, #5600d8);
-  padding: 15px 10px;
-  img {
-    display: block;
-    width: 130px;
-    height: auto;
-    border: solid 3px white;
-    border-radius: 100px;
-    margin: auto;
-  }
-  h2 {
-    color: white;
-    margin-top: 5px;
-    margin-bottom: 0;
-    text-align: center;
-  }
-  ${props => props.button && css`
-  &:hover {
-    opacity: 0.7;
-  }
-  `}
-`;
-
-const EditButton = styled.div`
-position: absolute;
-top: 10px;
-right: 10px;
-cursor: pointer;
-img {
-  pointer-events: none;
-}
-`
-
 const FollowContainer = styled(ContainerStyle)`
   padding: 3px;
   background-image: linear-gradient(120deg, #ff98cb, #b3fff0);
@@ -99,4 +65,4 @@ const HashtagContainer = styled(ContainerStyle)`
   }
 `;
 
-export { Container, ProfileContainer, FollowContainer, HashtagContainer, EditButton };
+export { Container, FollowContainer, HashtagContainer };
