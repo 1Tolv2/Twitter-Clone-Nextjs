@@ -26,14 +26,14 @@ export default function SideWidget({ title, type }) {
             list.push(data[index]);
             data.splice(index, 1);
           }
-
+console.log(list)
           setList(list);
         });
     }
   }, []);
 
   function upperCaseName(name) {
-    const modifiedName = name.replace(name[0], name[0].toUpperCase());
+    const modifiedName = name?.replace(name[0], name[0].toUpperCase());
     return modifiedName;
   }
 
@@ -62,11 +62,11 @@ export default function SideWidget({ title, type }) {
               <ul>
                 {list.map((user, index) => (
                   <li key={index}>
-                    <Link href={`/${user.username}`}>
-                      <a>{upperCaseName(user.username)}</a>
+                    <Link href={`/${user?.username}`}>
+                      <a>{upperCaseName(user?.username)}</a>
                     </Link>
-                    {user.settings.name ? (
-                      <i>{` - ${user.firstname} ${user.lastname}`}</i>
+                    {user?.settings.name ? (
+                      <i>{` - ${user?.firstname} ${user?.lastname}`}</i>
                     ) : null}
                   </li>
                 ))}

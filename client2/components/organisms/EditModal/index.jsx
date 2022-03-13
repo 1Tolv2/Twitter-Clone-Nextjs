@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { UserContext } from "../../layouts/mainLayout";
-import { API, getUserData } from "../../../../client/components/API";
+import { API } from "../../../../client/components/API";
 import * as s from "./styles";
-import Link from "next/link";
+import Button from "../../atoms/Button";
 
 export default function EditModal({ modal }) {
   const router = useRouter();
@@ -30,10 +30,10 @@ export default function EditModal({ modal }) {
 
   useEffect(() => {
     const { firstname, lastname, email, settings } = userData.data.user;
-          setName(`${firstname} ${lastname}`);
-          setEmail(email);
-          setSettingEmail(settings.email);
-          setSettingName(settings.name);
+    setName(`${firstname} ${lastname}`);
+    setEmail(email);
+    setSettingEmail(settings.email);
+    setSettingName(settings.name);
   }, [userData]);
 
   async function handleOnSubmit(e) {
@@ -56,8 +56,8 @@ export default function EditModal({ modal }) {
       },
       body: formData,
     });
-    getUserData()
-    router.reload(window.location.pathname)
+    getUserData();
+    router.reload(window.location.pathname);
   }
 
   async function handleLogOut() {
@@ -75,75 +75,63 @@ export default function EditModal({ modal }) {
     }
   }
 
-
-//   function toggleEditModal() {
-//     modal.setEditModal(!modal.editModal)
-//   }
-//   function toggleNameSettings() {
-//       setSettingName(!settingName)
-//   }
-//   function toggleEmailSettings() {
-//     setSettingEmail(!settingEmail)
-
-//   }
   return (
     <s.Container>
       <s.Fade onClick={() => modal.setEditModal(!modal.editModal)}></s.Fade>
       <s.Modal>
-        {userData && (<><s.Form onSubmit={handleOnSubmit} encType="multipart/form-data">
-          <div>
+        {userData && (
+          <>
+            <s.Form onSubmit={handleOnSubmit} encType="multipart/form-data">
               <div>
-                  Name:
-                  <input
+                <input
                   type="text"
-                    value={name}
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                />
+                <input
+                  type="text"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+                <div>
+                  <span>Profile picture:</span>
+                  <input
+                    type="file"
+                    accept=".png, .jpg, .jpeg"
+                    value={image}
                     onChange={(e) => {
-                      setName(e.target.value);
+                      setImage(e.target.value);
                     }}
                   />
-              </div>
-              <div>
-                  Email:
+                </div>
+                <span>Display on profile:</span>
+                <div>
                   <input
-                  type="text"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                    }}
+                    type="checkbox"
+                    checked={settingName}
+                    onChange={() => setSettingName(!settingName)}
                   />
+                  Name
+                </div>
+                <div>
+                  <br />
+                  <input
+                    type="checkbox"
+                    checked={settingEmail}
+                    onChange={() => setSettingEmail(!settingEmail)}
+                  />
+                  Email
+                </div>
               </div>
-          
-          <input
-            type="file"
-            accept="image/*"
-            value={image}
-            onChange={(e) => {
-              setImage(e.target.value);
-            }}
-          />
-          <div>
-              Name:
-              <input
-                type="checkbox"
-                checked={settingName}
-                onChange={() => setSettingName(!settingName)}
-              />
-          </div>
-          <div>
-              E-mail:
-              <br />
-              <input
-                type="checkbox"
-                checked={settingEmail}
-                onChange={() => setSettingEmail(!settingEmail)}
-              />
-          </div>
-          </div>
-          <button type="submit">Save</button>
-        </s.Form>
-        <button onClick={handleLogOut}>log out</button>
-
-        </>)}
+              <Button type="submit" width="100%">Save</Button>
+            </s.Form>
+            <p onClick={handleLogOut}>log out</p>
+          </>
+        )}
       </s.Modal>
     </s.Container>
   );

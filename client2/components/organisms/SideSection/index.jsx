@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import * as s from "./styles";
-import Link from "next/link";
-import { API } from "../../API";
 import { UserContext } from "../../layouts/mainLayout";
 import UserWidget from "../../molecules/UserWidget";
 import SideWidget from "../../molecules/SideWidget";

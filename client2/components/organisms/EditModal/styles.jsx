@@ -31,43 +31,43 @@ const Modal = styled.div`
   background-color: white;
   z-index: 7;
   box-shadow: 0 0 15px #5f5f5f;
+  p {
+    text-align: center;
+    cursor: pointer;
+  }
   @media (min-width: 1025px) {
     padding: 50px 20px;
   }
 `;
 
 const Form = styled.form`
+span {
+  margin-top: 7px;
+}
+  div {
+    display: flex;
+    flex-direction: column;
+    div {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+  input {
+    color: grey;
+    padding: 5px;
+    margin: 5px;
 
-div {
-  display: flex;
-flex-direction: column;
-div {
-  display: flex;
-  flex-direction: row;
-}
-}
-input {
-  color: grey;
-  padding: 5px;
-  margin: 5px;
-
-&[type=text] {
-  width: 100%;
-  border: none;
-  border-bottom: solid 1px grey;
-}
-}
-button {
-  width: 100%;
-  font-size: 1.2em;
-  font-weight: 600;
-  color: white;
-  background-color: #5600d8;
-  border: none;
-  padding: 7px;
-  margin-top: 20px;
-  border-radius: 20px;
-}
+    &[type="text"] {
+      width: 100%;
+      border: none;
+      border-bottom: solid 1px grey;
+    }
+    &[type="file"] {
+      width: 95px;
+      border: none;
+      border-bottom: solid 1px grey;
+    }
+  }
 `;
 
 export { Container, Fade, Modal, Form };
