@@ -56,9 +56,8 @@ export default function EditModal({ modal }) {
       },
       body: formData,
     });
-
     getUserData()
-    modal.setEditModal(!modal.editModal);
+    router.reload(window.location.pathname)
   }
 
   async function handleLogOut() {
