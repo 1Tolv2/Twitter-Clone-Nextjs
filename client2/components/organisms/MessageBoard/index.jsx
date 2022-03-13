@@ -3,12 +3,16 @@ import { useRouter } from "next/router";
 import Link from 'next/link'
 import * as s from './styles'
 import MessageItem from '../MessageItem/index'
-import { getMessageList, getUserMessages } from "../../../components/API";
+import { getMessageList, getUserMessages, getHashtag } from "../../../components/API";
 
 
 export default function MessageBoard({userList, children}) {
   const router = useRouter()
     const [messages, setMessages] = useState(null);
+
+    function getHashtagMessages() {
+router.params
+    }
 
     useEffect(() => {
       const token = localStorage.getItem("Token");
@@ -17,21 +21,16 @@ export default function MessageBoard({userList, children}) {
           "Content-Type": "application/json",
         },
       };
-      console.log("Board:", router.query.user)
-      if (token && router.query.user == undefined) {
-        headers.headers["Authorization"] = `Bearer ${token}`;
-        getMessageList(headers, setMessages);
-      } else if (router.query.user != undefined) {
-        getUserMessages(router.query.user, setMessages)
-      } 
-      else {
-        getMessageList(headers, setMessages);
-      }
-    }, []);
+      token && router.pathname === "/" ? getMessageList({headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${token}`}}, setMessages)
+      : router.pathname === "/[user]" ? getUserMessages(router.query.user, setMessages)
+      : router.pathname === "/hashtags/[hashtag]" ?  getHashtag(router.query.hashtag?.replace("#", "%23"), setMessages) 
+      : getMessageList(headers, setMessages)
+    }, [router.pathname]);
 
     function handleOnClick() {
       console.log("halloj")
     }
+
   return (
     <s.Container>
       {children}

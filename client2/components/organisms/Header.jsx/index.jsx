@@ -7,12 +7,14 @@ export default function Header() {
   return (
     <s.Container>
       <s.Wrapper>
-        <t.H1>Twooter</t.H1>
+      <Link href="/">
+        <a><t.H1>Twooter</t.H1></a>
+        </Link>
         <s.Navigation>
           <ul>
             <li>
               <Link href="/">
-                <s.Icons src="/home-black-svgrepo-com.svg" />
+                <a><s.Icons src="/home-black-svgrepo-com.svg" /></a>
               </Link>
             </li>
           </ul>

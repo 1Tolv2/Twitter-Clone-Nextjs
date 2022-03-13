@@ -3,8 +3,6 @@ import styled from "styled-components";
 const Container = styled.div`
   width: 100%;
   background-color: white;
-
-
 `;
 
 const Wrapper = styled.div`
@@ -44,5 +42,6 @@ const Navigation = styled.div`
 const Icons = styled.img`
   height: 30px;
   margin-top: 1px;
+  cursor: pointer;
 `;
 export { Container, Wrapper, Navigation, Icons };

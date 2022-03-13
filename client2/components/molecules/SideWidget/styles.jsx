@@ -7,7 +7,7 @@ const Container = styled.div`
   margin-bottom: 10px;
   border-radius: 5px;
   padding: 3px;
-  background-image: linear-gradient(120deg, #ff98cb, #b3fff0);
+  background-color: #c5c5c5;
   hr {
     border: none;
     height: 1px;

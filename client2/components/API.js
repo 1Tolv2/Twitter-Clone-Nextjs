@@ -77,6 +77,14 @@ async function postMessage(token, payload) {
   console.log(await res.json());
 }
 
+async function getHashtag(hashtag, setValue) {
+  fetch(`${API}/hashtags/${hashtag}`, {
+    headers: { "Content-Type": "application/json" },
+  })
+    .then((res) => res.json())
+    .then(({ data }) => setValue(data.messages));
+}
+
 export {
   getUser,
   postNewUser,
@@ -85,4 +93,5 @@ export {
   getUserData,
   postMessage,
   getUserMessages,
+  getHashtag,
 };
