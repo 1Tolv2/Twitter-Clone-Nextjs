@@ -152,8 +152,9 @@ db.users.aggregate(
   ]
 ) */
 const getUserMessages = async (req, res) => {
-  const messageList = await Message.find({ _id: req.params.id });
-  console.log(messageList).sort({ date: -1 }).exec();
+  const messageList = await Message.find({ username: req.params.id })
+    .sort({ published: -1 })
+    .exec();
   const data = messageList.map(
     ({
       _id,
