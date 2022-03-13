@@ -24,14 +24,50 @@ const Modal = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 80%;
-  max-width: 600px;
-  height: fit-content;
+  width: 100%;
+  max-width: 350px;
   min-height: 65px;
-  padding: 10px 15px;
+  padding: 30px 20px;
   background-color: white;
   z-index: 7;
   box-shadow: 0 0 15px #5f5f5f;
+  @media (min-width: 1025px) {
+    padding: 50px 20px;
+  }
 `;
 
-export {Container, Fade, Modal}
+const Form = styled.form`
+
+div {
+  display: flex;
+flex-direction: column;
+div {
+  display: flex;
+  flex-direction: row;
+}
+}
+input {
+  color: grey;
+  padding: 5px;
+  margin: 5px;
+
+&[type=text] {
+  width: 100%;
+  border: none;
+  border-bottom: solid 1px grey;
+}
+}
+button {
+  width: 100%;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: white;
+  background-color: #5600d8;
+  border: none;
+  padding: 7px;
+  margin-top: 20px;
+  border-radius: 20px;
+}
+`;
+
+export { Container, Fade, Modal, Form };
