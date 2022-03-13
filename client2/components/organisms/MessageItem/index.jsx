@@ -57,6 +57,10 @@ export default function MessageItem({ data }) {
   function handleOnComment() {
     console.log("comment");
   }
+  function upperCaseName(name) {
+    const modifiedName = name.replace(name[0], name[0].toUpperCase());
+    return modifiedName;
+  }
   return (
       <s.ListItem key={data.item._id}>
         <s.ProfileContainer>
@@ -65,7 +69,7 @@ export default function MessageItem({ data }) {
           </Link>
           <div>
             <h4>
-              {user.settings.name ? `${user.firstname} ${user.lastname}` : user.username}
+              {user.settings.name ? `${user.firstname} ${user.lastname}` : upperCaseName(user.username)}
             </h4>
             <Link href={`/${user.username}`}>
               <a><i>@{user.username}</i></a>
