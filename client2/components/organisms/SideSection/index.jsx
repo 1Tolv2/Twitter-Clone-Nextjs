@@ -18,13 +18,9 @@ export default function SideSection({ modal }) {
 
   return (
     <s.Container>
-      {user && (
-        <>
-          <UserWidget onClick={toggleEditModal}></UserWidget>
-          <SideWidget type="hashtags" title="trending"></SideWidget>
-          <SideWidget type="users" title="discover"></SideWidget>
-        </>
-      )}
+      <UserWidget onClick={toggleEditModal}></UserWidget>
+      <SideWidget type="hashtags" title="trending"></SideWidget>
+      <SideWidget type="users" title="discover"></SideWidget>
     </s.Container>
   );
 }

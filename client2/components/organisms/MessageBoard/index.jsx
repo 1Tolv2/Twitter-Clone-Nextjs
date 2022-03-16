@@ -37,7 +37,7 @@ router.params
       {messages && 
         <s.List>{messages.map((item) => {
             const splitMessage = item.message.split(" ")
-            const modifiedMessage = splitMessage.map((word) => /^#/.test(word) ? <Link href={`/hashtags/${word.replace("#", "%23")}`}>{`${word} `}</Link> : `${word} `)
+            const modifiedMessage = splitMessage.map((word) => /^#/.test(word) ? <Link href={`/hashtags/${word.replace("#", "%23").toLowerCase()}`}>{`${word} `}</Link> : `${word} `)
            return (
              <MessageItem key={item._id} data={{item, modifiedMessage, user: userList.find((user) => user.username === item.username)}}/>)
         })}

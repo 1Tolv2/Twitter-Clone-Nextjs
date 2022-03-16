@@ -12,13 +12,15 @@ export default function MessageItem({ data }) {
   const [totalComments, setTotalComments] = useState(null);
 
   const date = new Date(data.item.published);
-  const fullDate = `${date.getHours()}.${date.getMinutes()} - ${date.getFullYear()}.${
-    date.getMonth() + 1 < 10 
-    ? "0" + (date.getMonth() + 1) 
-    : date.getMonth()
-  }.${date.getDate() < 10 
-    ? "0" + date.getDate() 
-    : date.getDate()}`;
+  const fullDate = `${date.getHours()}.${
+    date.getMinutes() === 0
+      ? "00"
+      : date.getMinutes() < 10
+      ? `0${date.getMinutes()}`
+      : date.getMinutes()
+  } - ${date.getFullYear()}.${
+    date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth()
+  }.${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
 
   const { item, modifiedMessage, user } = data;
   const router = useRouter();
@@ -26,16 +28,17 @@ export default function MessageItem({ data }) {
   useEffect(() => {
     // if person logged in is in likes list, have heart red
     const token = localStorage.getItem("Token");
-    if (token){
-    item.likes.find((user) => user === userData.data.user._id)
-      ? setLiked(true)
-      : setLiked(false);}
+    if (token) {
+      item.likes.find((user) => user === userData.data.user._id)
+        ? setLiked(true)
+        : setLiked(false);
+    }
 
     setTotalLikes(item.likes.length);
     setTotalComments(item.comments.length);
   }, [data]);
 
- async function handleOnLike(e) {
+  async function handleOnLike(e) {
     const messageId = e.target.id;
     const token = localStorage.getItem("Token");
     if (token) {
@@ -44,12 +47,12 @@ export default function MessageItem({ data }) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-      })
-      if (res.ok){
-      const data = await res.json()
-        setTotalLikes(data.updatedMessage.likes.length)
-        setLiked(!liked)
-}
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setTotalLikes(data.updatedMessage.likes.length);
+        setLiked(!liked);
+      }
     } else {
       router.push("/login");
     }
@@ -62,43 +65,50 @@ export default function MessageItem({ data }) {
     return modifiedName;
   }
   return (
-      <s.ListItem key={data.item._id}>
-        <s.ProfileContainer>
+    <s.ListItem key={data.item._id}>
+      <s.ProfileContainer>
+        <Link href={`/${user.username}`}>
+          <a>
+            <s.Image src={`${API}/${user.image}`} alt="profileImage" />
+          </a>
+        </Link>
+        <div>
+          <h4>
+            {user.settings.name
+              ? `${user.firstname} ${user.lastname}`
+              : upperCaseName(user.username)}
+          </h4>
           <Link href={`/${user.username}`}>
-            <a><s.Image src={`${API}/${user.image}`} alt="profileImage" /></a>
+            <a>
+              <i>@{user.username}</i>
+            </a>
           </Link>
-          <div>
-            <h4>
-              {user.settings.name ? `${user.firstname} ${user.lastname}` : upperCaseName(user.username)}
-            </h4>
-            <Link href={`/${user.username}`}>
-              <a><i>@{user.username}</i></a>
-            </Link>
-          </div>
-        </s.ProfileContainer>
-        <s.MessageContainer>{modifiedMessage}</s.MessageContainer>
-        <hr />
-        <s.InteractionContainer>
-          
-          <ul>
-            <li onClick={handleOnLike} id={data.item._id}>
-              <img
-                src={
-                  liked
-                    ? "/heart-filled-svgrepo-com.svg"
-                    : "/heart-svgrepo-com.svg"
-                }
-                alt="heart icon"
-              />
-              <span>{totalLikes}</span>
-            </li>
-            <li onClick={handleOnComment}>
-              <img src="/chat-bubble-svgrepo-com.svg" alt="chat bubble icon" />
-              <span>{totalComments}</span>
-            </li>
-          </ul>
-          <span><i>{fullDate}</i></span>
-        </s.InteractionContainer>
-      </s.ListItem>
+        </div>
+      </s.ProfileContainer>
+      <s.MessageContainer>{modifiedMessage}</s.MessageContainer>
+      <hr />
+      <s.InteractionContainer>
+        <ul>
+          <li onClick={handleOnLike} id={data.item._id}>
+            <img
+              src={
+                liked
+                  ? "/heart-filled-svgrepo-com.svg"
+                  : "/heart-svgrepo-com.svg"
+              }
+              alt="heart icon"
+            />
+            <span>{totalLikes}</span>
+          </li>
+          <li onClick={handleOnComment}>
+            <img src="/chat-bubble-svgrepo-com.svg" alt="chat bubble icon" />
+            <span>{totalComments}</span>
+          </li>
+        </ul>
+        <span>
+          <i>{fullDate}</i>
+        </span>
+      </s.InteractionContainer>
+    </s.ListItem>
   );
 }

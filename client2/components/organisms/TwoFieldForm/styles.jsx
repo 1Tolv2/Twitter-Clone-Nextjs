@@ -13,8 +13,9 @@ const Wrapper = styled.div`
   border-radius: 5px;
   transition: 0.5s;
   box-shadow: 3px 3px 30px #2e334d;
-  &.open {
-    background-color: #326cd3;
+  overflow:hidden;
+  input {
+    background-color: transparent;
   }
   p {
     color: red;
@@ -23,8 +24,9 @@ const Wrapper = styled.div`
 const PrimaryContainer = styled.div`
   position: relative;
   margin: 30px 5px;
+  transition: opacity 0.6s;
   &.open {
-    display: none;
+    opacity: 0;
   }
 `;
 
@@ -38,8 +40,7 @@ const Button = styled.button`
   background-color: #00d9ff;
   border: solid 3px #00d9ff;
   margin-top: 30px;
-  transition: 0.2s;
-  /* box-shadow: 0px 3px 8px darkgrey; */
+  transition: 0.4s ease-in-out;
   &:hover {
     color: #326cd3;
     background-color: white;
@@ -50,18 +51,13 @@ const Button = styled.button`
 const IconButton = styled.div`
   position: absolute;
   top: 30px;
-  right: -20px;
+  right: 10px;
   width: 60px;
   height: 60px;
   background-color: #326cd3;
   border-radius: 50px;
   cursor: pointer;
-  &.open {
-    background-color: #4bf3ff;
-    box-shadow: 0px 0px 15px #3a4061;
-
-  }
-  z-index: 3;
+  z-index: 10;
 `;
 
 const Icon = styled.div`
@@ -75,6 +71,8 @@ const Icon = styled.div`
   transform: rotate(90deg);
   pointer-events: none;
   transition: 0.4s ease-in-out;
+  cursor: pointer;
+
   &::before {
     content: "";
     position: absolute;
@@ -90,11 +88,11 @@ const Icon = styled.div`
   }
   &.open::before {
     transform: rotate(-90deg);
-    background-color: #326cd3;
+    background-color: #4bf3ff;
   }
   &.open {
     transform: rotate(-45deg);
-    background-color: #326cd3;
+    background-color: #4bf3ff;
   }
 `;
 
@@ -105,14 +103,14 @@ const HiddenContainer = styled.div`
   left: 20px;
   width: 250px;
   margin: 30px 5px;
-  z-index: 2;
+  z-index: 6;
   transition: 0.5s;
   h2 {
     color: white;
   }
   input {
     color: white;
-    background-color: #326cd3;
+    background-color: transparent;
     &::placeholder {
       color: white;
     }
@@ -125,14 +123,11 @@ const HiddenContainer = styled.div`
     }
   }
   button {
-    color: #326cd3;
-    background-color: white;
+    background-color: transparent;
     border-color: white;
     padding: 2px;
-    box-shadow: 0px 0px 15px #3a4061;
     &:hover {
     border-color: white;
-
       opacity: 0.6;
       cursor: pointer;
     }
@@ -141,4 +136,21 @@ const HiddenContainer = styled.div`
     display: block;
   }
 `;
-export { Wrapper, PrimaryContainer, Button, IconButton, Icon, HiddenContainer };
+
+const BackgroundAnimation = styled.div`
+position: relative;
+top: 30px;
+left: 230px;
+background-color: #326cd3;
+/* background-color: yellow; */
+
+border-radius: 500px;
+height: 20px;
+width: 20px;
+z-index: -5;
+transition: transform 1s ease-in;
+&.open {
+  transform: scale(40);
+}
+`
+export { Wrapper, PrimaryContainer, Button, IconButton, Icon, HiddenContainer,BackgroundAnimation };

@@ -36,8 +36,11 @@ export default function MessageModal() {
     e.preventDefault()
     const token = localStorage.getItem("Token")
     const payload = {message}
+    if (token) {
     postMessage(token, payload)
-    router.reload(window.location.pathname)
+    router.reload(window.location.pathname)} else {
+      router.push("/login")
+    }
   }
   return (
     <>
