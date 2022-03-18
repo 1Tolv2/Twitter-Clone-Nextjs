@@ -33,89 +33,39 @@ db.users.aggregate(
   ]
 ) */
 // Needs to be reworked
+
 const getAllMessages = async (req, res) => {
-  const messageList = await Message.find().sort({ published: -1 }).exec();
-  let data = [];
+  let messageList = [];
 
   if (req.user) {
     const { subscribedTo } = await User.findOne(
-      {
-        username: req.user.username,
-      },
+      { username: req.user.username },
       { subscribedTo: 1, _id: 0 }
     ).exec();
+    messageList = await Message.find({
+      $or: [
+        { username: req.user.username },
+        { username: { $in: subscribedTo } },
+      ],
+    })
+      .sort({ published: -1 })
+      .exec();
+  } else messageList = await Message.find().sort({ published: -1 }).exec();
 
-    messageList.map(
-      ({
-        _id,
-        username,
-        message,
-        hashtags,
-        likes,
-        dislikes,
-        comments,
-        published,
-      }) => {
-        if (username === req.user.username) {
-          data.push({
-            _id,
-            username,
-            message,
-            hashtags,
-            likes,
-            dislikes,
-            comments,
-            published,
-            url: `${BASE_URL}/messages/${_id}`,
-            userURL: `${BASE_URL}/users/${username}`,
-          });
-        } else {
-          subscribedTo.map((user) => {
-            username === user
-              ? data.push({
-                  _id,
-                  username,
-                  message,
-                  hashtags,
-                  likes,
-                  dislikes,
-                  comments,
-                  published,
-                  url: `${BASE_URL}/messages/${_id}`,
-                  userURL: `${BASE_URL}/users/${username}`,
-                })
-              : null;
-          });
-        }
-      }
-    );
-  } else {
-    data = messageList.map(
-      ({
-        _id,
-        username,
-        message,
-        hashtags,
-        likes,
-        dislikes,
-        comments,
-        published,
-      }) => {
-        return {
-          _id,
-          username,
-          message,
-          hashtags,
-          likes,
-          dislikes,
-          comments,
-          published,
-          url: `${BASE_URL}/messages/${_id}`,
-          userURL: `${BASE_URL}/users/${username}`,
-        };
-      }
-    );
-  }
+  const data = messageList.map((item) => {
+    return {
+      _id: item._id,
+      username: item.username,
+      message: item.message,
+      hashtags: item.hashtags,
+      likes: item.likes,
+      dislikes: item.dislikes,
+      comments: item.comments,
+      published: item.published,
+      url: `${BASE_URL}/messages/${item._id}`,
+      userURL: `${BASE_URL}/users/${item.username}`,
+    };
+  });
   res.json({ data });
 };
 // Check error handeling
