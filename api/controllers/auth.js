@@ -7,6 +7,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const requireLogin = (req, res, next) => {
   req.user ? next() : res.status(401).json({ error: "Unauthorized" });
 };
+
 const newUser = async (req, res) => {
   const { username, password } = req.body;
   const modifiedUsername = username?.toLowerCase();
@@ -23,6 +24,7 @@ const newUser = async (req, res) => {
     res.json({ message: "User created" });
   }
 };
+
 const logInUser = async (req, res) => {
   const { username, password } = req.body;
   const modifiedUsername = username.toLowerCase();
@@ -53,6 +55,7 @@ const logInUser = async (req, res) => {
     }
   }
 };
+
 const logOutUser = (req, res) => {
   const token = req.header("Authorization").split(" ")[1];
   if (req.user) {

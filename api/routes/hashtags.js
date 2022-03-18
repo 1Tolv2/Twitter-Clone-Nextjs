@@ -1,9 +1,9 @@
 const express = require("express");
-const hashtagController = require("../controllers/hashtags");
+const { getAllHashtags, getHashtag } = require("../controllers/hashtags");
 
 const router = express.Router();
 
-router.get("/", hashtagController.getAllHashtags);
-router.get("/:id", hashtagController.getHashtag);
+router.get("/", getAllHashtags);
+router.get("/:id", getHashtag);
 
 module.exports = router;

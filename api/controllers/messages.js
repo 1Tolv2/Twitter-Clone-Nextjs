@@ -2,36 +2,6 @@ const { BASE_URL } = require("../settings");
 const { Message } = require("../models/message");
 const { User } = require("../models/user");
 
-/* Join messages with users and don't get the password
-db.messages.aggregate(
-  [
-    {$match: {} },
-    {$lookup: {
-        from: 'users',
-        localField: 'username',
-        foreignField: 'username',
-        as: 'user',
-      },
-    }
-  ]
-) */
-/* Get all messages in subscribedTo and the users messages sorted
-db.users.aggregate(
-  [
-    {$match: {username: req.user.username} },
-    // Add req.user.username in subscribedTo array?
-    {$unwind: '$subscribedTo'},
-    {$lookup: {
-        from: 'messages',
-        localField: 'subscribedTo',
-        foreignField: 'username',
-        as: 'messages',
-      },
-    }
-  ]
-) */
-// Needs to be reworked
-
 const getAllMessages = async (req, res) => {
   let messageList = [];
 
@@ -59,7 +29,7 @@ const getAllMessages = async (req, res) => {
   });
   res.json({ data });
 };
-// Check error handeling
+
 const newMessage = async (req, res, next) => {
   const { message } = req.body;
   const { username } = req.user;
@@ -78,7 +48,7 @@ const newMessage = async (req, res, next) => {
   res.json({ message: "Message posted successfully" });
 };
 
-/* Sort the array of objects gaines by the message merge
+/* Sort the array of objects gained by the message merge
 db.users.aggregate(
   [
     {$match: {username: req.params.id} },
@@ -102,7 +72,6 @@ const getUserMessages = async (req, res) => {
       userURL: `${BASE_URL}/users/${item.username}`,
     };
   });
-  console.log(data);
   res.json({ data });
 };
 
@@ -116,13 +85,10 @@ const deleteMessage = async (req, res) => {
 const likeMessage = async (req, res) => {
   const user = req.user;
   const _id = req.params.id;
-  console.log(_id);
   if (!req.params) {
     res.json({ error: "Unsuccessful" }, 400);
   }
-
   const message = await Message.findById({ _id });
-  console.log(message);
 
   if (!message?.likes.find((id) => id === user.userId)) {
     await Message.updateOne({ _id }, { $push: { likes: user.userId } }).exec();
