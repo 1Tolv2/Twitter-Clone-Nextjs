@@ -35,7 +35,7 @@ async function postNewUser(data, setErrorMessage) {
 async function getUserMessages(user, setData) {
   const res = await fetch(`${API}/messages/${user}`, { headers: CT });
   const data = await res.json();
-  setData(data);
+  setData(data.data);
 }
 
 async function getUserData(setValue) {
@@ -49,6 +49,17 @@ async function getUserData(setValue) {
     });
     setValue(await res.json());
   }
+}
+
+async function updateUserData(formData) {
+  const token = localStorage.getItem("Token");
+  await fetch(`${API}/users/me/settings`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
 }
 
 async function getUserList(setValue) {
@@ -85,6 +96,19 @@ async function getHashtag(hashtag, setValue) {
     .then(({ data }) => setValue(data.messages));
 }
 
+async function logOutUser() {
+  const token = localStorage.getItem("Token");
+
+  const res = await fetch(`${API}/auth/api-token`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res;
+}
+
 export {
   getUser,
   postNewUser,
@@ -94,4 +118,6 @@ export {
   postMessage,
   getUserMessages,
   getHashtag,
+  logOutUser,
+  updateUserData,
 };

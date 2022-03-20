@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { UserContext } from "../../layouts/mainLayout";
-import { API } from "../../../../client/components/API";
+import { API, logOutUser, updateUserData } from '../../API'
 import * as s from "./styles";
 import Button from "../../atoms/Button";
 
@@ -48,27 +48,13 @@ export default function EditModal({ modal }) {
     formData.append("setting_email", settingEmail);
     formData.append("image", e.target[2]?.files[0]);
 
-    const token = localStorage.getItem("Token");
-    await fetch(`${API}/users/me/settings`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    await updateUserData(formData)
     getUserData();
     router.reload(window.location.pathname);
   }
 
   async function handleLogOut() {
-    const token = localStorage.getItem("Token");
-    const res = await fetch(`${API}/auth/api-token`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const res = await logOutUser()
     if (res.ok) {
       localStorage.removeItem("Token");
       router.push("/login");
