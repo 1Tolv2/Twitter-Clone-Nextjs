@@ -1,64 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { API } from "../../components/API";
-import Layout from "../../components/layouts/Layout";
-import Messageboard from "../../components/molecules/Messageboard";
-import ProfileSection from "../../components/molecules/ProfileSection";
+import { useRouter } from "next/router";
+import { getUserList } from "../../components/API";
+import MainLayout from "../../components/layouts/mainLayout";
+import Header from "../../components/organisms/Header.jsx";
+import MessageBoard from "../../components/organisms/MessageBoard";
+import SideSection from "../../components/organisms/SideSection";
+import EditModal from "../../components/organisms/EditModal";
+import ProfileModule from "../../components/organisms/ProfileModule";
+import BottomNavigationBar from "../../components/organisms/BottomNavBar";
 
-export default function User(data) {
-  const [userData, setUserData] = useState(null);
+export default function index() {
+  const router = useRouter();
+  const [userList, setUserList] = useState(null);
+  const [editModal, setEditModal] = useState(false);
 
   useEffect(() => {
-    setUserData(data.userData.data[0]);
-  }, [data]);
-
+    if (router.query.user) {
+      getUserList(setUserList);
+    }
+  }, [router.query.user]);
   return (
-    <Layout>
-      {userData && (
-        <>
-          <ProfileSection data={userData} />
-          <Messageboard
-            data={userData.messages}
-            userData={[userData]}
-          ></Messageboard>
-        </>
-      )}
-    </Layout>
+    <>
+      <Header></Header>
+      <MainLayout>
+        {editModal && (
+          <EditModal modal={{ editModal, setEditModal }}></EditModal>
+        )}
+        {userList && (
+          <MessageBoard userList={userList} modal={{ editModal, setEditModal }}>
+            <ProfileModule data={userList} />
+          </MessageBoard>
+        )}
+        <SideSection modal={{ editModal, setEditModal }}></SideSection>
+      </MainLayout>
+      <BottomNavigationBar />
+    </>
   );
-}
-
-export async function getStaticProps({ params }) {
-  const userRes = await fetch(`${API}/users/${params.user}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const userData = await userRes.json();
-  const messageRes = await fetch(`${API}/messages`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const messageData = await messageRes.json();
-  userData.data.map((user) => {
-    user.totalMessageList = [];
-    messageData.data.forEach((item) => {
-      return item.username === user.username
-        ? user.totalMessageList.push(item)
-        : null;
-    });
-  });
-
-  return { props: { userData } };
-}
-export async function getStaticPaths() {
-  const res = await fetch(`${API}/users`, {
-    headers: { "Content-Type": "application/json" },
-  });
-  const { data } = await res.json();
-  const paths = data.map((user) => {
-    return {
-      params: { user: user.username },
-    };
-  });
-  return { paths, fallback: false };
 }

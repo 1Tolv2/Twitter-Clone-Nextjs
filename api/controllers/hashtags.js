@@ -6,10 +6,9 @@ const getAllHashtags = async (req, res) => {
   const messageList = await Message.find({
     $match: { hashtags: { $not: { $size: 0 } } },
   }).exec();
-
+  const limit = req.query.limit;
   let count = [];
-  if (req.query.limit) {
-    const limit = req.query.limit;
+  if (limit) {
     count = await Message.aggregate([
       { $match: {} },
       { $unwind: "$hashtags" },
